@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>المقررات الدراسية - TIC & BAIT</title>
+    <title>المقررات الدراسية وحاسبة المعدل - TIC & BAIT</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -20,6 +20,7 @@
         #tab3 .semester-title { color: #c084fc; } /* purple-400 */
         .grid { display: grid; align-items: stretch; }
         .card { display: flex; flex-direction: column; justify-content: space-between; }
+        .result-card { transition: all 0.4s ease-in-out; }
     </style>
 </head>
 <body class="bg-gray-900 text-white selection:bg-blue-500 selection:text-white">
@@ -31,13 +32,14 @@
             <p class="text-lg text-gray-400">في المعهد التقاني للحاسوب TIC ومسارات الترقية بعده للـ BAIT</p>
         </header>
 
-        <div class="flex flex-col sm:flex-row justify-center items-center gap-2 md:gap-4 mb-8 p-2 bg-gray-800/50 rounded-xl max-w-3xl mx-auto">
+        <div class="flex flex-col sm:flex-row justify-center items-center gap-2 md:gap-4 mb-8 p-2 bg-gray-800/50 rounded-xl max-w-4xl mx-auto">
             <button data-tab="tab1" class="tab-btn w-full sm:w-auto flex-1 text-gray-300 font-semibold py-3 px-6 rounded-lg transition-all duration-300 ease-in-out hover:bg-gray-700">المعهد التقاني (TIC)</button>
             <button data-tab="tab2" class="tab-btn w-full sm:w-auto flex-1 text-gray-300 font-semibold py-3 px-6 rounded-lg transition-all duration-300 ease-in-out hover:bg-gray-700">ترقية (ISDN)</button>
             <button data-tab="tab3" class="tab-btn w-full sm:w-auto flex-1 text-gray-300 font-semibold py-3 px-6 rounded-lg transition-all duration-300 ease-in-out hover:bg-gray-700">ترقية (MIS)</button>
+            <button data-tab="tab4" class="tab-btn w-full sm:w-auto flex-1 text-gray-300 font-semibold py-3 px-6 rounded-lg transition-all duration-300 ease-in-out hover:bg-gray-700">حاسبة المعدل</button>
         </div>
         
-        <div class="text-center max-w-2xl mx-auto mb-10">
+        <div id="disclaimer-note" class="text-center max-w-2xl mx-auto mb-10">
             <div class="bg-gray-800/60 border border-teal-500/30 rounded-lg p-4">
                 <p class="text-gray-300"><b class="font-bold text-teal-400">ملاحظة:</b> تقسيم المواد على الفصول هو مجرد خطة مقترحة لضمان أفضل مسار تعليمي، ويمكن للطلاب تعديلها بما يتناسب مع ظروفهم الأكاديمية.</p>
             </div>
@@ -54,170 +56,211 @@
     </footer>
 
     <script>
-        // --- DATA STORE ---
-        // All course data is stored here for easy updates.
-        const coursesData = {
+        // --- DATA STORE (Curriculum Viewer) ---
+        const curriculumData = {
             tab1: { // TIC
                 semesters: {
-                    'الفصل الأول': [
-                        { name: 'مهارات الحاسوب', code: 'GBS101', crd: 4, pre: 'لا يوجد' },
-                        { name: 'مقدمة في التعليم الإلكتروني', code: 'GBS103', crd: 4, pre: 'لا يوجد' },
-                        { name: 'التحليل الرياضي', code: 'GMA101', crd: 4, pre: 'لا يوجد' },
-                        { name: 'مقدمة في البرمجة', code: 'IPG101', crd: 5, pre: 'لا يوجد' },
-                        { name: 'مقدمة في نمذجة المعطيات', code: 'IIS101', crd: 4, pre: 'لا يوجد' },
-                        { name: 'تقانات التجارة الإلكترونية', code: 'IWB101', crd: 5, pre: 'لا يوجد' },
-                        { name: 'اللغة الإنكليزية مستوى 1', code: 'Eng1', crd: 3, pre: 'لا يوجد' },
-                    ],
-                    'الفصل الثاني': [
-                        { name: 'البرمجة الإجرائية', code: 'IPG202', crd: 5, pre: 'IPG101' },
-                        { name: 'مقدمة في الشبكات', code: 'INT101', crd: 5, pre: 'GBS101' },
-                        { name: 'مقدمة في نظم التشغيل', code: 'IOS101', crd: 5, pre: 'GBS101' },
-                        { name: 'إلكترونيات رقمية', code: 'GDE101', crd: 5, pre: 'لا يوجد' },
-                        { name: 'تصميم وبنيان قواعد المعطيات', code: 'IIS201', crd: 5, pre: 'IIS101' },
-                        { name: 'اللغة الإنكليزية مستوى 2', code: 'Eng2', crd: 3, pre: 'Eng1' },
-                    ],
-                    'الفصل الثالث': [
-                        { name: 'تحضير السيرة المهنية', code: 'GBS102', crd: 3, pre: 'لا يوجد' },
-                        { name: 'تصميم وتطوير تطبيقات الويب', code: 'IWB201', crd: 6, pre: 'IWB101/IIS101' },
-                        { name: 'نظم التشغيل الشبكية', code: 'IOS201', crd: 6, pre: 'IOS101/INT101' },
-                        { name: 'البرمجة مقادة بالأحداث', code: 'IPG201', crd: 6, pre: 'IPG101' },
-                        { name: 'التصميم والبرمجة غرضية التوجه', code: 'IPG203', crd: 6, pre: 'IPG101' },
-                        { name: 'البرمجة المتقدمة بلغة SQL', code: 'IIS202', crd: 6, pre: 'IIS101' },
-                        { name: 'اللغة الإنكليزية مستوى 3', code: 'Eng3', crd: 3, pre: 'Eng2' },
-                    ],
-                    'الفصل الرابع': [
-                        { name: 'منصة ويندوز', code: 'IOS202', crd: 5, pre: 'IOS101/INT101/ENG3' },
-                        { name: 'منصة لينوكس', code: 'IOS203', crd: 6, pre: 'IOS101/INT101/ENG3' },
-                        { name: 'إدارة قواعد بيانات MS-SQL Server', code: 'IIS303', crd: 6, pre: 'IIS201/IIS202/ENG3' },
-                        { name: 'إدارة قواعد بيانات Oracle', code: 'IIS203', crd: 6, pre: 'IIS201/IIS202/ENG3' },
-                        { name: 'برمجة التطبيقات النقالة', code: 'IPG204', crd: 6, pre: 'IWB201' },
-                        { name: 'مشروع', code: 'IPI201', crd: 12, pre: 'ENG3/IIS201/IWB201' },
-                    ],
-                },
-                colors: { card: 'hover:border-blue-500', text: 'text-blue-400', icon: 'text-blue-400' }
+                    'الفصل الأول': [ { name: 'مهارات الحاسوب', code: 'GBS101', crd: 4, pre: 'لا يوجد' }, { name: 'مقدمة في التعليم الإلكتروني', code: 'GBS103', crd: 4, pre: 'لا يوجد' }, { name: 'التحليل الرياضي', code: 'GMA101', crd: 4, pre: 'لا يوجد' }, { name: 'مقدمة في البرمجة', code: 'IPG101', crd: 5, pre: 'لا يوجد' }, { name: 'مقدمة في نمذجة المعطيات', code: 'IIS101', crd: 4, pre: 'لا يوجد' }, { name: 'تقانات التجارة الإلكترونية', code: 'IWB101', crd: 5, pre: 'لا يوجد' }, { name: 'اللغة الإنكليزية مستوى 1', code: 'Eng1', crd: 3, pre: 'لا يوجد' }, ],
+                    'الفصل الثاني': [ { name: 'البرمجة الإجرائية', code: 'IPG202', crd: 5, pre: 'IPG101' }, { name: 'مقدمة في الشبكات', code: 'INT101', crd: 5, pre: 'GBS101' }, { name: 'مقدمة في نظم التشغيل', code: 'IOS101', crd: 5, pre: 'GBS101' }, { name: 'إلكترونيات رقمية', code: 'GDE101', crd: 5, pre: 'لا يوجد' }, { name: 'تصميم وبنيان قواعد المعطيات', code: 'IIS201', crd: 5, pre: 'IIS101' }, { name: 'اللغة الإنكليزية مستوى 2', code: 'Eng2', crd: 3, pre: 'Eng1' }, ],
+                    'الفصل الثالث': [ { name: 'تحضير السيرة المهنية', code: 'GBS102', crd: 3, pre: 'لا يوجد' }, { name: 'تصميم وتطوير تطبيقات الويب', code: 'IWB201', crd: 6, pre: 'IWB101/IIS101' }, { name: 'نظم التشغيل الشبكية', code: 'IOS201', crd: 6, pre: 'IOS101/INT101' }, { name: 'البرمجة مقادة بالأحداث', code: 'IPG201', crd: 6, pre: 'IPG101' }, { name: 'التصميم والبرمجة غرضية التوجه', code: 'IPG203', crd: 6, pre: 'IPG101' }, { name: 'البرمجة المتقدمة بلغة SQL', code: 'IIS202', crd: 6, pre: 'IIS101' }, { name: 'اللغة الإنكليزية مستوى 3', code: 'Eng3', crd: 3, pre: 'Eng2' }, ],
+                    'الفصل الرابع': [ { name: 'منصة ويندوز', code: 'IOS202', crd: 5, pre: 'IOS101/INT101/ENG3' }, { name: 'منصة لينوكس', code: 'IOS203', crd: 6, pre: 'IOS101/INT101/ENG3' }, { name: 'إدارة قواعد بيانات MS-SQL Server', code: 'IIS303', crd: 6, pre: 'IIS201/IIS202/ENG3' }, { name: 'إدارة قواعد بيانات Oracle', code: 'IIS203', crd: 6, pre: 'IIS201/IIS202/ENG3' }, { name: 'برمجة التطبيقات النقالة', code: 'IPG204', crd: 6, pre: 'IWB201' }, { name: 'مشروع', code: 'IPI201', crd: 12, pre: 'ENG3/IIS201/IWB201' }, ],
+                }, colors: { card: 'hover:border-blue-500', text: 'text-blue-400', icon: 'text-blue-400' }
             },
             tab2: { // ISDN
                 semesters: {
-                    'الفصل الأول': [
-                        { name: 'اساسيات الادارة', code: 'BMN101', crd: 4, pre: 'لا يوجد' },
-                        { name: 'مقدمة في الفلسفة', code: 'GHS101', crd: 3, pre: 'لا يوجد' },
-                        { name: 'مقدمة في علم الاجتماع', code: 'GHS102', crd: 3, pre: 'لا يوجد' },
-                        { name: 'أسس المحاسبة', code: 'BAC101', crd: 4, pre: 'لا يوجد' },
-                        { name: 'الجبر الرياضي', code: 'GMA101', crd: 5, pre: 'لا يوجد' },
-                        { name: 'اللغة الإنجليزية مستوى ٤', code: 'ENG4', crd: 3, pre: 'ENG3' },
-                    ],
-                    'الفصل الثاني': [
-                        { name: 'إدارة مشاريع تقانة المعلومات', code: 'ISE302', crd: 5, pre: 'لا يوجد' },
-                        { name: 'الرياضيات المتقطعة', code: 'GMA204', crd: 5, pre: 'لا يوجد' },
-                        { name: 'خدمات الشبكات', code: 'INT202', crd: 5, pre: 'لا يوجد' },
-                        { name: 'إدارة قواعد البيانات oracle 2', code: 'IIS406', crd: 6, pre: 'ENG3' },
-                        { name: 'منصة لينوكس 2', code: 'IOS305', crd: 5, pre: 'ENG3' },
-                        { name: 'منصة ويندوز 2', code: 'IOS304', crd: 5, pre: 'ENG3' },
-                    ],
-                    'الفصل الثالث': [
-                        { name: 'اللغة الإنجليزية مستوى ٥', code: 'ENG5', crd: 3, pre: 'ENG4' },
-                        { name: 'الاحتمالات والاحصاء', code: 'GMA205', crd: 5, pre: 'لا يوجد' },
-                        { name: 'الشبكات اللاسلكية', code: 'INT203', crd: 6, pre: 'لا يوجد' },
-                        { name: 'هندسة البرمجيات', code: 'ISE301', crd: 6, pre: 'لا يوجد' },
-                        { name: 'مدخل الى التسويق', code: 'BMN202', crd: 4, pre: 'BMN101' },
-                        { name: 'الخدمات المصرفية', code: 'BFB305', crd: 4, pre: 'لا يوجد' },
-                    ],
-                    'الفصل الرابع': [
-                        { name: 'مبادئ التوجيه', code: 'INT204', crd: 6, pre: 'لا يوجد' },
-                        { name: 'امن التطبيقات والمعطيات', code: 'IWB404', crd: 6, pre: 'ENG3' },
-                        { name: 'امن الشبكات والبنية التحتية المعلوماتية', code: 'INT305', crd: 5, pre: 'ENG3' },
-                        { name: 'المشروع', code: 'IP1405', crd: 12, pre: 'ISE302' },
-                    ]
-                },
-                colors: { card: 'hover:border-teal-500', text: 'text-teal-400', icon: 'text-teal-400' }
+                    'الفصل الأول': [ { name: 'اساسيات الادارة', code: 'BMN101', crd: 4, pre: 'لا يوجد' }, { name: 'مقدمة في الفلسفة', code: 'GHS101', crd: 3, pre: 'لا يوجد' }, { name: 'مقدمة في علم الاجتماع', code: 'GHS102', crd: 3, pre: 'لا يوجد' }, { name: 'أسس المحاسبة', code: 'BAC101', crd: 4, pre: 'لا يوجد' }, { name: 'الجبر الرياضي', code: 'GMA101', crd: 5, pre: 'لا يوجد' }, { name: 'اللغة الإنجليزية مستوى ٤', code: 'ENG4', crd: 3, pre: 'ENG3' }, ],
+                    'الفصل الثاني': [ { name: 'إدارة مشاريع تقانة المعلومات', code: 'ISE302', crd: 5, pre: 'لا يوجد' }, { name: 'الرياضيات المتقطعة', code: 'GMA204', crd: 5, pre: 'لا يوجد' }, { name: 'خدمات الشبكات', code: 'INT202', crd: 5, pre: 'لا يوجد' }, { name: 'إدارة قواعد البيانات oracle 2', code: 'IIS406', crd: 6, pre: 'ENG3' }, { name: 'منصة لينوكس 2', code: 'IOS305', crd: 5, pre: 'ENG3' }, { name: 'منصة ويندوز 2', code: 'IOS304', crd: 5, pre: 'ENG3' }, ],
+                    'الفصل الثالث': [ { name: 'اللغة الإنجليزية مستوى ٥', code: 'ENG5', crd: 3, pre: 'ENG4' }, { name: 'الاحتمالات والاحصاء', code: 'GMA205', crd: 5, pre: 'لا يوجد' }, { name: 'الشبكات اللاسلكية', code: 'INT203', crd: 6, pre: 'لا يوجد' }, { name: 'هندسة البرمجيات', code: 'ISE301', crd: 6, pre: 'لا يوجد' }, { name: 'مدخل الى التسويق', code: 'BMN202', crd: 4, pre: 'BMN101' }, { name: 'الخدمات المصرفية', code: 'BFB305', crd: 4, pre: 'لا يوجد' }, ],
+                    'الفصل الرابع': [ { name: 'مبادئ التوجيه', code: 'INT204', crd: 6, pre: 'لا يوجد' }, { name: 'امن التطبيقات والمعطيات', code: 'IWB404', crd: 6, pre: 'ENG3' }, { name: 'امن الشبكات والبنية التحتية المعلوماتية', code: 'INT305', crd: 5, pre: 'ENG3' }, { name: 'المشروع', code: 'IP1405', crd: 12, pre: 'ISE302' }, ]
+                }, colors: { card: 'hover:border-teal-500', text: 'text-teal-400', icon: 'text-teal-400' }
             },
             tab3: { // MIS
                 semesters: {
-                    'الفصل الأول': [
-                        { name: 'اساسيات الإدارة', code: 'BMN101', crd: 4, pre: 'غير محدد' },
-                        { name: 'مدخل الى علم الاقتصاد', code: 'BEC101', crd: 4, pre: 'غير محدد' },
-                        { name: 'مدخل الى التسويق', code: 'BMN202', crd: 4, pre: 'غير محدد' },
-                        { name: 'أسس المحاسبة', code: 'BAC101', crd: 4, pre: 'غير محدد' },
-                        { name: 'هندسة البرمجيات', code: 'ISE301', crd: 6, pre: 'غير محدد' },
-                    ],
-                    'الفصل الثاني': [
-                        { name: 'اقتصاد جزئي', code: 'BEC202', crd: 4, pre: 'غير محدد' },
-                        { name: 'إدارة الموارد البشرية', code: 'BMN203', crd: 4, pre: 'غير محدد' },
-                        { name: 'الاحتمالات والإحصاء', code: 'GMA205', crd: 5, pre: 'غير محدد' },
-                        { name: 'اللغة الإنجليزية مستوى 4', code: 'ENG 4', crd: 3, pre: 'غير محدد' },
-                    ],
-                    'الفصل الثالث': [
-                        { name: 'المحاسبة التحليلية (محاسبة التكاليف)', code: 'BAC202', crd: 4, pre: 'غير محدد' },
-                        { name: 'أسس الإدارة المالية', code: 'BFB201', crd: 4, pre: 'غير محدد' },
-                        { name: 'الإدارة الاستراتيجية', code: 'BMN306', crd: 4, pre: 'غير محدد' },
-                        { name: 'بحوث العمليات', code: 'BQM202', crd: 4, pre: 'غير محدد' },
-                        { name: 'امن التطبيقات والمعطيات', code: 'IWB404', crd: 6, pre: 'غير محدد' },
-                        { name: 'الخدمات المصرفية', code: 'BFB305', crd: 4, pre: 'غير محدد' },
-                        { name: 'إدارة قواعد البيانات Oracle 2', code: 'IIS406', crd: 6, pre: 'غير محدد' },
-                        { name: 'اللغة الإنجليزية مستوى 5', code: 'ENG 5', crd: 3, pre: 'غير محدد' },
-                    ],
-                    'الفصل الرابع': [
-                        { name: 'نظرية القرارات', code: 'BQM303', crd: 4, pre: 'غير محدد' },
-                        { name: 'إدارة العمليات', code: 'BQM301', crd: 4, pre: 'غير محدد' },
-                        { name: 'إدارة سلاسل التوريد', code: 'BMN305', crd: 4, pre: 'غير محدد' },
-                        { name: 'تحليل البيانات', code: 'BQM305', crd: 4, pre: 'غير محدد' },
-                        { name: 'إدارة المشاريع', code: 'BQM304', crd: 4, pre: 'غير محدد' },
-                        { name: 'ريادة الأعمال وادارة الشركات', code: 'BMN308', crd: 4, pre: 'غير محدد' },
-                    ],
-                     'الفصل الخامس': [
-                        { name: 'تقييم المشاريع ودراسة الجدوى', code: 'BAC303', crd: 4, pre: 'غير محدد' },
-                        { name: 'المسؤولية الاجتماعية للشركات واخلاقيات العمل', code: 'BMN309', crd: 4, pre: 'غير محدد' },
-                        { name: 'المشروع', code: 'IPM405', crd: 12, pre: 'غير محدد' },
-                    ]
-                },
-                colors: { card: 'hover:border-purple-500', text: 'text-purple-400', icon: 'text-purple-400' }
+                    'الفصل الأول': [ { name: 'اساسيات الإدارة', code: 'BMN101', crd: 4, pre: 'غير محدد' }, { name: 'مدخل الى علم الاقتصاد', code: 'BEC101', crd: 4, pre: 'غير محدد' }, { name: 'مدخل الى التسويق', code: 'BMN202', crd: 4, pre: 'غير محدد' }, { name: 'أسس المحاسبة', code: 'BAC101', crd: 4, pre: 'غير محدد' }, { name: 'هندسة البرمجيات', code: 'ISE301', crd: 6, pre: 'غير محدد' }, ],
+                    'الفصل الثاني': [ { name: 'اقتصاد جزئي', code: 'BEC202', crd: 4, pre: 'غير محدد' }, { name: 'إدارة الموارد البشرية', code: 'BMN203', crd: 4, pre: 'غير محدد' }, { name: 'الاحتمالات والإحصاء', code: 'GMA205', crd: 5, pre: 'غير محدد' }, { name: 'اللغة الإنجليزية مستوى 4', code: 'ENG 4', crd: 3, pre: 'غير محدد' }, ],
+                    'الفصل الثالث': [ { name: 'المحاسبة التحليلية', code: 'BAC202', crd: 4, pre: 'غير محدد' }, { name: 'أسس الإدارة المالية', code: 'BFB201', crd: 4, pre: 'غير محدد' }, { name: 'الإدارة الاستراتيجية', code: 'BMN306', crd: 4, pre: 'غير محدد' }, { name: 'بحوث العمليات', code: 'BQM202', crd: 4, pre: 'غير محدد' }, { name: 'امن التطبيقات والمعطيات', code: 'IWB404', crd: 6, pre: 'غير محدد' }, { name: 'الخدمات المصرفية', code: 'BFB305', crd: 4, pre: 'غير محدد' }, { name: 'إدارة قواعد البيانات Oracle 2', code: 'IIS406', crd: 6, pre: 'غير محدد' }, { name: 'اللغة الإنجليزية مستوى 5', code: 'ENG 5', crd: 3, pre: 'غير محدد' }, ],
+                    'الفصل الرابع': [ { name: 'نظرية القرارات', code: 'BQM303', crd: 4, pre: 'غير محدد' }, { name: 'إدارة العمليات', code: 'BQM301', crd: 4, pre: 'غير محدد' }, { name: 'إدارة سلاسل التوريد', code: 'BMN305', crd: 4, pre: 'غير محدد' }, { name: 'تحليل البيانات', code: 'BQM305', crd: 4, pre: 'غير محدد' }, { name: 'إدارة المشاريع', code: 'BQM304', crd: 4, pre: 'غير محدد' }, { name: 'ريادة الأعمال وادارة الشركات', code: 'BMN308', crd: 4, pre: 'غير محدد' }, ],
+                    'الفصل الخامس': [ { name: 'تقييم المشاريع ودراسة الجدوى', code: 'BAC303', crd: 4, pre: 'غير محدد' }, { name: 'المسؤولية الاجتماعية للشركات', code: 'BMN309', crd: 4, pre: 'غير محدد' }, { name: 'المشروع', code: 'IPM405', crd: 12, pre: 'غير محدد' }, ]
+                }, colors: { card: 'hover:border-purple-500', text: 'text-purple-400', icon: 'text-purple-400' }
             }
         };
 
-        // --- DYNAMIC RENDERING LOGIC ---
+        // --- GPA CALCULATOR LOGIC ---
+        const gpaCalculatorHTML = `
+            <div id="tab4" class="tab-content">
+                <div class="bg-gray-800 rounded-2xl shadow-lg p-6 md:p-8 max-w-4xl mx-auto">
+                    <section id="program-selection" class="mb-6">
+                        <h2 class="text-xl font-bold text-gray-300 mb-4 border-b-2 border-amber-500 pb-2">1. اختر برنامجك الدراسي</h2>
+                        <div class="flex flex-col sm:flex-row justify-center items-center gap-4">
+                            <div class="flex items-center"><input id="tic_gpa" type="radio" name="program" value="TIC" class="gpa-program-radio w-5 h-5 text-amber-600 bg-gray-700 border-gray-600 focus:ring-amber-500" checked><label for="tic_gpa" class="ms-2 text-lg font-medium text-gray-300">المعهد التقاني (TIC)</label></div>
+                            <div class="flex items-center"><input id="isdn_gpa" type="radio" name="program" value="ISDN" class="gpa-program-radio w-5 h-5 text-amber-600 bg-gray-700 border-gray-600 focus:ring-amber-500"><label for="isdn_gpa" class="ms-2 text-lg font-medium text-gray-300">ترقية (ISDN)</label></div>
+                            <div class="flex items-center"><input id="mis_gpa" type="radio" name="program" value="MIS" class="gpa-program-radio w-5 h-5 text-amber-600 bg-gray-700 border-gray-600 focus:ring-amber-500"><label for="mis_gpa" class="ms-2 text-lg font-medium text-gray-300">ترقية (MIS)</label></div>
+                        </div>
+                    </section>
+                    <section id="courses-section" class="mb-6">
+                        <h2 class="text-xl font-bold text-gray-300 mb-4 border-b-2 border-amber-500 pb-2">2. حدد المواد وأدخل العلامات</h2>
+                        <div id="gpa-courses-list" class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4 max-h-96 overflow-y-auto p-4 bg-gray-900/50 rounded-lg border border-gray-700"></div>
+                    </section>
+                    <section class="text-center mb-6">
+                        <button id="calculate-btn" class="bg-amber-600 text-white font-bold py-3 px-10 rounded-lg hover:bg-amber-700 focus:outline-none focus:ring-4 focus:ring-amber-300 transition-transform transform hover:scale-105">احسب المعدل</button>
+                    </section>
+                    <section id="results-section" class="hidden">
+                        <h2 class="text-xl font-bold text-gray-300 mb-4 border-b-2 border-green-500 pb-2">3. النتيجة</h2>
+                        <div id="results-output" class="result-card bg-green-900/50 text-center p-6 rounded-2xl border-2 border-green-500/30">
+                            <p class="text-lg text-gray-300 mb-2">معدلك هو:</p>
+                            <p id="gpa-result" class="text-5xl font-bold text-green-400 mb-4">0.00</p>
+                            <div class="flex justify-around text-gray-400 text-md"><p><strong>النقاط الإجمالية:</strong> <span id="total-points">0</span></p><p><strong>الساعات المعتمدة:</strong> <span id="total-credits">0</span></p></div>
+                            <p id="gpa-message" class="mt-4 text-lg font-semibold"></p>
+                        </div>
+                        <div id="error-output" class="hidden result-card bg-red-900/50 text-center p-6 rounded-2xl border-2 border-red-500/30">
+                            <p id="error-message" class="text-red-400 font-bold text-lg"></p>
+                        </div>
+                    </section>
+                </div>
+            </div>`;
+        
+        const gpaCoursesData = {
+            TIC: [ { code: 'GBS101', name: 'مهارات الحاسوب', credits: 4 }, { code: 'GBS103', name: 'مقدمة في التعليم الإلكتروني', credits: 4 }, { code: 'GMA101', name: 'التحليل الرياضي', credits: 4 }, { code: 'IPG101', name: 'مقدمة في البرمجة', credits: 5 }, { code: 'IIS101', name: 'مقدمة في نمذجة المعطيات', credits: 4 }, { code: 'IWB101', name: 'تقانات التجارة الإلكترونية', credits: 5 }, { code: 'Eng1', name: 'اللغة الإنكليزية مستوى 1', credits: 3 }, { code: 'IPG202', name: 'البرمجة الإجرائية', credits: 5 }, { code: 'INT101', name: 'مقدمة في الشبكات', credits: 5 }, { code: 'IOS101', name: 'مقدمة في نظم التشغيل', credits: 5 }, { code: 'GDE101', name: 'إلكترونيات رقمية', credits: 5 }, { code: 'IIS201', name: 'تصميم وبنيان قواعد المعطيات', credits: 5 }, { code: 'Eng2', name: 'اللغة الإنكليزية مستوى 2', credits: 3 }, { code: 'GBS102', name: 'تحضير السيرة المهنية', credits: 3 }, { code: 'IWB201', name: 'تصميم وتطوير تطبيقات الويب', credits: 6 }, { code: 'IOS201', name: 'نظم التشغيل الشبكية', credits: 6 }, { code: 'IPG201', name: 'البرمجة مقادة بالأحداث', credits: 6 }, { code: 'IPG203', name: 'التصميم والبرمجة غرضية التوجه', credits: 6 }, { code: 'IIS202', name: 'البرمجة المتقدمة بلغة SQL', credits: 6 }, { code: 'Eng3', name: 'اللغة الإنكليزية مستوى 3', credits: 3 }, { code: 'IOS202', name: 'منصة ويندوز', credits: 5 }, { code: 'IOS203', name: 'منصة لينوكس', credits: 6 }, { code: 'IIS303', name: 'إدارة قواعد بيانات MS-SQL Server', credits: 6 }, { code: 'IIS203', name: 'إدارة قواعد بيانات Oracle', credits: 6 }, { code: 'IPG204', name: 'برمجة التطبيقات النقالة', credits: 6 }, { code: 'IPI201', name: 'مشروع', credits: 12 } ],
+            ISDN: [ { code: 'BMN101', name: 'أساسيات الإدارة', credits: 4 }, { code: 'GHS101', name: 'مقدمة في الفلسفة', credits: 3 }, { code: 'GHS102', name: 'مقدمة في علم الاجتماع', credits: 3 }, { code: 'BAC101', name: 'أسس المحاسبة', credits: 4 }, { code: 'GMA101', name: 'الجبر الرياضي', credits: 5 }, { code: 'ENG4', name: 'اللغة الإنكليزية مستوى 4', credits: 3 }, { code: 'ISE302', name: 'إدارة مشاريع تقانة المعلومات', credits: 5 }, { code: 'GMA204', name: 'الرياضيات المتقطعة', credits: 5 }, { code: 'INT202', name: 'خدمات الشبكات', credits: 5 }, { code: 'IIS406', name: 'إدارة قواعد البيانات أوراكل 2', credits: 6 }, { code: 'IOS305', name: 'منصة لينكس 2', credits: 5 }, { code: 'ENG5', name: 'اللغة الإنكليزية مستوى 5', credits: 3 }, { code: 'GMA205', name: 'الاحتمالات والإحصاء', credits: 5 }, { code: 'INT203', name: 'الشبكات اللاسلكية', credits: 6 }, { code: 'ISE301', name: 'هندسة البرمجيات', credits: 6 }, { code: 'BMN202', name: 'مدخل إلى التسويق', credits: 4 }, { code: 'IOS304', name: 'منصة ويندوز 2', credits: 5 }, { code: 'BFB305', name: 'الخدمات المصرفية', credits: 4 }, { code: 'INT204', name: 'مبادئ التوجيه', credits: 6 }, { code: 'IWB404', name: 'أمن التطبيقات والمعطيات', credits: 6 }, { code: 'INT305', name: 'أمن الشبكات والبنية التحتية المعلوماتية', credits: 5 }, { code: 'IPI405', name: 'مشروع', credits: 12 }, ],
+            MIS: [ { name: 'اساسيات الإدارة', code: 'BMN101', credits: 4 }, { name: 'مدخل الى علم الاقتصاد', code: 'BEC101', credits: 4 }, { name: 'مدخل الى التسويق', code: 'BMN202', credits: 4 }, { name: 'أسس المحاسبة', code: 'BAC101', credits: 4 }, { name: 'هندسة البرمجيات', code: 'ISE301', credits: 6 }, { name: 'اقتصاد جزئي', code: 'BEC202', credits: 4 }, { name: 'إدارة الموارد البشرية', code: 'BMN203', credits: 4 }, { name: 'الاحتمالات والإحصاء', code: 'GMA205', credits: 5 }, { name: 'اللغة الإنجليزية مستوى 4', code: 'ENG 4', credits: 3 }, { name: 'المحاسبة التحليلية', code: 'BAC202', credits: 4 }, { name: 'أسس الإدارة المالية', code: 'BFB201', credits: 4 }, { name: 'الإدارة الاستراتيجية', code: 'BMN306', credits: 4 }, { name: 'بحوث العمليات', code: 'BQM202', credits: 4 }, { name: 'امن التطبيقات والمعطيات', code: 'IWB404', credits: 6 }, { name: 'الخدمات المصرفية', code: 'BFB305', credits: 4 }, { name: 'إدارة قواعد البيانات Oracle 2', code: 'IIS406', credits: 6 }, { name: 'اللغة الإنجليزية مستوى 5', code: 'ENG 5', credits: 3 }, { name: 'نظرية القرارات', code: 'BQM303', credits: 4 }, { name: 'إدارة العمليات', code: 'BQM301', credits: 4 }, { name: 'إدارة سلاسل التوريد', code: 'BMN305', credits: 4 }, { name: 'تحليل البيانات', code: 'BQM305', credits: 4 }, { name: 'إدارة المشاريع', code: 'BQM304', credits: 4 }, { name: 'ريادة الأعمال وادارة الشركات', code: 'BMN308', credits: 4 }, { name: 'تقييم المشاريع ودراسة الجدوى', code: 'BAC303', credits: 4 }, { name: 'المسؤولية الاجتماعية للشركات', code: 'BMN309', credits: 4 }, { name: 'المشروع', code: 'IPM405', credits: 12 } ]
+        };
+
+        function initializeGpaCalculator() {
+            const programRadios = document.querySelectorAll('.gpa-program-radio');
+            const coursesListDiv = document.getElementById('gpa-courses-list');
+            const calculateBtn = document.getElementById('calculate-btn');
+            const resultsSection = document.getElementById('results-section');
+            const resultsOutputDiv = document.getElementById('results-output');
+            const errorOutputDiv = document.getElementById('error-output');
+            const gpaResultP = document.getElementById('gpa-result');
+            const totalPointsSpan = document.getElementById('total-points');
+            const totalCreditsSpan = document.getElementById('total-credits');
+            const gpaMessageP = document.getElementById('gpa-message');
+            const errorMessageP = document.getElementById('error-message');
+
+            function populateCourses(programKey) {
+                coursesListDiv.innerHTML = '';
+                const courses = gpaCoursesData[programKey];
+                if (!courses) return;
+                courses.forEach(course => {
+                    const courseId = `gpa-${programKey}-${course.code}`;
+                    const courseElement = document.createElement('div');
+                    courseElement.className = 'flex items-center justify-between p-2 rounded-md hover:bg-gray-700 transition-colors';
+                    courseElement.innerHTML = `
+                        <div class="flex items-center">
+                            <input id="${courseId}" type="checkbox" data-credits="${course.credits}" class="course-checkbox w-5 h-5 text-amber-600 bg-gray-600 border-gray-500 rounded focus:ring-amber-500" title="${course.name}">
+                            <label for="${courseId}" class="ms-3 text-sm font-medium text-gray-300" title="${course.name}">${course.name} (${course.credits} ساعات)</label>
+                        </div>
+                        <input type="number" min="58" max="100" placeholder="العلامة" class="course-grade w-24 p-1 text-center border bg-gray-700 border-gray-600 rounded-md focus:ring-amber-500 focus:border-amber-500">`;
+                    coursesListDiv.appendChild(courseElement);
+                });
+            }
+            
+            function hideMessages() {
+                resultsSection.classList.add('hidden');
+                resultsOutputDiv.classList.add('hidden');
+                errorOutputDiv.classList.add('hidden');
+            }
+
+            function calculateGPA() {
+                hideMessages();
+                let totalCredits = 0, totalPoints = 0, hasError = false, courseSelected = false;
+                
+                coursesListDiv.querySelectorAll('.flex.items-center.justify-between').forEach(row => {
+                    const checkbox = row.querySelector('.course-checkbox');
+                    if (checkbox.checked) {
+                        courseSelected = true;
+                        const gradeInput = row.querySelector('.course-grade');
+                        const grade = parseFloat(gradeInput.value);
+                        const credits = parseFloat(checkbox.dataset.credits);
+                        if (isNaN(grade) || grade < 58 || grade > 100) {
+                            errorMessageP.textContent = 'الرجاء إدخال علامات صحيحة (بين 58 و 100) لجميع المواد المحددة.';
+                            hasError = true;
+                            gradeInput.classList.add('border-red-500');
+                        } else {
+                            gradeInput.classList.remove('border-red-500');
+                            totalCredits += credits;
+                            totalPoints += grade * credits;
+                        }
+                    }
+                });
+
+                resultsSection.classList.remove('hidden');
+                if (hasError) { errorOutputDiv.classList.remove('hidden'); return; }
+                if (!courseSelected) {
+                    errorMessageP.textContent = 'الرجاء تحديد مادة واحدة على الأقل لحساب المعدل.';
+                    errorOutputDiv.classList.remove('hidden');
+                    return;
+                }
+
+                const gpa = totalCredits > 0 ? (totalPoints / totalCredits) : 0;
+                resultsOutputDiv.classList.remove('hidden');
+                gpaResultP.textContent = gpa.toFixed(2);
+                totalPointsSpan.textContent = totalPoints.toFixed(2);
+                totalCreditsSpan.textContent = totalCredits;
+
+                let gpaMessage, msgClass, gpaClass, cardClass;
+                if (gpa >= 85) { [gpaMessage, msgClass, gpaClass, cardClass] = ['ممتاز', 'text-purple-400', 'text-purple-400', 'bg-purple-900/50 border-purple-500/30']; }
+                else if (gpa >= 75) { [gpaMessage, msgClass, gpaClass, cardClass] = ['جيد جداً', 'text-blue-400', 'text-blue-400', 'bg-blue-900/50 border-blue-500/30']; }
+                else if (gpa >= 60) { [gpaMessage, msgClass, gpaClass, cardClass] = ['جيد', 'text-green-400', 'text-green-400', 'bg-green-900/50 border-green-500/30']; }
+                else { [gpaMessage, msgClass, gpaClass, cardClass] = ['حظاً أوفر', 'text-orange-400', 'text-orange-400', 'bg-orange-900/50 border-orange-500/30']; }
+                
+                gpaMessageP.textContent = gpaMessage;
+                gpaMessageP.className = `mt-4 text-lg font-semibold ${msgClass}`;
+                gpaResultP.className = `text-5xl font-bold ${gpaClass} mb-4`;
+                resultsOutputDiv.className = `result-card text-center p-6 rounded-2xl border-2 ${cardClass}`;
+            }
+
+            function updateSelection() {
+                const selectedProgramKey = document.querySelector('input[name="program"]:checked').value;
+                populateCourses(selectedProgramKey);
+                hideMessages();
+            }
+
+            programRadios.forEach(radio => radio.addEventListener('change', updateSelection));
+            calculateBtn.addEventListener('click', calculateGPA);
+            updateSelection();
+        }
+
+        // --- MAIN APP LOGIC ---
         document.addEventListener('DOMContentLoaded', () => {
             const mainContent = document.getElementById('main-content');
             const tabs = document.querySelectorAll('.tab-btn');
+            const disclaimer = document.getElementById('disclaimer-note');
 
             const createCard = (course, colors) => `
                 <div class="card bg-gray-800 p-6 rounded-xl border border-gray-700 ${colors.card} transition-all duration-300 transform hover:-translate-y-1">
-                    <div>
-                        <h3 class="font-bold text-xl ${colors.text} mb-2">${course.name}</h3>
-                        <p class="text-gray-400 mb-4">${course.code}</p>
-                    </div>
+                    <div><h3 class="font-bold text-xl ${colors.text} mb-2">${course.name}</h3><p class="text-gray-400 mb-4">${course.code}</p></div>
                     <div class="mt-auto pt-4 border-t border-gray-700/50 text-sm space-y-2">
-                        <div class="flex items-center gap-2 text-gray-300">
-                            <svg class="h-4 w-4 ${colors.icon}" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                            <span><b>الساعات:</b> ${course.crd}</span>
-                        </div>
-                        <div class="flex items-center gap-2 text-gray-300">
-                            <svg class="h-4 w-4 ${colors.icon}" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg>
-                            <span><b>الأسبقيات:</b> ${course.pre}</span>
-                        </div>
+                        <div class="flex items-center gap-2 text-gray-300"><svg class="h-4 w-4 ${colors.icon}" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg><span><b>الساعات:</b> ${course.crd}</span></div>
+                        <div class="flex items-center gap-2 text-gray-300"><svg class="h-4 w-4 ${colors.icon}" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg><span><b>الأسبقيات:</b> ${course.pre}</span></div>
                     </div>
                 </div>`;
 
-            const renderContent = (tabId) => {
-                const data = coursesData[tabId];
+            const renderCurriculum = (tabId) => {
+                const data = curriculumData[tabId];
                 if (!data) return;
-
                 let contentHtml = `<div id="${tabId}" class="tab-content">`;
                 for (const semesterName in data.semesters) {
-                    contentHtml += `<h2 class="semester-title">${semesterName}</h2>`;
-                    contentHtml += '<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">';
-                    data.semesters[semesterName].forEach(course => {
-                        contentHtml += createCard(course, data.colors);
-                    });
+                    contentHtml += `<h2 class="semester-title">${semesterName}</h2><div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">`;
+                    data.semesters[semesterName].forEach(course => { contentHtml += createCard(course, data.colors); });
                     contentHtml += '</div>';
                 }
                 contentHtml += '</div>';
-                mainContent.innerHTML = contentHtml;
-                // After rendering, make the new content visible
-                mainContent.querySelector('.tab-content').classList.add('active');
+                return contentHtml;
             };
 
             const switchTab = (tabId) => {
-                renderContent(tabId);
+                if (tabId === 'tab4') {
+                    mainContent.innerHTML = gpaCalculatorHTML;
+                    initializeGpaCalculator();
+                    disclaimer.style.display = 'none';
+                } else {
+                    mainContent.innerHTML = renderCurriculum(tabId);
+                    disclaimer.style.display = 'block';
+                }
+                
+                mainContent.querySelector('.tab-content').classList.add('active');
                 
                 tabs.forEach(tab => {
                     tab.classList.remove('active');
@@ -227,7 +270,7 @@
                 const activeBtn = document.querySelector(`[data-tab="${tabId}"]`);
                 if (activeBtn) {
                     activeBtn.classList.add('active');
-                    const colors = { tab1: '#2563eb', tab2: '#0d9488', tab3: '#7e22ce' };
+                    const colors = { tab1: '#2563eb', tab2: '#0d9488', tab3: '#7e22ce', tab4: '#d97706' };
                     activeBtn.style.backgroundColor = colors[tabId];
                 }
             };
@@ -236,9 +279,9 @@
                 tab.addEventListener('click', () => switchTab(tab.dataset.tab));
             });
 
-            // Initial load
             switchTab('tab1');
         });
     </script>
 </body>
 </html>
+
