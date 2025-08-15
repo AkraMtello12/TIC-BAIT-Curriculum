@@ -23,6 +23,11 @@
         .card { display: flex; flex-direction: column; justify-content: space-between; }
         .result-card { transition: all 0.4s ease-in-out; }
         .gpa-card.selected { border-color: #f59e0b; transform: translateY(-4px); box-shadow: 0 10px 15px -3px rgba(245, 158, 11, 0.1), 0 4px 6px -2px rgba(245, 158, 11, 0.05); }
+        
+        /* Modal Styles */
+        #course-modal { backdrop-filter: blur(5px); }
+        #course-modal .modal-content { animation: zoomIn 0.3s ease-out; }
+        @keyframes zoomIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
     </style>
 </head>
 <body class="bg-gray-900 text-white selection:bg-blue-500 selection:text-white">
@@ -51,6 +56,22 @@
             <!-- Content will be dynamically generated here by JavaScript -->
         </main>
     </div>
+    
+    <!-- Course Details Modal -->
+    <div id="course-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-black/70">
+        <div class="modal-content relative bg-gray-800 border border-blue-500/30 rounded-2xl shadow-2xl w-full max-w-lg mx-auto p-6 md:p-8">
+            <button id="modal-close-btn" class="absolute top-4 left-4 text-gray-400 hover:text-white transition-colors">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+            <h3 id="modal-title" class="text-2xl font-bold text-blue-400 mb-2"></h3>
+            <p id="modal-code" class="text-gray-500 mb-4"></p>
+            <p id="modal-description" class="text-gray-300 leading-relaxed mb-6"></p>
+            <a id="modal-telegram-link" href="#" target="_blank" rel="noopener noreferrer" class="inline-block w-full text-center bg-blue-600 text-white font-bold py-3 px-6 rounded-lg hover:bg-blue-700 transition-all duration-300 shadow-lg shadow-blue-500/20">
+                الانضمام لمجموعة المادة
+            </a>
+        </div>
+    </div>
+
 
     <footer class="text-center py-8 mt-12 border-t border-gray-800">
         <p class="text-gray-500 mb-4">Developed by Akram Tello</p>
@@ -62,13 +83,43 @@
         const curriculumData = {
             tab1: { // TIC
                 semesters: {
-                    'الفصل الأول': [ { name: 'مهارات الحاسوب', code: 'GBS101', crd: 4, pre: 'لا يوجد' }, { name: 'مقدمة في التعليم الإلكتروني', code: 'GBS103', crd: 4, pre: 'لا يوجد' }, { name: 'التحليل الرياضي', code: 'GMA101', crd: 4, pre: 'لا يوجد' }, { name: 'مقدمة في البرمجة', code: 'IPG101', crd: 5, pre: 'لا يوجد' }, { name: 'مقدمة في نمذجة المعطيات', code: 'IIS101', crd: 4, pre: 'لا يوجد' }, { name: 'تقانات التجارة الإلكترونية', code: 'IWB101', crd: 5, pre: 'لا يوجد' }, { name: 'اللغة الإنكليزية مستوى 1', code: 'Eng1', crd: 3, pre: 'لا يوجد' }, ],
-                    'الفصل الثاني': [ { name: 'البرمجة الإجرائية', code: 'IPG202', crd: 5, pre: 'IPG101' }, { name: 'مقدمة في الشبكات', code: 'INT101', crd: 5, pre: 'GBS101' }, { name: 'مقدمة في نظم التشغيل', code: 'IOS101', crd: 5, pre: 'GBS101' }, { name: 'إلكترونيات رقمية', code: 'GDE101', crd: 5, pre: 'لا يوجد' }, { name: 'تصميم وبنيان قواعد المعطيات', code: 'IIS201', crd: 5, pre: 'IIS101' }, { name: 'اللغة الإنكليزية مستوى 2', code: 'Eng2', crd: 3, pre: 'Eng1' }, ],
-                    'الفصل الثالث': [ { name: 'تحضير السيرة المهنية', code: 'GBS102', crd: 3, pre: 'لا يوجد' }, { name: 'تصميم وتطوير تطبيقات الويب', code: 'IWB201', crd: 6, pre: 'IWB101/IIS101' }, { name: 'نظم التشغيل الشبكية', code: 'IOS201', crd: 6, pre: 'IOS101/INT101' }, { name: 'البرمجة مقادة بالأحداث', code: 'IPG201', crd: 6, pre: 'IPG101' }, { name: 'التصميم والبرمجة غرضية التوجه', code: 'IPG203', crd: 6, pre: 'IPG101' }, { name: 'البرمجة المتقدمة بلغة SQL', code: 'IIS202', crd: 6, pre: 'IIS101' }, { name: 'اللغة الإنكليزية مستوى 3', code: 'Eng3', crd: 3, pre: 'Eng2' }, ],
-                    'الفصل الرابع': [ { name: 'منصة ويندوز', code: 'IOS202', crd: 5, pre: 'IOS101/INT101/ENG3' }, { name: 'منصة لينوكس', code: 'IOS203', crd: 6, pre: 'IOS101/INT101/ENG3' }, { name: 'إدارة قواعد بيانات MS-SQL Server', code: 'IIS303', crd: 6, pre: 'IIS201/IIS202/ENG3' }, { name: 'إدارة قواعد بيانات Oracle', code: 'IIS203', crd: 6, pre: 'IIS201/IIS202/ENG3' }, { name: 'برمجة التطبيقات النقالة', code: 'IPG204', crd: 6, pre: 'IWB201' }, { name: 'مشروع', code: 'IPI201', crd: 12, pre: 'ENG3/IIS201/IWB201' }, ],
+                    'الفصل الأول': [
+                        { name: 'مهارات الحاسوب', code: 'GBS101', crd: 4, pre: 'لا يوجد', description: 'هاد الكورس هو الألف-باء في عالم الكمبيوتر. راح يخليك محترف باستخدام البرامج الأساسية اللي ما في غنى عنها مثل وورد وإكسل، وهي الأدوات اللي راح تستخدمها كل يوم.', telegramLink: '#' },
+                        { name: 'مقدمة في التعلم الإلكتروني', code: 'GBS103', crd: 4, pre: 'لا يوجد', description: 'بما إن دراستك أونلاين، هذا الكورس هو دليلك عشان تعرف كيف تدرس بذكاء وفعالية. راح يشرح لك كيف تستخدم نظام الجامعة صح وتستفيد من كل ميزة فيه.', telegramLink: '#' },
+                        { name: 'التحليل الرياضي', code: 'GMA101', crd: 4, pre: 'لا يوجد', description: 'صحيح إنها رياضيات، بس هي اللي راح تخلي عقلك يشتغل بطريقة منطقية مثل المبرمجين. راح تعطيك الأدوات الذهنية اللازمة عشان تحل المشاكل المعقدة اللي راح تواجهك.', telegramLink: '#' },
+                        { name: 'مقدمة في البرمجة', code: 'IPG101', crd: 5, pre: 'لا يوجد', description: 'أهلاً بك في عالم البرمجة! هذا الكورس هو بوابتك الرسمية. راح تتعلم كيف "تفكر" مثل المبرمجين وتكتب أول أكوادك. اعتبره المفتاح السحري اللي راح يفتح لك كل الأبواب الجاية.', telegramLink: '#' },
+                        { name: 'مقدمة في نمذجة المعطيات', code: 'IIS101', crd: 4, pre: 'لا يوجد', description: 'ببساطة، أي برنامج يحتاج مكان يخزن فيه بياناته. في هذا الكورس، راح تكون أنت المهندس اللي يخطط ويصمم هذا "المخزن" (قاعدة البيانات) بشكل صحيح ومنظم من البداية.', telegramLink: '#' },
+                        { name: 'تقانات التجارة الإلكترونية', code: 'IWB101', crd: 5, pre: 'لا يوجد', description: 'هون راح تفهم أسرار عالم التجارة أونلاين. كيف تشتغل المواقع مثل أمازون، وكيف تتم عمليات البيع والشراء والتسويق على الإنترنت.', telegramLink: '#' },
+                    ],
+                    'الفصل الثاني': [
+                        { name: 'البرمجة الإجرائية', code: 'IPG202', crd: 5, pre: 'IPG101', description: 'لما برامجك تكبر، ممكن تصير فوضى. هنا راح تتعلم كيف ترتب الكود وتقسمه لأجزاء ووظائف صغيرة، عشان يظل شغلك نظيف ومفهوم وتقدر تطوره بسهولة.', telegramLink: '#' },
+                        { name: 'مقدمة في الشبكات', code: 'INT101', crd: 5, pre: 'GBS101', description: 'الإنترنت عبارة عن شبكة ضخمة. بهذا الكورس راح تتعلم قوانينها وطريقة عملها، وكيف الأجهزة تتواصل مع بعضها، وكيف توصلك البيانات من أي مكان بالعالم بثواني.', telegramLink: '#' },
+                        { name: 'مقدمة في نظم التشغيل', code: 'IOS101', crd: 5, pre: 'GBS101', description: 'نظام التشغيل (مثل ويندوز) هو "العقل المدبر" لجهازك. هنا راح نفتح غطاء المحرك ونشوف كيف هذا العقل ينظم كل شي، من الذاكرة للملفات، ويخلي كل شي يشتغل مع بعضه بسلاسة.', telegramLink: '#' },
+                        { name: 'إلكترونيات رقمية', code: 'GDE101', crd: 5, pre: 'لا يوجد', description: 'هل فكرت مرة كيف الكمبيوتر يفهم كل شي عن طريق الكهرباء (0 و 1)؟ هذا الكورس راح ياخذك لقلب الكمبيوتر عشان تفهم المكونات الإلكترونية الصغيرة اللي هي أساس عمل كل الأجهزة الرقمية.', telegramLink: '#' },
+                        { name: 'تصميم وبنيان قواعد المعطيات', code: 'IIS201', crd: 5, pre: 'IIS101', description: 'هون راح تتعمق أكثر في تصميم قواعد البيانات. راح تصير تبنيها بشكل احترافي، وتعرف كيف تربط الجداول صح، وتصمم أساس قوي ومتين لأي نظام.', telegramLink: '#' },
+                        { name: 'لغة إنكليزية - مستوى أول', code: 'Eng1', crd: 3, pre: 'لا يوجد', description: 'لغة التكنولوجيا هي الإنجليزية، وبهذا الكورس راح تبني أساس قوي. راح تركز على القواعد والمفردات المهمة عشان تقدر تقرأ وتفهم المصطلحات التقنية وتدخل جو الشغل بثقة.', telegramLink: '#' },
+                    ],
+                    'الفصل الثالث': [
+                        { name: 'تحضير السيرة المهنية', code: 'GBS102', crd: 3, pre: 'لا يوجد', description: 'هاد الكورس راح يجهزك لسوق العمل. راح يعلمك كيف تسوي سيرة ذاتية (CV) قوية تخلي الشركات تهتم فيك، وكيف تكون واثق من نفسك وتجاوب صح في مقابلات الشغل.', telegramLink: '#' },
+                        { name: 'تصميم وتطوير تطبيقات الويب', code: 'IWB201', crd: 6, pre: 'IWB101/IIS101', description: 'الآن جاء وقت بناء مواقع ويب حقيقية. راح تتعلم تبني الجزء اللي يشوفه المستخدم (Front-end)، والجزء اللي يشتغل في الكواليس (Back-end). يعني راح تصير مطور ويب متكامل.', telegramLink: '#' },
+                        { name: 'نظم التشغيل الشبكية', code: 'IOS201', crd: 6, pre: 'IOS101/INT101', description: 'هاد الكورس عن أنظمة التشغيل الجبارة اللي تدير السيرفرات في الشركات الكبيرة. راح تتعلم كيف تخدم مئات المستخدمين بنفس الوقت وتحافظ على أمان وسرعة الشبكة.', telegramLink: '#' },
+                        { name: 'البرمجة المقادة بالأحداث', code: 'IPG201', crd: 6, pre: 'IPG101', description: 'هاد كورس البرامج الحلوة! راح تتعلم كيف تسوي واجهات جميلة يتفاعل معها المستخدم، فيها أزرار وقوائم ونوافذ. برنامجك راح ينتقل من شاشة سوداء لبرنامج أنيق وسهل الاستخدام.', telegramLink: '#' },
+                        { name: 'التصميم والبرمجة غرضية التوجه', code: 'IPG203', crd: 6, pre: 'IPG101', description: 'هي طريقة تفكير احترافية في البرمجة. راح تخليك تبني برامجك مثل قطع الليغو، كل قطعة (كائن) لها وظيفتها الخاصة، وتركبها مع بعض. طريقة قوية جداً للمشاريع الكبيرة.', telegramLink: '#' },
+                        { name: 'البرمجة المتقدمة بلغة SQL', code: 'IIS202', crd: 6, pre: 'IIS101', description: 'إذا كنت تعلمت الأساسيات، فهذا الكورس راح يخليك محترف SQL. راح تتعلم كيف تكتب استعلامات معقدة جداً وتستخرج معلومات دقيقة من بحر من البيانات.', telegramLink: '#' },
+                        { name: 'لغة إنكليزية - مستوى ثاني', code: 'Eng2', crd: 3, pre: 'Eng1', description: 'هون راح نرفع المستوى شوي. راح تتعمق بمواضيع تقنية أكثر وتتعلم مصطلحات متخصصة بمجالنا. الهدف هو إنك تصير تقرأ مقالات تقنية وتكتب تقارير واضحة ومفهومة.', telegramLink: '#' },
+                    ],
+                    'الفصل الرابع': [
+                        { name: 'منصة ويندوز', code: 'IOS202', crd: 5, pre: 'IOS101/INT101/ENG3', description: 'هون راح تتعلم كيف تدير شبكات الشركات اللي تعتمد على ويندوز سيرفر. يعني راح تكون أنت المسؤول عن الشبكة، تضيف مستخدمين وتحدد صلاحياتهم... شغل إدارة أنظمة حقيقي.', telegramLink: '#' },
+                        { name: 'منصة لينوكس', code: 'IOS203', crd: 6, pre: 'IOS101/INT101/ENG3', description: 'نظام لينوكس هو اللي يشغل أغلب سيرفرات الإنترنت. هنا راح تصير محترف في استخدام سطر الأوامر (الشاشة السوداء)، وتعرف تدير أي سيرفر لينوكس، وهي مهارة قوية جداً ومطلوبة.', telegramLink: '#' },
+                        { name: 'إدارة قواعد بيانات MS SQL Server', code: 'IIS303', crd: 6, pre: 'IIS201/IIS202/ENG3', description: 'وظيفتك هنا أكبر من مجرد كتابة كود. راح تكون أنت "مدير" نظام قاعدة البيانات بالكامل. مسؤول عن تثبيته، حمايته، سرعته، والتأكد من أنه يعمل 100%.', telegramLink: '#' },
+                        { name: 'إدارة قواعد بيانات Oracle', code: 'IIS203', crd: 6, pre: 'IIS201/IIS202/ENG3', description: 'نظام أوراكل تستخدمه البنوك والشركات الضخمة. بهذا الكورس راح تتعلم أسرار هذا النظام العملاق وكيف تديره وتحافظ عليه، لأن البيانات اللي فيه تساوي الملايين.', telegramLink: '#' },
+                        { name: 'برمجة التطبيقات النقالة', code: 'IPG204', crd: 6, pre: 'IWB201', description: 'هل تحلم تبني تطبيق للموبايل؟ هذا الكورس هو تذكرتك لدخول هذا العالم. راح تتعلم الأساسيات اللي تخليك تبدأ تبني تطبيقات للموبايل وتفهم كيف تشتغل.', telegramLink: '#' },
+                        { name: 'مشروع', code: 'IPI201', crd: 12, pre: 'ENG3/IIS201/IWB201', description: 'هاد هو مسك الختام! هنا راح تجمع كل شي تعلمته وتبني مشروع تخرج كامل من الصفر. هذه فرصتك عشان تثبت لنفسك وللعالم إنك صرت مبرمج حقيقي، ويكون عندك شي قوي تضيفه لسيرتك الذاتية.', telegramLink: '#' },
+                        { name: 'لغة إنكليزية - مستوى ثالث', code: 'Eng3', crd: 3, pre: 'Eng2', description: 'بهاد الكورس، هدفنا توصل لمستوى احترافي. راح تصير قادر تقرأ كتيبات تقنية معقدة، تشارك بنقاشات تخصصية، وتكتب إيميلات وتقارير شغل بروفيشنال، وهي مهارة أساسية بسوق العمل.', telegramLink: '#' },
+                    ],
                 }, colors: { card: 'hover:border-blue-500', text: 'text-blue-400', icon: 'text-blue-400' }
             },
-            tab2: { // ISDN
+            tab2: { // ISDN Data
                 semesters: {
                     'الفصل الأول': [ { name: 'اساسيات الادارة', code: 'BMN101', crd: 4, pre: 'لا يوجد' }, { name: 'مقدمة في الفلسفة', code: 'GHS101', crd: 3, pre: 'لا يوجد' }, { name: 'مقدمة في علم الاجتماع', code: 'GHS102', crd: 3, pre: 'لا يوجد' }, { name: 'أسس المحاسبة', code: 'BAC101', crd: 4, pre: 'لا يوجد' }, { name: 'الجبر الرياضي', code: 'GMA101', crd: 5, pre: 'لا يوجد' }, { name: 'اللغة الإنجليزية مستوى ٤', code: 'ENG4', crd: 3, pre: 'ENG3' }, ],
                     'الفصل الثاني': [ { name: 'إدارة مشاريع تقانة المعلومات', code: 'ISE302', crd: 5, pre: 'لا يوجد' }, { name: 'الرياضيات المتقطعة', code: 'GMA204', crd: 5, pre: 'لا يوجد' }, { name: 'خدمات الشبكات', code: 'INT202', crd: 5, pre: 'لا يوجد' }, { name: 'إدارة قواعد البيانات oracle 2', code: 'IIS406', crd: 6, pre: 'ENG3' }, { name: 'منصة لينوكس 2', code: 'IOS305', crd: 5, pre: 'ENG3' }, { name: 'منصة ويندوز 2', code: 'IOS304', crd: 5, pre: 'ENG3' }, ],
@@ -76,7 +127,7 @@
                     'الفصل الرابع': [ { name: 'مبادئ التوجيه', code: 'INT204', crd: 6, pre: 'لا يوجد' }, { name: 'امن التطبيقات والمعطيات', code: 'IWB404', crd: 6, pre: 'ENG3' }, { name: 'امن الشبكات والبنية التحتية المعلوماتية', code: 'INT305', crd: 5, pre: 'ENG3' }, { name: 'المشروع', code: 'IP1405', crd: 12, pre: 'ISE302' }, ]
                 }, colors: { card: 'hover:border-teal-500', text: 'text-teal-400', icon: 'text-teal-400' }
             },
-            tab3: { // MIS
+            tab3: { // MIS Data
                 semesters: {
                     'الفصل الأول': [ { name: 'اساسيات الإدارة', code: 'BMN101', crd: 4, pre: 'غير محدد' }, { name: 'مدخل الى علم الاقتصاد', code: 'BEC101', crd: 4, pre: 'غير محدد' }, { name: 'مدخل الى التسويق', code: 'BMN202', crd: 4, pre: 'غير محدد' }, { name: 'أسس المحاسبة', code: 'BAC101', crd: 4, pre: 'غير محدد' }, { name: 'هندسة البرمجيات', code: 'ISE301', crd: 6, pre: 'غير محدد' }, ],
                     'الفصل الثاني': [ { name: 'اقتصاد جزئي', code: 'BEC202', crd: 4, pre: 'غير محدد' }, { name: 'إدارة الموارد البشرية', code: 'BMN203', crd: 4, pre: 'غير محدد' }, { name: 'الاحتمالات والإحصاء', code: 'GMA205', crd: 5, pre: 'غير محدد' }, { name: 'اللغة الإنجليزية مستوى 4', code: 'ENG 4', crd: 3, pre: 'غير محدد' }, ],
@@ -260,15 +311,43 @@
             const mainContent = document.getElementById('main-content');
             const tabs = document.querySelectorAll('.tab-btn');
             const disclaimer = document.getElementById('disclaimer-note');
+            const modal = document.getElementById('course-modal');
+            const modalCloseBtn = document.getElementById('modal-close-btn');
 
-            const createCard = (course, colors) => `
-                <div class="card bg-gray-800 p-6 rounded-xl border border-gray-700 ${colors.card} transition-all duration-300 transform hover:-translate-y-1">
+            const createCard = (course, colors) => {
+                const card = document.createElement('div');
+                card.className = `card bg-gray-800 p-6 rounded-xl border border-gray-700 ${colors.card} transition-all duration-300 transform hover:-translate-y-1 cursor-pointer`;
+                card.innerHTML = `
                     <div><h3 class="font-bold text-xl ${colors.text} mb-2">${course.name}</h3><p class="text-gray-400 mb-4">${course.code}</p></div>
                     <div class="mt-auto pt-4 border-t border-gray-700/50 text-sm space-y-2">
                         <div class="flex items-center gap-2 text-gray-300"><svg class="h-4 w-4 ${colors.icon}" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg><span><b>الساعات:</b> ${course.crd}</span></div>
                         <div class="flex items-center gap-2 text-gray-300"><svg class="h-4 w-4 ${colors.icon}" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg><span><b>الأسبقيات:</b> ${course.pre}</span></div>
-                    </div>
-                </div>`;
+                    </div>`;
+                card.addEventListener('click', () => showModal(course));
+                return card;
+            };
+            
+            const showModal = (course) => {
+                document.getElementById('modal-title').textContent = course.name;
+                document.getElementById('modal-code').textContent = course.code;
+                document.getElementById('modal-description').textContent = course.description;
+                document.getElementById('modal-telegram-link').href = course.telegramLink;
+                modal.classList.remove('hidden');
+                modal.classList.add('flex');
+            };
+
+            const hideModal = () => {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+            };
+
+            modalCloseBtn.addEventListener('click', hideModal);
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    hideModal();
+                }
+            });
+
 
             const renderCurriculum = (tabId) => {
                 const data = curriculumData[tabId];
@@ -276,7 +355,25 @@
                 let contentHtml = `<div id="${tabId}" class="tab-content">`;
                 for (const semesterName in data.semesters) {
                     contentHtml += `<h2 class="semester-title">${semesterName}</h2><div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">`;
-                    data.semesters[semesterName].forEach(course => { contentHtml += createCard(course, data.colors); });
+                    // This is a temporary container to parse the HTML and attach events
+                    const tempDiv = document.createElement('div');
+                    data.semesters[semesterName].forEach(course => {
+                        if (tabId === 'tab1') { // Only TIC courses are clickable
+                            tempDiv.appendChild(createCard(course, data.colors));
+                        } else {
+                            // For other tabs, just render the HTML without event listeners
+                            const cardHTML = `
+                                <div class="card bg-gray-800 p-6 rounded-xl border border-gray-700 ${data.colors.card} transition-all duration-300 transform hover:-translate-y-1">
+                                    <div><h3 class="font-bold text-xl ${data.colors.text} mb-2">${course.name}</h3><p class="text-gray-400 mb-4">${course.code}</p></div>
+                                    <div class="mt-auto pt-4 border-t border-gray-700/50 text-sm space-y-2">
+                                        <div class="flex items-center gap-2 text-gray-300"><svg class="h-4 w-4 ${data.colors.icon}" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg><span><b>الساعات:</b> ${course.crd}</span></div>
+                                        <div class="flex items-center gap-2 text-gray-300"><svg class="h-4 w-4 ${data.colors.icon}" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg><span><b>الأسبقيات:</b> ${course.pre}</span></div>
+                                    </div>
+                                </div>`;
+                            tempDiv.innerHTML += cardHTML;
+                        }
+                    });
+                     contentHtml += tempDiv.innerHTML;
                     contentHtml += '</div>';
                 }
                 contentHtml += '</div>';
@@ -290,6 +387,20 @@
                     disclaimer.style.display = 'none';
                 } else {
                     mainContent.innerHTML = renderCurriculum(tabId);
+                    // Re-attach event listeners for newly created TIC cards
+                    if (tabId === 'tab1') {
+                        const data = curriculumData.tab1;
+                        const cards = mainContent.querySelectorAll('.card');
+                        let courseIndex = 0;
+                        for (const semesterName in data.semesters) {
+                            data.semesters[semesterName].forEach(course => {
+                                if (cards[courseIndex]) {
+                                    cards[courseIndex].addEventListener('click', () => showModal(course));
+                                }
+                                courseIndex++;
+                            });
+                        }
+                    }
                     disclaimer.style.display = 'block';
                 }
                 
