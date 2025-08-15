@@ -185,6 +185,131 @@
                 </div>
             </div>`;
 
+        function initializeGpaCalculator() {
+            const gpaTab = document.getElementById('tab4');
+            if (!gpaTab) return;
+            const programRadios = gpaTab.querySelectorAll('.gpa-program-radio');
+            const coursesListDiv = gpaTab.querySelector('#gpa-courses-list');
+            const calculateBtn = gpaTab.querySelector('#calculate-btn');
+            const resultsSection = gpaTab.querySelector('#results-section');
+            const resultsOutputDiv = gpaTab.querySelector('#results-output');
+            const errorOutputDiv = gpaTab.querySelector('#error-output');
+            const gpaResultP = gpaTab.querySelector('#gpa-result');
+            const gpaMessageP = gpaTab.querySelector('#gpa-message');
+            const errorMessageP = gpaTab.querySelector('#error-message');
+
+            const createGpaCard = (course) => {
+                const card = document.createElement('div');
+                card.className = 'gpa-card card bg-gray-800 p-4 rounded-xl border-2 border-gray-700 transition-all duration-300 cursor-pointer';
+                card.innerHTML = `
+                    <div class="flex items-start justify-between">
+                        <div class="flex-grow">
+                            <h3 class="font-bold text-lg text-amber-400 mb-1">${course.name}</h3>
+                            <p class="text-gray-400 text-sm">${course.code} (${course.credits} ساعات)</p>
+                        </div>
+                        <input type="checkbox" data-credits="${course.credits}" class="course-checkbox w-5 h-5 text-amber-600 bg-gray-600 border-gray-500 rounded focus:ring-amber-500 ms-2 mt-1 flex-shrink-0">
+                    </div>
+                    <div class="mt-3">
+                        <input type="number" min="58" max="100" placeholder="العلامة" class="course-grade w-full p-2 text-center border bg-gray-700 border-gray-600 rounded-md focus:ring-amber-500 focus:border-amber-500 hidden">
+                    </div>`;
+                
+                const checkbox = card.querySelector('.course-checkbox');
+                const gradeInput = card.querySelector('.course-grade');
+
+                card.addEventListener('click', (e) => {
+                    if (e.target !== checkbox && e.target !== gradeInput) {
+                        checkbox.checked = !checkbox.checked;
+                        checkbox.dispatchEvent(new Event('change'));
+                    }
+                });
+
+                checkbox.addEventListener('change', () => {
+                    if (checkbox.checked) {
+                        card.classList.add('selected');
+                        gradeInput.classList.remove('hidden');
+                    } else {
+                        card.classList.remove('selected');
+                        gradeInput.classList.add('hidden');
+                        gradeInput.value = '';
+                    }
+                });
+                return card;
+            };
+
+            function populateCourses(programKey) {
+                coursesListDiv.innerHTML = '';
+                const courses = gpaCoursesData[programKey];
+                if (!courses) return;
+                courses.forEach(course => {
+                    coursesListDiv.appendChild(createGpaCard(course));
+                });
+            }
+            
+            function hideMessages() {
+                resultsSection.classList.add('hidden');
+                resultsOutputDiv.classList.add('hidden');
+                errorOutputDiv.classList.add('hidden');
+            }
+
+            function calculateGPA() {
+                hideMessages();
+                let totalCredits = 0, totalPoints = 0, hasError = false, courseSelected = false;
+                
+                coursesListDiv.querySelectorAll('.gpa-card').forEach(card => {
+                    const checkbox = card.querySelector('.course-checkbox');
+                    if (checkbox.checked) {
+                        courseSelected = true;
+                        const gradeInput = card.querySelector('.course-grade');
+                        const grade = parseFloat(gradeInput.value);
+                        const credits = parseFloat(checkbox.dataset.credits);
+                        if (isNaN(grade) || grade < 58 || grade > 100) {
+                            errorMessageP.textContent = 'الرجاء إدخال علامات صحيحة (بين 58 و 100).';
+                            hasError = true;
+                            gradeInput.classList.add('border-red-500');
+                        } else {
+                            gradeInput.classList.remove('border-red-500');
+                            totalCredits += credits;
+                            totalPoints += grade * credits;
+                        }
+                    }
+                });
+
+                resultsSection.classList.remove('hidden');
+                if (hasError) { errorOutputDiv.classList.remove('hidden'); resultsOutputDiv.classList.add('hidden'); return; }
+                if (!courseSelected) {
+                    errorMessageP.textContent = 'الرجاء تحديد مادة واحدة على الأقل.';
+                    errorOutputDiv.classList.remove('hidden');
+                    resultsOutputDiv.classList.add('hidden');
+                    return;
+                }
+
+                const gpa = totalCredits > 0 ? (totalPoints / totalCredits) : 0;
+                resultsOutputDiv.classList.remove('hidden');
+                errorOutputDiv.classList.add('hidden');
+                gpaResultP.textContent = gpa.toFixed(2);
+
+                let gpaMessage, msgClass;
+                if (gpa >= 85) { [gpaMessage, msgClass] = ['ممتاز', 'text-purple-400']; }
+                else if (gpa >= 75) { [gpaMessage, msgClass] = ['جيد جداً', 'text-blue-400']; }
+                else if (gpa >= 60) { [gpaMessage, msgClass] = ['جيد', 'text-green-400']; }
+                else { [gpaMessage, msgClass] = ['حظاً أوفر', 'text-orange-400']; }
+                
+                gpaMessageP.textContent = gpaMessage;
+                gpaMessageP.className = `text-xl font-semibold ${msgClass}`;
+                gpaResultP.className = `text-3xl font-bold ${msgClass}`;
+            }
+
+            function updateSelection() {
+                const selectedProgramKey = gpaTab.querySelector('input[name="program"]:checked').value;
+                populateCourses(selectedProgramKey);
+                hideMessages();
+            }
+
+            programRadios.forEach(radio => radio.addEventListener('change', updateSelection));
+            calculateBtn.addEventListener('click', calculateGPA);
+            updateSelection();
+        }
+
         function initializeGradeCalculator() {
             const isEnglishCheckbox = document.getElementById('is-english-checkbox');
             const assignmentInput = document.getElementById('assignment-grade');
