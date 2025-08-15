@@ -39,11 +39,12 @@
             <p class="text-lg text-gray-400">في المعهد التقاني للحاسوب TIC ومسارات الترقية بعده للـ BAIT</p>
         </header>
 
-        <div class="flex flex-col sm:flex-row justify-center items-center gap-2 md:gap-4 mb-8 p-2 bg-gray-800/50 rounded-xl max-w-4xl mx-auto">
+        <div class="flex flex-col sm:flex-row justify-center items-center gap-2 md:gap-4 mb-8 p-2 bg-gray-800/50 rounded-xl max-w-5xl mx-auto">
             <button data-tab="tab1" class="tab-btn w-full sm:w-auto flex-1 text-gray-300 font-semibold py-3 px-6 rounded-lg transition-all duration-300 ease-in-out hover:bg-gray-700">المعهد التقاني (TIC)</button>
             <button data-tab="tab2" class="tab-btn w-full sm:w-auto flex-1 text-gray-300 font-semibold py-3 px-6 rounded-lg transition-all duration-300 ease-in-out hover:bg-gray-700">ترقية (ISDN)</button>
             <button data-tab="tab3" class="tab-btn w-full sm:w-auto flex-1 text-gray-300 font-semibold py-3 px-6 rounded-lg transition-all duration-300 ease-in-out hover:bg-gray-700">ترقية (MIS)</button>
             <button data-tab="tab4" class="tab-btn w-full sm:w-auto flex-1 text-gray-300 font-semibold py-3 px-6 rounded-lg transition-all duration-300 ease-in-out hover:bg-gray-700">حاسبة المعدل</button>
+            <button data-tab="tab5" class="tab-btn w-full sm:w-auto flex-1 text-gray-300 font-semibold py-3 px-6 rounded-lg transition-all duration-300 ease-in-out hover:bg-gray-700">حاسبة المحصلة</button>
         </div>
         
         <div id="disclaimer-note" class="text-center max-w-2xl mx-auto mb-10">
@@ -83,40 +84,10 @@
         const curriculumData = {
             tab1: { // TIC
                 semesters: {
-                    'الفصل الأول': [
-                        { name: 'مهارات الحاسوب', code: 'GBS101', crd: 4, pre: 'لا يوجد', description: 'يقدم هذا المقرر المهارات الأساسية لاستخدام الحاسوب وتطبيقاته المكتبية بكفاءة، بما يعادل شهادة (ICDL). ستتعلم استخدام معالجات النصوص، جداول البيانات، وقواعد البيانات، وهي أدوات أساسية لأي متخصص.', telegramLink: '#' },
-                        { name: 'مقدمة في التعلم الإلكتروني', code: 'GBS103', crd: 4, pre: 'لا يوجد', description: 'صُمم هذا المقرر لتعريفك بآليات الدراسة في البيئة الافتراضية للجامعة. ستتعلم كيفية استخدام المنصات التعليمية بفعالية، وأفضل أساليب إدارة الوقت والتواصل الأكاديمي عبر الإنترنت.', telegramLink: '#' },
-                        { name: 'التحليل الرياضي', code: 'GMA101', crd: 4, pre: 'لا يوجد', description: 'يغطي المقرر المفاهيم الرياضية الأساسية التي تعتبر ضرورية لدراسة علوم الحاسوب، مثل التوابع والمتتاليات والتفاضل والتكامل، والتي تساهم في تطوير القدرة على التفكير المنطقي وحل المشكلات.', telegramLink: '#' },
-                        { name: 'مقدمة في البرمجة', code: 'IPG101', crd: 5, pre: 'لا يوجد', description: 'يركز هذا المقرر على المبادئ الأساسية للبرمجة والتفكير المنطقي. ستتعلم فيه كيفية تحليل المشكلات، تصميم الخوارزميات، وكتابة برامجك الأولى باستخدام لغة C#. الهدف هو بناء أساس برمجي متين للمقررات المتقدمة.', telegramLink: '#' },
-                        { name: 'مقدمة في نمذجة المعطيات', code: 'IIS101', crd: 4, pre: 'لا يوجد', description: 'يتناول المقرر المفاهيم الأولية لتصميم قواعد البيانات. ستتعلم كيفية تحليل متطلبات البيانات وتصميم نماذج منطقية لها، مما يمثل الخطوة الأولى والأساسية في بناء أي نظام معلوماتي.', telegramLink: '#' },
-                        { name: 'تقانات التجارة الإلكترونية', code: 'IWB101', crd: 5, pre: 'لا يوجد', description: 'يقدم هذا المقرر نظرة عامة على المفاهيم والتقنيات المستخدمة في عالم التجارة الإلكترونية، بما في ذلك نماذج الأعمال المختلفة، وأساليب التسويق الرقمي، وآليات الدفع عبر الإنترنت.', telegramLink: '#' },
-                    ],
-                    'الفصل الثاني': [
-                        { name: 'البرمجة الإجرائية', code: 'IPG202', crd: 5, pre: 'IPG101', description: 'يعلمك هذا المقرر أساليب تنظيم الشيفرة البرمجية في البرامج الكبيرة عبر تقسيمها إلى وحدات وظيفية أصغر (إجراءات وتوابع)، مما يجعل الكود أكثر قابلية للقراءة والصيانة.', telegramLink: '#' },
-                        { name: 'مقدمة في الشبكات', code: 'INT101', crd: 5, pre: 'GBS101', description: 'ستتعلم في هذا المقرر أساسيات شبكات الحاسوب، بما في ذلك أنواع الشبكات، ومكوناتها، والبروتوكولات الأساسية مثل (TCP/IP) التي تنظم عملية الاتصال ونقل البيانات بين الأجهزة.', telegramLink: '#' },
-                        { name: 'مقدمة في نظم التشغيل', code: 'IOS101', crd: 5, pre: 'GBS101', description: 'يستعرض المقرر المكونات والوظائف الأساسية لأنظمة التشغيل، مثل إدارة الذاكرة، والعمليات، ونظام الملفات. الهدف هو فهم كيفية إدارة نظام التشغيل لموارد الحاسوب ليسمح للبرامج بالعمل بكفاءة.', telegramLink: '#' },
-                        { name: 'إلكترونيات رقمية', code: 'GDE101', crd: 5, pre: 'لا يوجد', description: 'يتناول هذا المقرر المبادئ الأساسية للدوائر والأنظمة الرقمية، بما في ذلك البوابات المنطقية وأنظمة العد. الهدف هو فهم كيفية عمل المكونات الإلكترونية الدقيقة التي تشكل أساس بناء أجهزة الحاسوب.', telegramLink: '#' },
-                        { name: 'تصميم وبنيان قواعد المعطيات', code: 'IIS201', crd: 5, pre: 'IIS101', description: 'ستتعمق في هذا المقرر في الجوانب المتقدمة لتصميم قواعد البيانات العلائقية، وكيفية تطبيق قواعد التسوية (Normalization) لضمان سلامة البيانات، بالإضافة إلى ترجمة التصاميم إلى جداول فعلية باستخدام لغة SQL.', telegramLink: '#' },
-                        { name: 'لغة إنكليزية - مستوى أول', code: 'Eng1', crd: 3, pre: 'لا يوجد', description: 'يركز هذا المقرر على بناء أساس متين في اللغة الإنجليزية، حيث يغطي القواعد والمفردات الأساسية اللازمة لفهم النصوص التقنية البسيطة والتواصل بشكل فعال في بيئة العمل الأولية.', telegramLink: '#' },
-                    ],
-                    'الفصل الثالث': [
-                        { name: 'تحضير السيرة المهنية', code: 'GBS102', crd: 3, pre: 'لا يوجد', description: 'يهدف المقرر إلى تزويدك بالمهارات اللازمة لدخول سوق العمل. ستتعلم التقنيات الصحيحة لكتابة السيرة الذاتية ورسائل التقديم، بالإضافة إلى استراتيجيات التحضير لمقابلات العمل وكيفية عرض مهاراتك بفعالية.', telegramLink: '#' },
-                        { name: 'تصميم وتطوير تطبيقات الويب', code: 'IWB201', crd: 6, pre: 'IWB101/IIS101', description: 'يغطي المقرر دورة حياة تطوير تطبيقات الويب التفاعلية. ستتعلم تقنيات برمجة الواجهات الأمامية (Front-end) التي يراها المستخدم، وتقنيات برمجة الخادم (Back-end) التي تعالج البيانات والمنطق.', telegramLink: '#' },
-                        { name: 'نظم التشغيل الشبكية', code: 'IOS201', crd: 6, pre: 'IOS101/INT101', description: 'يتناول المقرر أنظمة التشغيل المصممة لإدارة موارد الشبكة والخوادم. ستتعلم كيفية إعداد الخدمات الشبكية، إدارة المستخدمين والصلاحيات، وتأمين البيئات الشبكية.', telegramLink: '#' },
-                        { name: 'البرمجة المقادة بالأحداث', code: 'IPG201', crd: 6, pre: 'IPG101', description: 'يركز المقرر على تطوير تطبيقات ذات واجهات مستخدم رسومية (GUI). ستتعلم كيفية تصميم النوافذ والأزرار والقوائم، وبرمجة استجابة التطبيق لتفاعلات المستخدم مثل نقرات الفأرة أو إدخال النص.', telegramLink: '#' },
-                        { name: 'التصميم والبرمجة غرضية التوجه', code: 'IPG203', crd: 6, pre: 'IPG101', description: 'يقدم هذا المقرر منهجية البرمجة كائنية التوجه (OOP)، وهي طريقة متقدمة لتصميم البرمجيات تقوم على محاكاة الكائنات الواقعية. ستتعلم مفاهيم مثل الأصناف، الكائنات، والوراثة لبناء برامج مرنة وقابلة للتوسعة.', telegramLink: '#' },
-                        { name: 'البرمجة المتقدمة بلغة SQL', code: 'IIS202', crd: 6, pre: 'IIS101', description: 'يهدف المقرر إلى تعميق معرفتك بلغة SQL، حيث ستتعلم كيفية كتابة استعلامات معقدة، واستخدام الوظائف المتقدمة، والإجراءات المخزنة لمعالجة البيانات وتحليلها بكفاءة عالية.', telegramLink: '#' },
-                        { name: 'لغة إنكليزية - مستوى ثاني', code: 'Eng2', crd: 3, pre: 'Eng1', description: 'يبني هذا المقرر على مكتسبات المستوى الأول، حيث يتناول تراكيب لغوية أكثر تعقيدًا ومصطلحات تقنية متخصصة في مجال تكنولوجيا المعلومات، بهدف تحسين قدرة الطالب على فهم المقالات التقنية وكتابة التقارير.', telegramLink: '#' },
-                    ],
-                    'الفصل الرابع': [
-                        { name: 'منصة ويندوز', code: 'IOS202', crd: 5, pre: 'IOS101/INT101/ENG3', description: 'يركز هذا المقرر على إدارة بيئات العمل والخوادم التي تعمل بنظام تشغيل Windows Server. ستكتسب مهارات عملية في إدارة الشبكات، المستخدمين، والخدمات الأساسية في بيئة ويندوز.', telegramLink: '#' },
-                        { name: 'منصة لينوكس', code: 'IOS203', crd: 6, pre: 'IOS101/INT101/ENG3', description: 'ستتعلم في هذا المقرر أساسيات إدارة أنظمة التشغيل المستندة إلى Linux، بما في ذلك التعامل مع سطر الأوامر، إدارة الملفات والصلاحيات، وتثبيت البرامج، وهي مهارات أساسية للعمل مع الخوادم.', telegramLink: '#' },
-                        { name: 'إدارة قواعد بيانات MS SQL Server', code: 'IIS303', crd: 6, pre: 'IIS201/IIS202/ENG3', description: 'يوفر هذا المقرر المهارات اللازمة لإدارة وصيانة أنظمة قواعد بيانات Microsoft SQL Server. ستغطي موضوعات مثل التثبيت، النسخ الاحتياطي والاستعادة، مراقبة الأداء، وتطبيق سياسات الأمان.', telegramLink: '#' },
-                        { name: 'إدارة قواعد بيانات Oracle', code: 'IIS203', crd: 6, pre: 'IIS201/IIS202/ENG3', description: 'يركز المقرر على إدارة أنظمة قواعد بيانات Oracle، التي تستخدم على نطاق واسع في المؤسسات الكبرى. ستتعلم بنيتها المعمارية، وأدوات إدارتها، وكيفية تنفيذ مهام الصيانة والأمان الأساسية.', telegramLink: '#' },
-                        { name: 'برمجة التطبيقات النقالة', code: 'IPG204', crd: 6, pre: 'IWB201', description: 'يقدم المقرر المفاهيم الأساسية لتطوير التطبيقات على الهواتف المحمولة. ستتعرف على خصائص بيئات الموبايل المختلفة، ودورة حياة التطبيق، وكيفية تصميم واجهات مستخدم مناسبة للشاشات الصغيرة.', telegramLink: '#' },
-                        { name: 'مشروع', code: 'IPI201', crd: 12, pre: 'ENG3/IIS201/IWB201', description: 'في هذا المقرر التطبيقي، ستقوم بتوظيف جميع المهارات والمعارف التي اكتسبتها خلال دراستك لتطوير مشروع برمجي متكامل. ستمر بكافة مراحل تطوير البرمجيات، بدءًا من التحليل ووضع المتطلبات، وصولًا إلى التصميم والتنفيذ والاختبار، مما يمنحك خبرة عملية تحاكي بيئة العمل الحقيقية سواء قمت بتصميم موقع وب او تطبيق موبايل او تطبيق ديسكتوب....الخ', telegramLink: '#' },
-                        { name: 'لغة إنكليزية - مستوى ثالث', code: 'Eng3', crd: 3, pre: 'Eng2', description: 'يهدف المقرر إلى الوصول بالطالب إلى مستوى متقدم من الكفاءة اللغوية، حيث يتم التدرب على فهم الوثائق التقنية المعقدة، والمشاركة في النقاشات التخصصية، وكتابة المراسلات والتقارير المهنية.', telegramLink: '#' },
-                    ],
+                    'الفصل الأول': [ { name: 'مهارات الحاسوب', code: 'GBS101', crd: 4, pre: 'لا يوجد', description: 'يقدم هذا المقرر المهارات الأساسية لاستخدام الحاسوب وتطبيقاته المكتبية بكفاءة، بما يعادل شهادة (ICDL). ستتعلم استخدام معالجات النصوص، جداول البيانات، وقواعد البيانات، وهي أدوات أساسية لأي متخصص.', telegramLink: '#' }, { name: 'مقدمة في التعلم الإلكتروني', code: 'GBS103', crd: 4, pre: 'لا يوجد', description: 'صُمم هذا المقرر لتعريفك بآليات الدراسة في البيئة الافتراضية للجامعة. ستتعلم كيفية استخدام المنصات التعليمية بفعالية، وأفضل أساليب إدارة الوقت والتواصل الأكاديمي عبر الإنترنت.', telegramLink: '#' }, { name: 'التحليل الرياضي', code: 'GMA101', crd: 4, pre: 'لا يوجد', description: 'يغطي المقرر المفاهيم الرياضية الأساسية التي تعتبر ضرورية لدراسة علوم الحاسوب، مثل التوابع والمتتاليات والتفاضل والتكامل، والتي تساهم في تطوير القدرة على التفكير المنطقي وحل المشكلات.', telegramLink: '#' }, { name: 'مقدمة في البرمجة', code: 'IPG101', crd: 5, pre: 'لا يوجد', description: 'يركز هذا المقرر على المبادئ الأساسية للبرمجة والتفكير المنطقي. ستتعلم فيه كيفية تحليل المشكلات، تصميم الخوارزميات، وكتابة برامجك الأولى باستخدام لغة C#. الهدف هو بناء أساس برمجي متين للمقررات المتقدمة.', telegramLink: '#' }, { name: 'مقدمة في نمذجة المعطيات', code: 'IIS101', crd: 4, pre: 'لا يوجد', description: 'يتناول المقرر المفاهيم الأولية لتصميم قواعد البيانات. ستتعلم كيفية تحليل متطلبات البيانات وتصميم نماذج منطقية لها، مما يمثل الخطوة الأولى والأساسية في بناء أي نظام معلوماتي.', telegramLink: '#' }, { name: 'تقانات التجارة الإلكترونية', code: 'IWB101', crd: 5, pre: 'لا يوجد', description: 'يقدم هذا المقرر نظرة عامة على المفاهيم والتقنيات المستخدمة في عالم التجارة الإلكترونية، بما في ذلك نماذج الأعمال المختلفة، وأساليب التسويق الرقمي، وآليات الدفع عبر الإنترنت.', telegramLink: '#' }, ],
+                    'الفصل الثاني': [ { name: 'البرمجة الإجرائية', code: 'IPG202', crd: 5, pre: 'IPG101', description: 'يعلمك هذا المقرر أساليب تنظيم الشيفرة البرمجية في البرامج الكبيرة عبر تقسيمها إلى وحدات وظيفية أصغر (إجراءات وتوابع)، مما يجعل الكود أكثر قابلية للقراءة والصيانة.', telegramLink: '#' }, { name: 'مقدمة في الشبكات', code: 'INT101', crd: 5, pre: 'GBS101', description: 'ستتعلم في هذا المقرر أساسيات شبكات الحاسوب، بما في ذلك أنواع الشبكات، ومكوناتها، والبروتوكولات الأساسية مثل (TCP/IP) التي تنظم عملية الاتصال ونقل البيانات بين الأجهزة.', telegramLink: '#' }, { name: 'مقدمة في نظم التشغيل', code: 'IOS101', crd: 5, pre: 'GBS101', description: 'يستعرض المقرر المكونات والوظائف الأساسية لأنظمة التشغيل، مثل إدارة الذاكرة، والعمليات، ونظام الملفات. الهدف هو فهم كيفية إدارة نظام التشغيل لموارد الحاسوب ليسمح للبرامج بالعمل بكفاءة.', telegramLink: '#' }, { name: 'إلكترونيات رقمية', code: 'GDE101', crd: 5, pre: 'لا يوجد', description: 'يتناول هذا المقرر المبادئ الأساسية للدوائر والأنظمة الرقمية، بما في ذلك البوابات المنطقية وأنظمة العد. الهدف هو فهم كيفية عمل المكونات الإلكترونية الدقيقة التي تشكل أساس بناء أجهزة الحاسوب.', telegramLink: '#' }, { name: 'تصميم وبنيان قواعد المعطيات', code: 'IIS201', crd: 5, pre: 'IIS101', description: 'ستتعمق في هذا المقرر في الجوانب المتقدمة لتصميم قواعد البيانات العلائقية، وكيفية تطبيق قواعد التسوية (Normalization) لضمان سلامة البيانات، بالإضافة إلى ترجمة التصاميم إلى جداول فعلية باستخدام لغة SQL.', telegramLink: '#' }, { name: 'لغة إنكليزية - مستوى أول', code: 'Eng1', crd: 3, pre: 'لا يوجد', description: 'يركز هذا المقرر على بناء أساس متين في اللغة الإنجليزية، حيث يغطي القواعد والمفردات الأساسية اللازمة لفهم النصوص التقنية البسيطة والتواصل بشكل فعال في بيئة العمل الأولية.', telegramLink: '#' }, ],
+                    'الفصل الثالث': [ { name: 'تحضير السيرة المهنية', code: 'GBS102', crd: 3, pre: 'لا يوجد', description: 'يهدف المقرر إلى تزويدك بالمهارات اللازمة لدخول سوق العمل. ستتعلم التقنيات الصحيحة لكتابة السيرة الذاتية ورسائل التقديم، بالإضافة إلى استراتيجيات التحضير لمقابلات العمل وكيفية عرض مهاراتك بفعالية.', telegramLink: '#' }, { name: 'تصميم وتطوير تطبيقات الويب', code: 'IWB201', crd: 6, pre: 'IWB101/IIS101', description: 'يغطي المقرر دورة حياة تطوير تطبيقات الويب التفاعلية. ستتعلم تقنيات برمجة الواجهات الأمامية (Front-end) التي يراها المستخدم، وتقنيات برمجة الخادم (Back-end) التي تعالج البيانات والمنطق.', telegramLink: '#' }, { name: 'نظم التشغيل الشبكية', code: 'IOS201', crd: 6, pre: 'IOS101/INT101', description: 'يتناول المقرر أنظمة التشغيل المصممة لإدارة موارد الشبكة والخوادم. ستتعلم كيفية إعداد الخدمات الشبكية، إدارة المستخدمين والصلاحيات، وتأمين البيئات الشبكية.', telegramLink: '#' }, { name: 'البرمجة المقادة بالأحداث', code: 'IPG201', crd: 6, pre: 'IPG101', description: 'يركز المقرر على تطوير تطبيقات ذات واجهات مستخدم رسومية (GUI). ستتعلم كيفية تصميم النوافذ والأزرار والقوائم، وبرمجة استجابة التطبيق لتفاعلات المستخدم مثل نقرات الفأرة أو إدخال النص.', telegramLink: '#' }, { name: 'التصميم والبرمجة غرضية التوجه', code: 'IPG203', crd: 6, pre: 'IPG101', description: 'يقدم هذا المقرر منهجية البرمجة كائنية التوجه (OOP)، وهي طريقة متقدمة لتصميم البرمجيات تقوم على محاكاة الكائنات الواقعية. ستتعلم مفاهيم مثل الأصناف، الكائنات، والوراثة لبناء برامج مرنة وقابلة للتوسعة.', telegramLink: '#' }, { name: 'البرمجة المتقدمة بلغة SQL', code: 'IIS202', crd: 6, pre: 'IIS101', description: 'يهدف المقرر إلى تعميق معرفتك بلغة SQL، حيث ستتعلم كيفية كتابة استعلامات معقدة، واستخدام الوظائف المتقدمة، والإجراءات المخزنة لمعالجة البيانات وتحليلها بكفاءة عالية.', telegramLink: '#' }, { name: 'لغة إنكليزية - مستوى ثاني', code: 'Eng2', crd: 3, pre: 'Eng1', description: 'يبني هذا المقرر على مكتسبات المستوى الأول، حيث يتناول تراكيب لغوية أكثر تعقيدًا ومصطلحات تقنية متخصصة في مجال تكنولوجيا المعلومات، بهدف تحسين قدرة الطالب على فهم المقالات التقنية وكتابة التقارير.', telegramLink: '#' }, ],
+                    'الفصل الرابع': [ { name: 'منصة ويندوز', code: 'IOS202', crd: 5, pre: 'IOS101/INT101/ENG3', description: 'يركز هذا المقرر على إدارة بيئات العمل والخوادم التي تعمل بنظام تشغيل Windows Server. ستكتسب مهارات عملية في إدارة الشبكات، المستخدمين، والخدمات الأساسية في بيئة ويندوز.', telegramLink: '#' }, { name: 'منصة لينوكس', code: 'IOS203', crd: 6, pre: 'IOS101/INT101/ENG3', description: 'ستتعلم في هذا المقرر أساسيات إدارة أنظمة التشغيل المستندة إلى Linux، بما في ذلك التعامل مع سطر الأوامر، إدارة الملفات والصلاحيات، وتثبيت البرامج، وهي مهارات أساسية للعمل مع الخوادم.', telegramLink: '#' }, { name: 'إدارة قواعد بيانات MS SQL Server', code: 'IIS303', crd: 6, pre: 'IIS201/IIS202/ENG3', description: 'يوفر هذا المقرر المهارات اللازمة لإدارة وصيانة أنظمة قواعد بيانات Microsoft SQL Server. ستغطي موضوعات مثل التثبيت، النسخ الاحتياطي والاستعادة، مراقبة الأداء، وتطبيق سياسات الأمان.', telegramLink: '#' }, { name: 'إدارة قواعد بيانات Oracle', code: 'IIS203', crd: 6, pre: 'IIS201/IIS202/ENG3', description: 'يركز المقرر على إدارة أنظمة قواعد بيانات Oracle، التي تستخدم على نطاق واسع في المؤسسات الكبرى. ستتعلم بنيتها المعمارية، وأدوات إدارتها، وكيفية تنفيذ مهام الصيانة والأمان الأساسية.', telegramLink: '#' }, { name: 'برمجة التطبيقات النقالة', code: 'IPG204', crd: 6, pre: 'IWB201', description: 'يقدم المقرر المفاهيم الأساسية لتطوير التطبيقات على الهواتف المحمولة. ستتعرف على خصائص بيئات الموبايل المختلفة، ودورة حياة التطبيق، وكيفية تصميم واجهات مستخدم مناسبة للشاشات الصغيرة.', telegramLink: '#' }, { name: 'مشروع', code: 'IPI201', crd: 12, pre: 'ENG3/IIS201/IWB201', description: 'في هذا المقرر التطبيقي، ستقوم بتوظيف جميع المهارات والمعارف التي اكتسبتها خلال دراستك لتطوير مشروع برمجي متكامل. ستمر بكافة مراحل تطوير البرمجيات، بدءًا من التحليل ووضع المتطلبات، وصولًا إلى التصميم والتنفيذ والاختبار، مما يمنحك خبرة عملية تحاكي بيئة العمل الحقيقية سواء قمت بتصميم موقع وب او تطبيق موبايل او تطبيق ديسكتوب....الخ', telegramLink: '#' }, { name: 'لغة إنكليزية - مستوى ثالث', code: 'Eng3', crd: 3, pre: 'Eng2', description: 'يهدف المقرر إلى الوصول بالطالب إلى مستوى متقدم من الكفاءة اللغوية، حيث يتم التدرب على فهم الوثائق التقنية المعقدة، والمشاركة في النقاشات التخصصية، وكتابة المراسلات والتقارير المهنية.', telegramLink: '#' }, ],
                 }, colors: { card: 'hover:border-blue-500', text: 'text-blue-400', icon: 'text-blue-400' }
             },
             tab2: { // ISDN Data
@@ -181,131 +152,112 @@
             ISDN: [ { code: 'BMN101', name: 'أساسيات الإدارة', credits: 4 }, { code: 'GHS101', name: 'مقدمة في الفلسفة', credits: 3 }, { code: 'GHS102', name: 'مقدمة في علم الاجتماع', credits: 3 }, { code: 'BAC101', name: 'أسس المحاسبة', credits: 4 }, { code: 'GMA101', name: 'الجبر الرياضي', credits: 5 }, { code: 'ENG4', name: 'اللغة الإنكليزية مستوى 4', credits: 3 }, { code: 'ISE302', name: 'إدارة مشاريع تقانة المعلومات', credits: 5 }, { code: 'GMA204', name: 'الرياضيات المتقطعة', credits: 5 }, { code: 'INT202', name: 'خدمات الشبكات', credits: 5 }, { code: 'IIS406', name: 'إدارة قواعد البيانات أوراكل 2', credits: 6 }, { code: 'IOS305', name: 'منصة لينكس 2', credits: 5 }, { code: 'ENG5', name: 'اللغة الإنكليزية مستوى 5', credits: 3 }, { code: 'GMA205', name: 'الاحتمالات والإحصاء', credits: 5 }, { code: 'INT203', name: 'الشبكات اللاسلكية', credits: 6 }, { code: 'ISE301', name: 'هندسة البرمجيات', credits: 6 }, { code: 'BMN202', name: 'مدخل إلى التسويق', credits: 4 }, { code: 'IOS304', name: 'منصة ويندوز 2', credits: 5 }, { code: 'BFB305', name: 'الخدمات المصرفية', credits: 4 }, { code: 'INT204', name: 'مبادئ التوجيه', credits: 6 }, { code: 'IWB404', name: 'أمن التطبيقات والمعطيات', credits: 6 }, { code: 'INT305', name: 'أمن الشبكات والبنية التحتية المعلوماتية', credits: 5 }, { code: 'IPI405', name: 'مشروع', credits: 12 }, ],
             MIS: [ { name: 'اساسيات الإدارة', code: 'BMN101', credits: 4 }, { name: 'مدخل الى علم الاقتصاد', code: 'BEC101', credits: 4 }, { name: 'مدخل الى التسويق', code: 'BMN202', credits: 4 }, { name: 'أسس المحاسبة', code: 'BAC101', credits: 4 }, { name: 'هندسة البرمجيات', code: 'ISE301', credits: 6 }, { name: 'اقتصاد جزئي', code: 'BEC202', credits: 4 }, { name: 'إدارة الموارد البشرية', code: 'BMN203', credits: 4 }, { name: 'الاحتمالات والإحصاء', code: 'GMA205', credits: 5 }, { name: 'اللغة الإنجليزية مستوى 4', code: 'ENG 4', credits: 3 }, { name: 'المحاسبة التحليلية', code: 'BAC202', credits: 4 }, { name: 'أسس الإدارة المالية', code: 'BFB201', credits: 4 }, { name: 'الإدارة الاستراتيجية', code: 'BMN306', credits: 4 }, { name: 'بحوث العمليات', code: 'BQM202', credits: 4 }, { name: 'امن التطبيقات والمعطيات', code: 'IWB404', credits: 6 }, { name: 'الخدمات المصرفية', code: 'BFB305', credits: 4 }, { name: 'إدارة قواعد البيانات Oracle 2', code: 'IIS406', credits: 6 }, { name: 'اللغة الإنجليزية مستوى 5', code: 'ENG 5', credits: 3 }, { name: 'نظرية القرارات', code: 'BQM303', credits: 4 }, { name: 'إدارة العمليات', code: 'BQM301', credits: 4 }, { name: 'إدارة سلاسل التوريد', code: 'BMN305', credits: 4 }, { name: 'تحليل البيانات', code: 'BQM305', credits: 4 }, { name: 'إدارة المشاريع', code: 'BQM304', credits: 4 }, { name: 'ريادة الأعمال وادارة الشركات', code: 'BMN308', credits: 4 }, { name: 'تقييم المشاريع ودراسة الجدوى', code: 'BAC303', credits: 4 }, { name: 'المسؤولية الاجتماعية للشركات', code: 'BMN309', credits: 4 }, { name: 'المشروع', code: 'IPM405', credits: 12 } ]
         };
-
-        function initializeGpaCalculator() {
-            const gpaTab = document.getElementById('tab4');
-            const programRadios = gpaTab.querySelectorAll('.gpa-program-radio');
-            const coursesListDiv = gpaTab.querySelector('#gpa-courses-list');
-            const calculateBtn = gpaTab.querySelector('#calculate-btn');
-            const resultsSection = gpaTab.querySelector('#results-section');
-            const resultsOutputDiv = gpaTab.querySelector('#results-output');
-            const errorOutputDiv = gpaTab.querySelector('#error-output');
-            const gpaResultP = gpaTab.querySelector('#gpa-result');
-            const gpaMessageP = gpaTab.querySelector('#gpa-message');
-            const errorMessageP = gpaTab.querySelector('#error-message');
-
-            const createGpaCard = (course) => {
-                const card = document.createElement('div');
-                card.className = 'gpa-card card bg-gray-800 p-4 rounded-xl border-2 border-gray-700 transition-all duration-300 cursor-pointer';
-                card.innerHTML = `
-                    <div class="flex items-start justify-between">
-                        <div class="flex-grow">
-                            <h3 class="font-bold text-lg text-amber-400 mb-1">${course.name}</h3>
-                            <p class="text-gray-400 text-sm">${course.code} (${course.credits} ساعات)</p>
+        
+        // --- GRADE CALCULATOR LOGIC ---
+        const gradeCalculatorHTML = `
+            <div id="tab5" class="tab-content">
+                <div class="bg-gray-800 rounded-2xl shadow-lg p-6 md:p-8 max-w-2xl mx-auto">
+                    <h2 class="text-2xl font-bold text-center text-gray-300 mb-6">حاسبة محصلة مادة</h2>
+                    <div class="space-y-6">
+                        <div>
+                            <label class="flex items-center justify-center cursor-pointer">
+                                <span class="text-lg font-medium text-gray-300 ms-3">مادة عامة</span>
+                                <input type="checkbox" id="is-english-checkbox" class="sr-only peer">
+                                <div class="relative w-14 h-8 bg-gray-600 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-1 after:start-[4px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-pink-600 mx-4"></div>
+                                <span class="text-lg font-medium text-gray-300">لغة إنكليزية</span>
+                            </label>
                         </div>
-                        <input type="checkbox" data-credits="${course.credits}" class="course-checkbox w-5 h-5 text-amber-600 bg-gray-600 border-gray-500 rounded focus:ring-amber-500 ms-2 mt-1 flex-shrink-0">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                            <div>
+                                <label for="assignment-grade" class="block mb-2 text-sm font-medium text-gray-400">علامة الوظيفة (من 100)</label>
+                                <input type="number" id="assignment-grade" min="0" max="100" class="w-full p-3 text-center border bg-gray-700 border-gray-600 rounded-md focus:ring-pink-500 focus:border-pink-500" placeholder="e.g., 85">
+                            </div>
+                            <div>
+                                <label for="exam-grade" class="block mb-2 text-sm font-medium text-gray-400">علامة الامتحان (من 100)</label>
+                                <input type="number" id="exam-grade" min="0" max="100" class="w-full p-3 text-center border bg-gray-700 border-gray-600 rounded-md focus:ring-pink-500 focus:border-pink-500" placeholder="e.g., 70">
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <button id="calculate-grade-btn" class="bg-pink-600 text-white font-bold py-3 px-10 rounded-lg hover:bg-pink-700 focus:outline-none focus:ring-4 focus:ring-pink-300 transition-transform transform hover:scale-105">احسب المحصلة</button>
+                        </div>
                     </div>
-                    <div class="mt-3">
-                        <input type="number" min="58" max="100" placeholder="العلامة" class="course-grade w-full p-2 text-center border bg-gray-700 border-gray-600 rounded-md focus:ring-amber-500 focus:border-amber-500 hidden">
-                    </div>`;
-                
-                const checkbox = card.querySelector('.course-checkbox');
-                const gradeInput = card.querySelector('.course-grade');
+                    <div id="grade-result-section" class="hidden mt-8"></div>
+                </div>
+            </div>`;
 
-                card.addEventListener('click', (e) => {
-                    if (e.target !== checkbox && e.target !== gradeInput) {
-                        checkbox.checked = !checkbox.checked;
-                        checkbox.dispatchEvent(new Event('change'));
-                    }
-                });
+        function initializeGradeCalculator() {
+            const isEnglishCheckbox = document.getElementById('is-english-checkbox');
+            const assignmentInput = document.getElementById('assignment-grade');
+            const examInput = document.getElementById('exam-grade');
+            const calculateBtn = document.getElementById('calculate-grade-btn');
+            const resultSection = document.getElementById('grade-result-section');
 
-                checkbox.addEventListener('change', () => {
-                    if (checkbox.checked) {
-                        card.classList.add('selected');
-                        gradeInput.classList.remove('hidden');
-                    } else {
-                        card.classList.remove('selected');
-                        gradeInput.classList.add('hidden');
-                        gradeInput.value = '';
-                    }
-                });
-                return card;
-            };
+            calculateBtn.addEventListener('click', () => {
+                const assignmentGrade = parseFloat(assignmentInput.value);
+                const examGrade = parseFloat(examInput.value);
+                const isEnglish = isEnglishCheckbox.checked;
 
-            function populateCourses(programKey) {
-                coursesListDiv.innerHTML = '';
-                const courses = gpaCoursesData[programKey];
-                if (!courses) return;
-                courses.forEach(course => {
-                    coursesListDiv.appendChild(createGpaCard(course));
-                });
-            }
-            
-            function hideMessages() {
-                resultsSection.classList.add('hidden');
-                resultsOutputDiv.classList.add('hidden');
-                errorOutputDiv.classList.add('hidden');
-            }
-
-            function calculateGPA() {
-                hideMessages();
-                let totalCredits = 0, totalPoints = 0, hasError = false, courseSelected = false;
-                
-                coursesListDiv.querySelectorAll('.gpa-card').forEach(card => {
-                    const checkbox = card.querySelector('.course-checkbox');
-                    if (checkbox.checked) {
-                        courseSelected = true;
-                        const gradeInput = card.querySelector('.course-grade');
-                        const grade = parseFloat(gradeInput.value);
-                        const credits = parseFloat(checkbox.dataset.credits);
-                        if (isNaN(grade) || grade < 58 || grade > 100) {
-                            errorMessageP.textContent = 'الرجاء إدخال علامات صحيحة (بين 58 و 100).';
-                            hasError = true;
-                            gradeInput.classList.add('border-red-500');
-                        } else {
-                            gradeInput.classList.remove('border-red-500');
-                            totalCredits += credits;
-                            totalPoints += grade * credits;
-                        }
-                    }
-                });
-
-                resultsSection.classList.remove('hidden');
-                if (hasError) { errorOutputDiv.classList.remove('hidden'); resultsOutputDiv.classList.add('hidden'); return; }
-                if (!courseSelected) {
-                    errorMessageP.textContent = 'الرجاء تحديد مادة واحدة على الأقل.';
-                    errorOutputDiv.classList.remove('hidden');
-                    resultsOutputDiv.classList.add('hidden');
+                if (isNaN(assignmentGrade) || isNaN(examGrade) || assignmentGrade < 0 || assignmentGrade > 100 || examGrade < 0 || examGrade > 100) {
+                    resultSection.innerHTML = `<div class="result-card bg-red-900/50 text-center p-6 rounded-2xl border-2 border-red-500/30"><p class="text-red-400 font-bold text-lg">الرجاء إدخال علامات صحيحة بين 0 و 100.</p></div>`;
+                    resultSection.classList.remove('hidden');
                     return;
                 }
 
-                const gpa = totalCredits > 0 ? (totalPoints / totalCredits) : 0;
-                resultsOutputDiv.classList.remove('hidden');
-                errorOutputDiv.classList.add('hidden');
-                gpaResultP.textContent = gpa.toFixed(2);
+                let finalGrade, status, reason, colorClass;
 
-                let gpaMessage, msgClass;
-                if (gpa >= 85) { [gpaMessage, msgClass] = ['ممتاز', 'text-purple-400']; }
-                else if (gpa >= 75) { [gpaMessage, msgClass] = ['جيد جداً', 'text-blue-400']; }
-                else if (gpa >= 60) { [gpaMessage, msgClass] = ['جيد', 'text-green-400']; }
-                else { [gpaMessage, msgClass] = ['حظاً أوفر', 'text-orange-400']; }
-                
-                gpaMessageP.textContent = gpaMessage;
-                gpaMessageP.className = `text-xl font-semibold ${msgClass}`;
-                gpaResultP.className = `text-3xl font-bold ${msgClass}`;
-            }
+                if (isEnglish) {
+                    finalGrade = Math.ceil((assignmentGrade * 0.20) + (examGrade * 0.80));
+                    if (examGrade < 40) {
+                        status = 'راسب';
+                        reason = 'علامة الامتحان أقل من 40، وهذا شرط حاسم للنجاح في مواد اللغة الإنكليزية.';
+                        colorClass = 'red';
+                    } else if (finalGrade < 50) {
+                        status = 'راسب';
+                        reason = 'المحصلة النهائية أقل من 50.';
+                        colorClass = 'red';
+                    } else {
+                        status = 'ناجح';
+                        reason = 'لقد حققت شروط النجاح: المحصلة 50 أو أكثر وعلامة الامتحان 40 أو أكثر.';
+                        colorClass = 'green';
+                    }
+                } else {
+                    finalGrade = Math.ceil((assignmentGrade * 0.25) + (examGrade * 0.75));
+                    if (assignmentGrade < 40 || examGrade < 40) {
+                        status = 'راسب';
+                        reason = 'يجب ألا تقل علامة الوظيفة أو الامتحان عن 40.';
+                        colorClass = 'red';
+                    } else if (finalGrade < 58) {
+                        status = 'راسب';
+                        reason = 'المحصلة النهائية أقل من 58.';
+                        colorClass = 'red';
+                    } else if (finalGrade < 60) {
+                        status = 'بحاجة لمساعدة';
+                        reason = 'المحصلة بين 58 و 59، قد تنجح بالاستفادة من علامات المساعدة.';
+                        colorClass = 'yellow';
+                    } else {
+                        status = 'ناجح';
+                        reason = 'لقد حققت جميع شروط النجاح.';
+                        colorClass = 'green';
+                    }
+                }
 
-            function updateSelection() {
-                const selectedProgramKey = gpaTab.querySelector('input[name="program"]:checked').value;
-                populateCourses(selectedProgramKey);
-                hideMessages();
-            }
+                const colorMap = {
+                    red: { bg: 'bg-red-900/50', border: 'border-red-500/30', text: 'text-red-400' },
+                    green: { bg: 'bg-green-900/50', border: 'border-green-500/30', text: 'text-green-400' },
+                    yellow: { bg: 'bg-yellow-900/50', border: 'border-yellow-500/30', text: 'text-yellow-400' },
+                };
 
-            programRadios.forEach(radio => radio.addEventListener('change', updateSelection));
-            calculateBtn.addEventListener('click', calculateGPA);
-            updateSelection();
+                resultSection.innerHTML = `
+                    <div class="result-card ${colorMap[colorClass].bg} text-center p-6 rounded-2xl border-2 ${colorMap[colorClass].border}">
+                        <p class="text-lg text-gray-300 mb-2">المحصلة النهائية:</p>
+                        <p class="text-5xl font-bold ${colorMap[colorClass].text} mb-4">${finalGrade}</p>
+                        <p class="text-2xl font-semibold ${colorMap[colorClass].text} mb-2">${status}</p>
+                        <p class="text-gray-400">${reason}</p>
+                    </div>`;
+                resultSection.classList.remove('hidden');
+            });
         }
-
+        
         // --- MAIN APP LOGIC ---
         document.addEventListener('DOMContentLoaded', () => {
             const mainContent = document.getElementById('main-content');
@@ -355,13 +307,11 @@
                 let contentHtml = `<div id="${tabId}" class="tab-content">`;
                 for (const semesterName in data.semesters) {
                     contentHtml += `<h2 class="semester-title">${semesterName}</h2><div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">`;
-                    // This is a temporary container to parse the HTML and attach events
                     const tempDiv = document.createElement('div');
                     data.semesters[semesterName].forEach(course => {
                         if (tabId === 'tab1') { // Only TIC courses are clickable
                             tempDiv.appendChild(createCard(course, data.colors));
                         } else {
-                            // For other tabs, just render the HTML without event listeners
                             const cardHTML = `
                                 <div class="card bg-gray-800 p-6 rounded-xl border border-gray-700 ${data.colors.card} transition-all duration-300 transform hover:-translate-y-1">
                                     <div><h3 class="font-bold text-xl ${data.colors.text} mb-2">${course.name}</h3><p class="text-gray-400 mb-4">${course.code}</p></div>
@@ -385,9 +335,13 @@
                     mainContent.innerHTML = gpaCalculatorHTML;
                     initializeGpaCalculator();
                     disclaimer.style.display = 'none';
-                } else {
+                } else if (tabId === 'tab5') {
+                    mainContent.innerHTML = gradeCalculatorHTML;
+                    initializeGradeCalculator();
+                    disclaimer.style.display = 'none';
+                }
+                else {
                     mainContent.innerHTML = renderCurriculum(tabId);
-                    // Re-attach event listeners for newly created TIC cards
                     if (tabId === 'tab1') {
                         const data = curriculumData.tab1;
                         const cards = mainContent.querySelectorAll('.card');
@@ -404,7 +358,10 @@
                     disclaimer.style.display = 'block';
                 }
                 
-                mainContent.querySelector('.tab-content').classList.add('active');
+                const contentElement = mainContent.querySelector('.tab-content');
+                if(contentElement) {
+                    contentElement.classList.add('active');
+                }
                 
                 tabs.forEach(tab => {
                     tab.classList.remove('active');
@@ -414,7 +371,7 @@
                 const activeBtn = document.querySelector(`[data-tab="${tabId}"]`);
                 if (activeBtn) {
                     activeBtn.classList.add('active');
-                    const colors = { tab1: '#2563eb', tab2: '#0d9488', tab3: '#7e22ce', tab4: '#d97706' };
+                    const colors = { tab1: '#2563eb', tab2: '#0d9488', tab3: '#7e22ce', tab4: '#d97706', tab5: '#db2777' };
                     activeBtn.style.backgroundColor = colors[tabId];
                 }
             };
