@@ -54,9 +54,9 @@
         .gpa-card.selected { border-color: #f59e0b; transform: translateY(-4px); box-shadow: 0 10px 15px -3px rgba(245, 158, 11, 0.1), 0 4px 6px -2px rgba(245, 158, 11, 0.05); }
         
         /* Modal Styles */
-        #course-modal { backdrop-filter: blur(5px); }
+        #course-modal { transition: opacity 0.3s ease; }
         .modal-content { background-color: var(--bg-secondary); border-color: var(--border-color); animation: zoomIn 0.3s ease-out; }
-        @keyframes zoomIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
+        @keyframes zoomIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
 
         /* Chatbot Styles */
         #faq-chatbot-window { transition: transform 0.3s ease-out, opacity 0.3s ease-out; background-color: var(--bg-secondary); }
@@ -68,9 +68,9 @@
 
     <div class="container mx-auto px-4 py-8 md:py-12">
         <div class="absolute top-5 right-5 z-50">
-            <button id="theme-toggle" class="p-2 rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2" style="background-color: var(--bg-tertiary); border-color: var(--border-color);">
-                <svg id="theme-toggle-dark-icon" class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
-                <svg id="theme-toggle-light-icon" class="hidden w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm-.707 7.072l.707-.707a1 1 0 10-1.414-1.414l-.707.707a1 1 0 101.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path></svg>
+            <button id="theme-toggle" class="p-2 rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 transition-colors" style="background-color: var(--bg-tertiary); border-color: var(--border-color);">
+                <svg id="theme-toggle-dark-icon" class="w-6 h-6 transition-transform duration-300" fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+                <svg id="theme-toggle-light-icon" class="hidden w-6 h-6 transition-transform duration-300" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.25a.75.75 0 01.75.75v2.25a.75.75 0 01-1.5 0V3a.75.75 0 01.75-.75zM7.5 12a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM18.894 6.106a.75.75 0 00-1.06-1.06l-1.591 1.59a.75.75 0 101.06 1.061l1.591-1.59zM21.75 12a.75.75 0 01-.75.75h-2.25a.75.75 0 010-1.5h2.25a.75.75 0 01.75.75zM17.836 17.836a.75.75 0 00-1.06-1.06l-1.59 1.591a.75.75 0 101.06 1.06l1.59-1.591zM12 18a.75.75 0 01.75.75v2.25a.75.75 0 01-1.5 0v-2.25A.75.75 0 0112 18zM7.894 17.836a.75.75 0 00-1.06-1.06l-1.591 1.59a.75.75 0 001.06 1.061l1.591-1.59zM3 12a.75.75 0 01-.75.75H.75a.75.75 0 010-1.5h2.25A.75.75 0 013 12zM6.106 6.106a.75.75 0 00-1.06-1.06l-1.59 1.591a.75.75 0 101.06 1.06l1.59-1.591z"></path></svg>
             </button>
         </div>
         
@@ -99,30 +99,42 @@
     </div>
     
     <!-- Course Details Modal -->
-    <div id="course-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-black/70">
-        <div class="modal-content relative rounded-2xl shadow-2xl w-full max-w-lg mx-auto overflow-hidden text-center">
+    <div id="course-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-black/75 backdrop-blur-sm">
+        <div class="modal-content relative rounded-2xl shadow-2xl w-full max-w-lg mx-auto overflow-hidden">
+            <!-- Accent Bar -->
+            <div id="modal-accent-bar" class="h-2"></div>
+    
             <!-- Close Button -->
-            <button id="modal-close-btn" class="absolute top-4 left-4 text-gray-400 hover:text-white transition-colors rounded-full p-1 focus:outline-none" style="background-color: rgba(255, 255, 255, 0.1);">
+            <button id="modal-close-btn" class="absolute top-4 left-4 text-gray-400 hover:text-white transition-colors rounded-full p-1 focus:outline-none" style="background-color: var(--bg-tertiary);">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
             </button>
             
             <!-- Modal Header -->
-            <div class="pt-8 px-6">
-                <h3 id="modal-title" class="text-2xl font-bold"></h3>
-                <p id="modal-code" class="mt-1 text-sm" style="color: var(--text-tertiary);"></p>
+            <div class="pt-8 px-8 text-right">
+                <h3 id="modal-title" class="text-3xl font-bold"></h3>
+                <p id="modal-code" class="mt-1 text-base" style="color: var(--text-tertiary);"></p>
             </div>
             
             <!-- Modal Body -->
-            <div class="p-6">
-                <p id="modal-description" class="leading-relaxed text-center" style="color: var(--text-secondary);"></p>
-            </div>
-
-            <!-- Modal Footer / Action Button -->
-            <div class="px-6 pb-8">
-                <a id="modal-telegram-link" href="#" target="_blank" rel="noopener noreferrer" class="flex items-center justify-center w-full text-center bg-blue-600 text-white font-bold py-3 px-6 rounded-lg hover:bg-blue-700 transition-all duration-300 shadow-lg shadow-blue-500/30">
-                    <svg class="w-5 h-5 me-2" fill="currentColor" viewBox="0 0 24 24"><path d="M9.78 18.65l.28-4.23 7.68-6.92c.34-.31-.07-.46-.52-.19L7.74 13.3 3.64 12c-.88-.25-.89-.86.2-1.3l15.97-6.16c.73-.33 1.43.18 1.15 1.3l-2.72 12.57c-.28 1.13-1.04 1.4-1.74.88L14.25 16l-2.45 2.22c-.28.27-.5.4-.86.4z"/></svg>
-                    <span>الانضمام لمجموعة المادة</span>
-                </a>
+            <div class="p-8 text-right space-y-6">
+                <p id="modal-description" class="leading-relaxed" style="color: var(--text-secondary);"></p>
+                
+                <div id="modal-details-grid" class="grid grid-cols-2 gap-4 text-center border-t pt-6" style="border-color: var(--border-color);">
+                    <div>
+                        <p class="text-sm font-bold" style="color: var(--text-tertiary);">الساعات المعتمدة</p>
+                        <p id="modal-credits" class="text-2xl font-bold mt-1"></p>
+                    </div>
+                    <div id="modal-telegram-container" class="hidden">
+                        <p class="text-sm font-bold" style="color: var(--text-tertiary);">المجموعة</p>
+                        <a id="modal-telegram-link" href="#" target="_blank" rel="noopener noreferrer" class="inline-block mt-2 bg-blue-600 text-white p-2 rounded-full hover:bg-blue-700 transition-all duration-300 shadow-lg shadow-blue-500/30">
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M9.78 18.65l.28-4.23 7.68-6.92c.34-.31-.07-.46-.52-.19L7.74 13.3 3.64 12c-.88-.25-.89-.86.2-1.3l15.97-6.16c.73-.33 1.43.18 1.15 1.3l-2.72 12.57c-.28 1.13-1.04 1.4-1.74.88L14.25 16l-2.45 2.22c-.28.27-.5.4-.86.4z"/></svg>
+                        </a>
+                    </div>
+                    <div>
+                        <p class="text-sm font-bold" style="color: var(--text-tertiary);">الأسبقيات</p>
+                        <p id="modal-prerequisites" class="text-lg font-semibold mt-2"></p>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -155,10 +167,10 @@
         const curriculumData = {
             tab1: { // TIC
                 semesters: {
-                    'الفصل الأول': [ { name: 'مهارات الحاسوب', code: 'GBS101', crd: 4, pre: 'لا يوجد', description: 'يقدم هذا المقرر المهارات الأساسية لاستخدام الحاسوب وتطبيقاته المكتبية بكفاءة، بما يعادل شهادة (ICDL). ستتعلم استخدام معالجات النصوص، جداول البيانات، وقواعد البيانات، وهي أدوات أساسية لأي متخصص.', telegramLink: '#' }, { name: 'مقدمة في التعلم الإلكتروني', code: 'GBS103', crd: 4, pre: 'لا يوجد', description: 'صُمم هذا المقرر لتعريفك بآليات الدراسة في البيئة الافتراضية للجامعة. ستتعلم كيفية استخدام المنصات التعليمية بفعالية، وأفضل أساليب إدارة الوقت والتواصل الأكاديمي عبر الإنترنت.', telegramLink: '#' }, { name: 'التحليل الرياضي', code: 'GMA101', crd: 4, pre: 'لا يوجد', description: 'يغطي المقرر المفاهيم الرياضية الأساسية التي تعتبر ضرورية لدراسة علوم الحاسوب، مثل التوابع والمتتاليات والتفاضل والتكامل، والتي تساهم في تطوير القدرة على التفكير المنطقي وحل المشكلات.', telegramLink: '#' }, { name: 'مقدمة في البرمجة', code: 'IPG101', crd: 5, pre: 'لا يوجد', description: 'يركز هذا المقرر على المبادئ الأساسية للبرمجة والتفكير المنطقي. ستتعلم فيه كيفية تحليل المشكلات، تصميم الخوارزميات، وكتابة برامجك الأولى باستخدام لغة C#. الهدف هو بناء أساس برمجي متين للمقررات المتقدمة.', telegramLink: '#' }, { name: 'مقدمة في نمذجة المعطيات', code: 'IIS101', crd: 4, pre: 'لا يوجد', description: 'يتناول المقرر المفاهيم الأولية لتصميم قواعد البيانات. ستتعلم كيفية تحليل متطلبات البيانات وتصميم نماذج منطقية لها، مما يمثل الخطوة الأولى والأساسية في بناء أي نظام معلوماتي.', telegramLink: '#' }, { name: 'تقانات التجارة الإلكترونية', code: 'IWB101', crd: 5, pre: 'لا يوجد', description: 'يقدم هذا المقرر نظرة عامة على المفاهيم والتقنيات المستخدمة في عالم التجارة الإلكترونية، بما في ذلك نماذج الأعمال المختلفة، وأساليب التسويق الرقمي، وآليات الدفع عبر الإنترنت.', telegramLink: '#' }, ],
-                    'الفصل الثاني': [ { name: 'البرمجة الإجرائية', code: 'IPG202', crd: 5, pre: 'IPG101', description: 'يعلمك هذا المقرر أساليب تنظيم الشيفرة البرمجية في البرامج الكبيرة عبر تقسيمها إلى وحدات وظيفية أصغر (إجراءات وتوابع)، مما يجعل الكود أكثر قابلية للقراءة والصيانة.', telegramLink: '#' }, { name: 'مقدمة في الشبكات', code: 'INT101', crd: 5, pre: 'GBS101', description: 'ستتعلم في هذا المقرر أساسيات شبكات الحاسوب، بما في ذلك أنواع الشبكات، ومكوناتها، والبروتوكولات الأساسية مثل (TCP/IP) التي تنظم عملية الاتصال ونقل البيانات بين الأجهزة.', telegramLink: '#' }, { name: 'مقدمة في نظم التشغيل', code: 'IOS101', crd: 5, pre: 'GBS101', description: 'يستعرض المقرر المكونات والوظائف الأساسية لأنظمة التشغيل، مثل إدارة الذاكرة، والعمليات، ونظام الملفات. الهدف هو فهم كيفية إدارة نظام التشغيل لموارد الحاسوب ليسمح للبرامج بالعمل بكفاءة.', telegramLink: '#' }, { name: 'إلكترونيات رقمية', code: 'GDE101', crd: 5, pre: 'لا يوجد', description: 'يتناول هذا المقرر المبادئ الأساسية للدوائر والأنظمة الرقمية، بما في ذلك البوابات المنطقية وأنظمة العد. الهدف هو فهم كيفية عمل المكونات الإلكترونية الدقيقة التي تشكل أساس بناء أجهزة الحاسوب.', telegramLink: '#' }, { name: 'تصميم وبنيان قواعد المعطيات', code: 'IIS201', crd: 5, pre: 'IIS101', description: 'ستتعمق في هذا المقرر في الجوانب المتقدمة لتصميم قواعد البيانات العلائقية، وكيفية تطبيق قواعد التسوية (Normalization) لضمان سلامة البيانات، بالإضافة إلى ترجمة التصاميم إلى جداول فعلية باستخدام لغة SQL.', telegramLink: '#' }, { name: 'لغة إنكليزية - مستوى أول', code: 'Eng1', crd: 3, pre: 'لا يوجد', description: 'يركز هذا المقرر على بناء أساس متين في اللغة الإنجليزية، حيث يغطي القواعد والمفردات الأساسية اللازمة لفهم النصوص التقنية البسيطة والتواصل بشكل فعال في بيئة العمل الأولية.', telegramLink: '#' }, ],
-                    'الفصل الثالث': [ { name: 'تحضير السيرة المهنية', code: 'GBS102', crd: 3, pre: 'لا يوجد', description: 'يهدف المقرر إلى تزويدك بالمهارات اللازمة لدخول سوق العمل. ستتعلم التقنيات الصحيحة لكتابة السيرة الذاتية ورسائل التقديم، بالإضافة إلى استراتيجيات التحضير لمقابلات العمل وكيفية عرض مهاراتك بفعالية.', telegramLink: '#' }, { name: 'تصميم وتطوير تطبيقات الويب', code: 'IWB201', crd: 6, pre: 'IWB101/IIS101', description: 'يغطي المقرر دورة حياة تطوير تطبيقات الويب التفاعلية. ستتعلم تقنيات برمجة الواجهات الأمامية (Front-end) التي يراها المستخدم، وتقنيات برمجة الخادم (Back-end) التي تعالج البيانات والمنطق.', telegramLink: '#' }, { name: 'نظم التشغيل الشبكية', code: 'IOS201', crd: 6, pre: 'IOS101/INT101', description: 'يتناول المقرر أنظمة التشغيل المصممة لإدارة موارد الشبكة والخوادم. ستتعلم كيفية إعداد الخدمات الشبكية، إدارة المستخدمين والصلاحيات، وتأمين البيئات الشبكية.', telegramLink: '#' }, { name: 'البرمجة المقادة بالأحداث', code: 'IPG201', crd: 6, pre: 'IPG101', description: 'يركز المقرر على تطوير تطبيقات ذات واجهات مستخدم رسومية (GUI). ستتعلم كيفية تصميم النوافذ والأزرار والقوائم، وبرمجة استجابة التطبيق لتفاعلات المستخدم مثل نقرات الفأرة أو إدخال النص.', telegramLink: '#' }, { name: 'التصميم والبرمجة غرضية التوجه', code: 'IPG203', crd: 6, pre: 'IPG101', description: 'يقدم هذا المقرر منهجية البرمجة كائنية التوجه (OOP)، وهي طريقة متقدمة لتصميم البرمجيات تقوم على محاكاة الكائنات الواقعية. ستتعلم مفاهيم مثل الأصناف، الكائنات، والوراثة لبناء برامج مرنة وقابلة للتوسعة.', telegramLink: '#' }, { name: 'البرمجة المتقدمة بلغة SQL', code: 'IIS202', crd: 6, pre: 'IIS101', description: 'يهدف المقرر إلى تعميق معرفتك بلغة SQL، حيث ستتعلم كيفية كتابة استعلامات معقدة، واستخدام الوظائف المتقدمة، والإجراءات المخزنة لمعالجة البيانات وتحليلها بكفاءة عالية.', telegramLink: '#' }, { name: 'لغة إنكليزية - مستوى ثاني', code: 'Eng2', crd: 3, pre: 'Eng1', description: 'يبني هذا المقرر على مكتسبات المستوى الأول، حيث يتناول تراكيب لغوية أكثر تعقيدًا ومصطلحات تقنية متخصصة في مجال تكنولوجيا المعلومات، بهدف تحسين قدرة الطالب على فهم المقالات التقنية وكتابة التقارير.', telegramLink: '#' }, ],
-                    'الفصل الرابع': [ { name: 'منصة ويندوز', code: 'IOS202', crd: 5, pre: 'IOS101/INT101/ENG3', description: 'يركز هذا المقرر على إدارة بيئات العمل والخوادم التي تعمل بنظام تشغيل Windows Server. ستكتسب مهارات عملية في إدارة الشبكات، المستخدمين، والخدمات الأساسية في بيئة ويندوز.', telegramLink: '#' }, { name: 'منصة لينوكس', code: 'IOS203', crd: 6, pre: 'IOS101/INT101/ENG3', description: 'ستتعلم في هذا المقرر أساسيات إدارة أنظمة التشغيل المستندة إلى Linux، بما في ذلك التعامل مع سطر الأوامر، إدارة الملفات والصلاحيات، وتثبيت البرامج، وهي مهارات أساسية للعمل مع الخوادم.', telegramLink: '#' }, { name: 'إدارة قواعد بيانات MS SQL Server', code: 'IIS303', crd: 6, pre: 'IIS201/IIS202/ENG3', description: 'يوفر هذا المقرر المهارات اللازمة لإدارة وصيانة أنظمة قواعد بيانات Microsoft SQL Server. ستغطي موضوعات مثل التثبيت، النسخ الاحتياطي والاستعادة، مراقبة الأداء، وتطبيق سياسات الأمان.', telegramLink: '#' }, { name: 'إدارة قواعد بيانات Oracle', code: 'IIS203', crd: 6, pre: 'IIS201/IIS202/ENG3', description: 'يركز المقرر على إدارة أنظمة قواعد بيانات Oracle، التي تستخدم على نطاق واسع في المؤسسات الكبرى. ستتعلم بنيتها المعمارية، وأدوات إدارتها، وكيفية تنفيذ مهام الصيانة والأمان الأساسية.', telegramLink: '#' }, { name: 'برمجة التطبيقات النقالة', code: 'IPG204', crd: 6, pre: 'IWB201', description: 'يقدم المقرر المفاهيم الأساسية لتطوير التطبيقات على الهواتف المحمولة. ستتعرف على خصائص بيئات الموبايل المختلفة، ودورة حياة التطبيق، وكيفية تصميم واجهات مستخدم مناسبة للشاشات الصغيرة.', telegramLink: '#' }, { name: 'مشروع', code: 'IPI201', crd: 12, pre: 'ENG3/IIS201/IWB201', description: 'في هذا المقرر التطبيقي، ستقوم بتوظيف جميع المهارات والمعارف التي اكتسبتها خلال دراستك لتطوير مشروع برمجي متكامل. ستمر بكافة مراحل تطوير البرمجيات، بدءًا من التحليل ووضع المتطلبات، وصولًا إلى التصميم والتنفيذ والاختبار، مما يمنحك خبرة عملية تحاكي بيئة العمل الحقيقية سواء قمت بتصميم موقع وب او تطبيق موبايل او تطبيق ديسكتوب....الخ', telegramLink: '#' }, { name: 'لغة إنكليزية - مستوى ثالث', code: 'Eng3', crd: 3, pre: 'Eng2', description: 'يهدف المقرر إلى الوصول بالطالب إلى مستوى متقدم من الكفاءة اللغوية، حيث يتم التدرب على فهم الوثائق التقنية المعقدة، والمشاركة في النقاشات التخصصية، وكتابة المراسلات والتقارير المهنية.', telegramLink: '#' }, ],
+                    'الفصل الأول': [ { name: 'مهارات الحاسوب', code: 'GBS101', crd: 4, pre: 'لا يوجد', description: 'يقدم هذا المقرر المهارات الأساسية لاستخدام الحاسوب وتطبيقاته المكتبية بكفاءة، بما يعادل شهادة (ICDL). ستتعلم استخدام معالجات النصوص، جداول البيانات، وقواعد البيانات، وهي أدوات أساسية لأي متخصص.', telegramLink: 'https://t.me/example' }, { name: 'مقدمة في التعلم الإلكتروني', code: 'GBS103', crd: 4, pre: 'لا يوجد', description: 'صُمم هذا المقرر لتعريفك بآليات الدراسة في البيئة الافتراضية للجامعة. ستتعلم كيفية استخدام المنصات التعليمية بفعالية، وأفضل أساليب إدارة الوقت والتواصل الأكاديمي عبر الإنترنت.', telegramLink: 'https://t.me/example' }, { name: 'التحليل الرياضي', code: 'GMA101', crd: 4, pre: 'لا يوجد', description: 'يغطي المقرر المفاهيم الرياضية الأساسية التي تعتبر ضرورية لدراسة علوم الحاسوب، مثل التوابع والمتتاليات والتفاضل والتكامل، والتي تساهم في تطوير القدرة على التفكير المنطقي وحل المشكلات.', telegramLink: 'https://t.me/example' }, { name: 'مقدمة في البرمجة', code: 'IPG101', crd: 5, pre: 'لا يوجد', description: 'يركز هذا المقرر على المبادئ الأساسية للبرمجة والتفكير المنطقي. ستتعلم فيه كيفية تحليل المشكلات، تصميم الخوارزميات، وكتابة برامجك الأولى باستخدام لغة C#. الهدف هو بناء أساس برمجي متين للمقررات المتقدمة.', telegramLink: 'https://t.me/example' }, { name: 'مقدمة في نمذجة المعطيات', code: 'IIS101', crd: 4, pre: 'لا يوجد', description: 'يتناول المقرر المفاهيم الأولية لتصميم قواعد البيانات. ستتعلم كيفية تحليل متطلبات البيانات وتصميم نماذج منطقية لها، مما يمثل الخطوة الأولى والأساسية في بناء أي نظام معلوماتي.', telegramLink: 'https://t.me/example' }, { name: 'تقانات التجارة الإلكترونية', code: 'IWB101', crd: 5, pre: 'لا يوجد', description: 'يقدم هذا المقرر نظرة عامة على المفاهيم والتقنيات المستخدمة في عالم التجارة الإلكترونية، بما في ذلك نماذج الأعمال المختلفة، وأساليب التسويق الرقمي، وآليات الدفع عبر الإنترنت.', telegramLink: 'https://t.me/example' }, ],
+                    'الفصل الثاني': [ { name: 'البرمجة الإجرائية', code: 'IPG202', crd: 5, pre: 'IPG101', description: 'يعلمك هذا المقرر أساليب تنظيم الشيفرة البرمجية في البرامج الكبيرة عبر تقسيمها إلى وحدات وظيفية أصغر (إجراءات وتوابع)، مما يجعل الكود أكثر قابلية للقراءة والصيانة.', telegramLink: 'https://t.me/example' }, { name: 'مقدمة في الشبكات', code: 'INT101', crd: 5, pre: 'GBS101', description: 'ستتعلم في هذا المقرر أساسيات شبكات الحاسوب، بما في ذلك أنواع الشبكات، ومكوناتها، والبروتوكولات الأساسية مثل (TCP/IP) التي تنظم عملية الاتصال ونقل البيانات بين الأجهزة.', telegramLink: 'https://t.me/example' }, { name: 'مقدمة في نظم التشغيل', code: 'IOS101', crd: 5, pre: 'GBS101', description: 'يستعرض المقرر المكونات والوظائف الأساسية لأنظمة التشغيل، مثل إدارة الذاكرة، والعمليات، ونظام الملفات. الهدف هو فهم كيفية إدارة نظام التشغيل لموارد الحاسوب ليسمح للبرامج بالعمل بكفاءة.', telegramLink: 'https://t.me/example' }, { name: 'إلكترونيات رقمية', code: 'GDE101', crd: 5, pre: 'لا يوجد', description: 'يتناول هذا المقرر المبادئ الأساسية للدوائر والأنظمة الرقمية، بما في ذلك البوابات المنطقية وأنظمة العد. الهدف هو فهم كيفية عمل المكونات الإلكترونية الدقيقة التي تشكل أساس بناء أجهزة الحاسوب.', telegramLink: 'https://t.me/example' }, { name: 'تصميم وبنيان قواعد المعطيات', code: 'IIS201', crd: 5, pre: 'IIS101', description: 'ستتعمق في هذا المقرر في الجوانب المتقدمة لتصميم قواعد البيانات العلائقية، وكيفية تطبيق قواعد التسوية (Normalization) لضمان سلامة البيانات، بالإضافة إلى ترجمة التصاميم إلى جداول فعلية باستخدام لغة SQL.', telegramLink: 'https://t.me/example' }, { name: 'لغة إنكليزية - مستوى أول', code: 'Eng1', crd: 3, pre: 'لا يوجد', description: 'يركز هذا المقرر على بناء أساس متين في اللغة الإنجليزية، حيث يغطي القواعد والمفردات الأساسية اللازمة لفهم النصوص التقنية البسيطة والتواصل بشكل فعال في بيئة العمل الأولية.', telegramLink: 'https://t.me/example' }, ],
+                    'الفصل الثالث': [ { name: 'تحضير السيرة المهنية', code: 'GBS102', crd: 3, pre: 'لا يوجد', description: 'يهدف المقرر إلى تزويدك بالمهارات اللازمة لدخول سوق العمل. ستتعلم التقنيات الصحيحة لكتابة السيرة الذاتية ورسائل التقديم، بالإضافة إلى استراتيجيات التحضير لمقابلات العمل وكيفية عرض مهاراتك بفعالية.', telegramLink: 'https://t.me/example' }, { name: 'تصميم وتطوير تطبيقات الويب', code: 'IWB201', crd: 6, pre: 'IWB101/IIS101', description: 'يغطي المقرر دورة حياة تطوير تطبيقات الويب التفاعلية. ستتعلم تقنيات برمجة الواجهات الأمامية (Front-end) التي يراها المستخدم، وتقنيات برمجة الخادم (Back-end) التي تعالج البيانات والمنطق.', telegramLink: 'https://t.me/example' }, { name: 'نظم التشغيل الشبكية', code: 'IOS201', crd: 6, pre: 'IOS101/INT101', description: 'يتناول المقرر أنظمة التشغيل المصممة لإدارة موارد الشبكة والخوادم. ستتعلم كيفية إعداد الخدمات الشبكية، إدارة المستخدمين والصلاحيات، وتأمين البيئات الشبكية.', telegramLink: 'https://t.me/example' }, { name: 'البرمجة المقادة بالأحداث', code: 'IPG201', crd: 6, pre: 'IPG101', description: 'يركز المقرر على تطوير تطبيقات ذات واجهات مستخدم رسومية (GUI). ستتعلم كيفية تصميم النوافذ والأزرار والقوائم، وبرمجة استجابة التطبيق لتفاعلات المستخدم مثل نقرات الفأرة أو إدخال النص.', telegramLink: 'https://t.me/example' }, { name: 'التصميم والبرمجة غرضية التوجه', code: 'IPG203', crd: 6, pre: 'IPG101', description: 'يقدم هذا المقرر منهجية البرمجة كائنية التوجه (OOP)، وهي طريقة متقدمة لتصميم البرمجيات تقوم على محاكاة الكائنات الواقعية. ستتعلم مفاهيم مثل الأصناف، الكائنات، والوراثة لبناء برامج مرنة وقابلة للتوسعة.', telegramLink: 'https://t.me/example' }, { name: 'البرمجة المتقدمة بلغة SQL', code: 'IIS202', crd: 6, pre: 'IIS101', description: 'يهدف المقرر إلى تعميق معرفتك بلغة SQL، حيث ستتعلم كيفية كتابة استعلامات معقدة، واستخدام الوظائف المتقدمة، والإجراءات المخزنة لمعالجة البيانات وتحليلها بكفاءة عالية.', telegramLink: 'https://t.me/example' }, { name: 'لغة إنكليزية - مستوى ثاني', code: 'Eng2', crd: 3, pre: 'Eng1', description: 'يبني هذا المقرر على مكتسبات المستوى الأول، حيث يتناول تراكيب لغوية أكثر تعقيدًا ومصطلحات تقنية متخصصة في مجال تكنولوجيا المعلومات، بهدف تحسين قدرة الطالب على فهم المقالات التقنية وكتابة التقارير.', telegramLink: 'https://t.me/example' }, ],
+                    'الفصل الرابع': [ { name: 'منصة ويندوز', code: 'IOS202', crd: 5, pre: 'IOS101/INT101/ENG3', description: 'يركز هذا المقرر على إدارة بيئات العمل والخوادم التي تعمل بنظام تشغيل Windows Server. ستكتسب مهارات عملية في إدارة الشبكات، المستخدمين، والخدمات الأساسية في بيئة ويندوز.', telegramLink: 'https://t.me/example' }, { name: 'منصة لينوكس', code: 'IOS203', crd: 6, pre: 'IOS101/INT101/ENG3', description: 'ستتعلم في هذا المقرر أساسيات إدارة أنظمة التشغيل المستندة إلى Linux، بما في ذلك التعامل مع سطر الأوامر، إدارة الملفات والصلاحيات، وتثبيت البرامج، وهي مهارات أساسية للعمل مع الخوادم.', telegramLink: 'https://t.me/example' }, { name: 'إدارة قواعد بيانات MS SQL Server', code: 'IIS303', crd: 6, pre: 'IIS201/IIS202/ENG3', description: 'يوفر هذا المقرر المهارات اللازمة لإدارة وصيانة أنظمة قواعد بيانات Microsoft SQL Server. ستغطي موضوعات مثل التثبيت، النسخ الاحتياطي والاستعادة، مراقبة الأداء، وتطبيق سياسات الأمان.', telegramLink: 'https://t.me/example' }, { name: 'إدارة قواعد بيانات Oracle', code: 'IIS203', crd: 6, pre: 'IIS201/IIS202/ENG3', description: 'يركز المقرر على إدارة أنظمة قواعد بيانات Oracle، التي تستخدم على نطاق واسع في المؤسسات الكبرى. ستتعلم بنيتها المعمارية، وأدوات إدارتها، وكيفية تنفيذ مهام الصيانة والأمان الأساسية.', telegramLink: 'https://t.me/example' }, { name: 'برمجة التطبيقات النقالة', code: 'IPG204', crd: 6, pre: 'IWB201', description: 'يقدم المقرر المفاهيم الأساسية لتطوير التطبيقات على الهواتف المحمولة. ستتعرف على خصائص بيئات الموبايل المختلفة، ودورة حياة التطبيق، وكيفية تصميم واجهات مستخدم مناسبة للشاشات الصغيرة.', telegramLink: 'https://t.me/example' }, { name: 'مشروع', code: 'IPI201', crd: 12, pre: 'ENG3/IIS201/IWB201', description: 'في هذا المقرر التطبيقي، ستقوم بتوظيف جميع المهارات والمعارف التي اكتسبتها خلال دراستك لتطوير مشروع برمجي متكامل. ستمر بكافة مراحل تطوير البرمجيات، بدءًا من التحليل ووضع المتطلبات، وصولًا إلى التصميم والتنفيذ والاختبار، مما يمنحك خبرة عملية تحاكي بيئة العمل الحقيقية سواء قمت بتصميم موقع وب او تطبيق موبايل او تطبيق ديسكتوب....الخ', telegramLink: 'https://t.me/example' }, { name: 'لغة إنكليزية - مستوى ثالث', code: 'Eng3', crd: 3, pre: 'Eng2', description: 'يهدف المقرر إلى الوصول بالطالب إلى مستوى متقدم من الكفاءة اللغوية، حيث يتم التدرب على فهم الوثائق التقنية المعقدة، والمشاركة في النقاشات التخصصية، وكتابة المراسلات والتقارير المهنية.', telegramLink: 'https://t.me/example' }, ],
                 }, colors: { card: 'hover:border-blue-500', text: 'text-blue-400', icon: 'text-blue-400' }
             },
             tab2: { // ISDN Data
@@ -550,19 +562,51 @@
             };
             
             const showModal = (course, tabId) => {
+                // Populate basic info
                 document.getElementById('modal-title').textContent = course.name;
                 document.getElementById('modal-code').textContent = course.code;
                 document.getElementById('modal-description').textContent = course.description;
                 
-                const telegramButton = document.getElementById('modal-telegram-link');
-                const telegramButtonContainer = telegramButton.parentElement; // Get the container div
+                // Populate new details
+                document.getElementById('modal-credits').textContent = course.crd;
+                document.getElementById('modal-prerequisites').textContent = course.pre;
 
-                // Show telegram button only for the 'TIC' tab and if a valid link exists
+                const telegramContainer = document.getElementById('modal-telegram-container');
+                const telegramLink = document.getElementById('modal-telegram-link');
+                const detailsGrid = document.getElementById('modal-details-grid');
+                const accentBar = document.getElementById('modal-accent-bar');
+                const modalTitle = document.getElementById('modal-title');
+                const modalCredits = document.getElementById('modal-credits');
+
+                // Reset classes to avoid conflicts
+                accentBar.className = 'h-2';
+                modalTitle.className = 'text-3xl font-bold';
+                modalCredits.className = 'text-2xl font-bold mt-1';
+                detailsGrid.classList.remove('grid-cols-3');
+                detailsGrid.classList.add('grid-cols-2');
+
+                // Define colors for each tab
+                const tabColors = {
+                    tab1: { accent: 'bg-blue-500', text: 'text-blue-400' },
+                    tab2: { accent: 'bg-teal-500', text: 'text-teal-400' },
+                    tab3: { accent: 'bg-purple-500', text: 'text-purple-400' }
+                };
+
+                // Apply colors if the tab has a defined color scheme
+                if (tabColors[tabId]) {
+                    accentBar.classList.add(tabColors[tabId].accent);
+                    modalTitle.classList.add(tabColors[tabId].text);
+                    modalCredits.classList.add(tabColors[tabId].text);
+                }
+
+                // Show telegram button only for the 'TIC' tab
                 if (tabId === 'tab1' && course.telegramLink && course.telegramLink !== '#') {
-                    telegramButtonContainer.style.display = 'block';
-                    telegramButton.href = course.telegramLink;
+                    telegramContainer.classList.remove('hidden');
+                    telegramLink.href = course.telegramLink;
+                    detailsGrid.classList.remove('grid-cols-2');
+                    detailsGrid.classList.add('grid-cols-3');
                 } else {
-                    telegramButtonContainer.style.display = 'none';
+                    telegramContainer.classList.add('hidden');
                 }
                 
                 modal.classList.remove('hidden');
