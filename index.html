@@ -9,51 +9,87 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Cairo', sans-serif; }
+        :root {
+            --bg-primary: #f3f4f6; /* gray-100 */
+            --bg-secondary: #ffffff; /* white */
+            --bg-tertiary: #e5e7eb; /* gray-200 */
+            --bg-hover: #d1d5db; /* gray-300 */
+            --text-primary: #1f2937; /* gray-800 */
+            --text-secondary: #4b5563; /* gray-600 */
+            --text-tertiary: #6b7280; /* gray-500 */
+            --border-color: #d1d5db; /* gray-300 */
+        }
+
+        .dark {
+            --bg-primary: #111827; /* gray-900 */
+            --bg-secondary: #1f2937; /* gray-800 */
+            --bg-tertiary: #374151; /* gray-700 */
+            --bg-hover: #4b5563; /* gray-600 */
+            --text-primary: #f9fafb; /* gray-50 */
+            --text-secondary: #d1d5db; /* gray-300 */
+            --text-tertiary: #9ca3af; /* gray-400 */
+            --border-color: #4b5563; /* gray-600 */
+        }
+
+        body { 
+            font-family: 'Cairo', sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            transition: background-color 0.3s, color 0.3s;
+        }
         .tab-content { display: none; }
         .tab-content.active { display: block; animation: fadeIn 0.5s ease-in-out; }
+        .tab-btn { color: var(--text-secondary); }
+        .tab-btn:hover { background-color: var(--bg-tertiary); }
         .tab-btn.active { color: white; box-shadow: 0 4px 14px 0 rgba(0, 0, 0, 0.2); }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        .semester-title { font-size: 1.75rem; font-weight: 700; margin-bottom: 1.5rem; margin-top: 2rem; padding-bottom: 0.5rem; border-bottom: 2px solid #374151; }
+        .semester-title { font-size: 1.75rem; font-weight: 700; margin-bottom: 1.5rem; margin-top: 2rem; padding-bottom: 0.5rem; border-bottom: 2px solid var(--bg-tertiary); }
         #tab1 .semester-title { color: #60a5fa; } /* blue-400 */
         #tab2 .semester-title { color: #2dd4bf; } /* teal-400 */
         #tab3 .semester-title { color: #c084fc; } /* purple-400 */
         #tab4 .semester-title { color: #f59e0b; } /* amber-500 */
         .grid { display: grid; align-items: stretch; }
-        .card { display: flex; flex-direction: column; justify-content: space-between; }
+        .card { display: flex; flex-direction: column; justify-content: space-between; background-color: var(--bg-secondary); border-color: var(--bg-tertiary); transition: all 0.3s ease; }
         .result-card { transition: all 0.4s ease-in-out; }
         .gpa-card.selected { border-color: #f59e0b; transform: translateY(-4px); box-shadow: 0 10px 15px -3px rgba(245, 158, 11, 0.1), 0 4px 6px -2px rgba(245, 158, 11, 0.05); }
         
         /* Modal Styles */
         #course-modal { backdrop-filter: blur(5px); }
-        #course-modal .modal-content { animation: zoomIn 0.3s ease-out; }
+        .modal-content { background-color: var(--bg-secondary); border-color: var(--border-color); animation: zoomIn 0.3s ease-out; }
         @keyframes zoomIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
 
         /* Chatbot Styles */
-        #faq-chatbot-window { transition: transform 0.3s ease-out, opacity 0.3s ease-out; }
-        .faq-question { transition: background-color 0.2s; }
+        #faq-chatbot-window { transition: transform 0.3s ease-out, opacity 0.3s ease-out; background-color: var(--bg-secondary); }
+        .faq-question { transition: background-color 0.2s; background-color: var(--bg-tertiary); }
+        .faq-question:hover { background-color: rgba(79, 70, 229, 0.2); }
     </style>
 </head>
-<body class="bg-gray-900 text-white selection:bg-blue-500 selection:text-white">
+<body>
 
     <div class="container mx-auto px-4 py-8 md:py-12">
+        <div class="absolute top-5 right-5 z-50">
+            <button id="theme-toggle" class="p-2 rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2" style="background-color: var(--bg-tertiary); border-color: var(--border-color);">
+                <svg id="theme-toggle-dark-icon" class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+                <svg id="theme-toggle-light-icon" class="hidden w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm-.707 7.072l.707-.707a1 1 0 10-1.414-1.414l-.707.707a1 1 0 101.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path></svg>
+            </button>
+        </div>
         
         <header class="text-center mb-10">
             <h1 class="text-4xl md:text-5xl font-bold mb-2 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-teal-400 to-purple-400 pt-2">المقررات الدراسية</h1>
-            <p class="text-lg text-gray-400">في المعهد التقاني للحاسوب TIC ومسارات الترقية بعده للـ BAIT</p>
+            <p class="text-lg" style="color: var(--text-secondary);">في المعهد التقاني للحاسوب TIC ومسارات الترقية بعده للـ BAIT</p>
         </header>
 
-        <div class="flex flex-col sm:flex-row justify-center items-center gap-2 md:gap-4 mb-8 p-2 bg-gray-800/50 rounded-xl max-w-5xl mx-auto">
-            <button data-tab="tab1" class="tab-btn w-full sm:w-auto flex-1 text-gray-300 font-semibold py-3 px-6 rounded-lg transition-all duration-300 ease-in-out hover:bg-gray-700">TIC</button>
-            <button data-tab="tab2" class="tab-btn w-full sm:w-auto flex-1 text-gray-300 font-semibold py-3 px-6 rounded-lg transition-all duration-300 ease-in-out hover:bg-gray-700">ترقية (ISDN)</button>
-            <button data-tab="tab3" class="tab-btn w-full sm:w-auto flex-1 text-gray-300 font-semibold py-3 px-6 rounded-lg transition-all duration-300 ease-in-out hover:bg-gray-700">ترقية (MIS)</button>
-            <button data-tab="tab4" class="tab-btn w-full sm:w-auto flex-1 text-gray-300 font-semibold py-3 px-6 rounded-lg transition-all duration-300 ease-in-out hover:bg-gray-700">حاسبة المعدل</button>
-            <button data-tab="tab5" class="tab-btn w-full sm:w-auto flex-1 text-gray-300 font-semibold py-3 px-6 rounded-lg transition-all duration-300 ease-in-out hover:bg-gray-700">حاسبة المحصلة</button>
+        <div class="flex flex-col sm:flex-row justify-center items-center gap-2 md:gap-4 mb-8 p-2 rounded-xl max-w-5xl mx-auto" style="background-color: rgba(128, 128, 128, 0.1);">
+            <button data-tab="tab1" class="tab-btn w-full sm:w-auto flex-1 font-semibold py-3 px-6 rounded-lg transition-all duration-300">TIC</button>
+            <button data-tab="tab2" class="tab-btn w-full sm:w-auto flex-1 font-semibold py-3 px-6 rounded-lg transition-all duration-300">ترقية (ISDN)</button>
+            <button data-tab="tab3" class="tab-btn w-full sm:w-auto flex-1 font-semibold py-3 px-6 rounded-lg transition-all duration-300">ترقية (MIS)</button>
+            <button data-tab="tab4" class="tab-btn w-full sm:w-auto flex-1 font-semibold py-3 px-6 rounded-lg transition-all duration-300">حاسبة المعدل</button>
+            <button data-tab="tab5" class="tab-btn w-full sm:w-auto flex-1 font-semibold py-3 px-6 rounded-lg transition-all duration-300">حاسبة المحصلة</button>
         </div>
         
         <div id="disclaimer-note" class="text-center max-w-2xl mx-auto mb-10">
-            <div class="bg-gray-800/60 border border-teal-500/30 rounded-lg p-4">
-                <p class="text-gray-300"><b class="font-bold text-teal-400">ملاحظة:</b> تقسيم المواد على الفصول هو مجرد خطة مقترحة لضمان أفضل مسار تعليمي، ويمكن للطلاب تعديلها بما يتناسب مع ظروفهم الأكاديمية.</p>
+            <div class="border rounded-lg p-4" style="background-color: rgba(45, 212, 191, 0.1); border-color: rgba(45, 212, 191, 0.3);">
+                <p style="color: var(--text-secondary);"><b class="font-bold text-teal-400">ملاحظة:</b> تقسيم المواد على الفصول هو مجرد خطة مقترحة لضمان أفضل مسار تعليمي، ويمكن للطلاب تعديلها بما يتناسب مع ظروفهم الأكاديمية.</p>
             </div>
         </div>
 
@@ -64,19 +100,19 @@
     
     <!-- Course Details Modal -->
     <div id="course-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-black/70">
-        <div class="modal-content relative bg-gray-800 border border-gray-700 rounded-2xl shadow-2xl w-full max-w-lg mx-auto overflow-hidden">
-            <div id="modal-header" class="p-6 bg-gray-900/50">
-                <h3 id="modal-title" class="text-2xl font-bold text-white"></h3>
+        <div class="modal-content relative rounded-2xl shadow-2xl w-full max-w-lg mx-auto overflow-hidden">
+            <div id="modal-header" class="p-6">
+                <h3 id="modal-title" class="text-2xl font-bold"></h3>
                 <p id="modal-code" class="text-gray-400"></p>
             </div>
-            <div class="p-6">
-                <p id="modal-description" class="text-gray-300 leading-relaxed mb-6"></p>
+            <div class="p-6 pt-0">
+                <p id="modal-description" class="leading-relaxed mb-6" style="color: var(--text-secondary);"></p>
                 <a id="modal-telegram-link" href="#" target="_blank" rel="noopener noreferrer" class="flex items-center justify-center w-full text-center bg-blue-600 text-white font-bold py-3 px-6 rounded-lg hover:bg-blue-700 transition-all duration-300 shadow-lg shadow-blue-500/20">
                     <svg class="w-5 h-5 me-2" fill="currentColor" viewBox="0 0 24 24"><path d="M9.78 18.65l.28-4.23 7.68-6.92c.34-.31-.07-.46-.52-.19L7.74 13.3 3.64 12c-.88-.25-.89-.86.2-1.3l15.97-6.16c.73-.33 1.43.18 1.15 1.3l-2.72 12.57c-.28 1.13-1.04 1.4-1.74.88L14.25 16l-2.45 2.22c-.28.27-.5.4-.86.4z"/></svg>
                     <span>الانضمام لمجموعة المادة</span>
                 </a>
             </div>
-             <button id="modal-close-btn" class="absolute top-4 left-4 text-gray-500 hover:text-white transition-colors bg-gray-800/50 rounded-full p-1">
+             <button id="modal-close-btn" class="absolute top-4 left-4 text-gray-500 hover:text-white transition-colors rounded-full p-1" style="background-color: var(--bg-tertiary);">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
             </button>
         </div>
@@ -87,20 +123,20 @@
         <button id="faq-chatbot-toggle" class="bg-indigo-600 text-white rounded-full p-4 shadow-lg hover:bg-indigo-700 transition-transform transform hover:scale-110 focus:outline-none focus:ring-4 focus:ring-indigo-300">
             <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path></svg>
         </button>
-        <div id="faq-chatbot-window" class="hidden absolute bottom-20 left-0 w-80 sm:w-96 bg-gray-800 border border-indigo-500/30 rounded-2xl shadow-2xl transform origin-bottom-left opacity-0">
-            <div class="bg-gray-700/50 p-4 rounded-t-2xl flex justify-between items-center">
+        <div id="faq-chatbot-window" class="hidden absolute bottom-20 left-0 w-80 sm:w-96 border rounded-2xl shadow-2xl transform origin-bottom-left opacity-0" style="border-color: rgba(129, 140, 248, 0.3);">
+            <div class="p-4 rounded-t-2xl flex justify-between items-center" style="background-color: var(--bg-tertiary);">
                 <h3 class="font-bold text-lg text-indigo-400">الأسئلة الشائعة</h3>
                 <button id="faq-close-btn" class="text-gray-400 hover:text-white">&times;</button>
             </div>
-            <div id="faq-content" class="p-4 space-y-2 max-h-80 overflow-y-auto">
+            <div id="faq-content" class="p-4 space-y-2 max-h-80 overflow-y-auto" style="background-color: var(--bg-secondary);">
                 <!-- FAQ content will be generated here -->
             </div>
         </div>
     </div>
 
 
-    <footer class="text-center py-8 mt-12 border-t border-gray-800">
-        <p class="text-gray-500 mb-4">Developed by Akram Tello</p>
+    <footer class="text-center py-8 mt-12 border-t" style="border-color: var(--bg-tertiary);">
+        <p class="mb-4" style="color: var(--text-tertiary);">Developed by Akram Tello</p>
         <a href="https://t.me/AkraM_Tello" target="_blank" rel="noopener noreferrer" class="inline-block bg-teal-500 text-white font-bold py-2 px-5 rounded-lg hover:bg-teal-600 transition-colors duration-300 shadow-lg shadow-teal-500/20">تواصل معي</a>
     </footer>
 
@@ -137,34 +173,52 @@
         // --- GPA CALCULATOR LOGIC ---
         const gpaCalculatorHTML = `
             <div id="tab4" class="tab-content">
-                <div class="bg-gray-800 rounded-2xl shadow-lg p-6 md:p-8 max-w-6xl mx-auto">
+                <div class="rounded-2xl shadow-lg p-6 md:p-8 max-w-6xl mx-auto" style="background-color: var(--bg-secondary);">
                     <section id="program-selection" class="mb-6">
-                        <h2 class="text-xl font-bold text-gray-300 mb-4 border-b-2 border-amber-500 pb-2">1. اختر برنامجك الدراسي</h2>
+                        <h2 class="text-xl font-bold mb-4 border-b-2 pb-2" style="color: var(--text-primary); border-color: var(--accent-color);">1. اختر برنامجك الدراسي</h2>
                         <div class="flex flex-col sm:flex-row justify-center items-center gap-4">
-                            <div class="flex items-center"><input id="tic_gpa" type="radio" name="program" value="TIC" class="gpa-program-radio w-5 h-5 text-amber-600 bg-gray-700 border-gray-600 focus:ring-amber-500" checked><label for="tic_gpa" class="ms-2 text-lg font-medium text-gray-300">المعهد التقاني (TIC)</label></div>
-                            <div class="flex items-center"><input id="isdn_gpa" type="radio" name="program" value="ISDN" class="gpa-program-radio w-5 h-5 text-amber-600 bg-gray-700 border-gray-600 focus:ring-amber-500"><label for="isdn_gpa" class="ms-2 text-lg font-medium text-gray-300">ترقية (ISDN)</label></div>
-                            <div class="flex items-center"><input id="mis_gpa" type="radio" name="program" value="MIS" class="gpa-program-radio w-5 h-5 text-amber-600 bg-gray-700 border-gray-600 focus:ring-amber-500"><label for="mis_gpa" class="ms-2 text-lg font-medium text-gray-300">ترقية (MIS)</label></div>
+                            <div class="flex items-center"><input id="tic_gpa" type="radio" name="program" value="TIC" class="gpa-program-radio w-5 h-5 text-amber-600 bg-gray-700 border-gray-600 focus:ring-amber-500" checked><label for="tic_gpa" class="ms-2 text-lg font-medium">المعهد التقاني (TIC)</label></div>
+                            <div class="flex items-center"><input id="isdn_gpa" type="radio" name="program" value="ISDN" class="gpa-program-radio w-5 h-5 text-amber-600 bg-gray-700 border-gray-600 focus:ring-amber-500"><label for="isdn_gpa" class="ms-2 text-lg font-medium">ترقية (ISDN)</label></div>
+                            <div class="flex items-center"><input id="mis_gpa" type="radio" name="program" value="MIS" class="gpa-program-radio w-5 h-5 text-amber-600 bg-gray-700 border-gray-600 focus:ring-amber-500"><label for="mis_gpa" class="ms-2 text-lg font-medium">ترقية (MIS)</label></div>
                         </div>
                     </section>
                     <section id="courses-section" class="mb-6">
-                        <h2 class="text-xl font-bold text-gray-300 mb-4 border-b-2 border-amber-500 pb-2">2. حدد المواد وأدخل العلامات</h2>
+                        <h2 class="text-xl font-bold mb-4 border-b-2 pb-2" style="color: var(--text-primary); border-color: var(--accent-color);">2. حدد المواد وأدخل العلامات</h2>
                         <div id="gpa-courses-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
                     </section>
-                    <section class="sticky bottom-0 bg-gray-800/80 backdrop-blur-sm py-4 -mx-8 px-8 rounded-b-2xl">
+                     <section id="target-gpa-section" class="mb-6">
+                        <h2 class="text-xl font-bold mb-4 border-b-2 pb-2" style="color: var(--text-primary); border-color: var(--accent-color);">3. حاسبة الهدف</h2>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 p-4 rounded-lg" style="background-color: var(--bg-primary);">
+                            <div>
+                                <label for="current-gpa" class="block text-sm font-medium mb-1" style="color: var(--text-secondary);">معدلك الحالي</label>
+                                <input type="number" id="current-gpa" step="0.01" min="0" max="100" class="w-full p-2 text-center border rounded-md" style="background-color: var(--bg-secondary); border-color: var(--border-color);" placeholder="e.g., 75.5">
+                            </div>
+                            <div>
+                                <label for="completed-credits" class="block text-sm font-medium mb-1" style="color: var(--text-secondary);">الساعات المنجزة</label>
+                                <input type="number" id="completed-credits" min="0" class="w-full p-2 text-center border rounded-md" style="background-color: var(--bg-secondary); border-color: var(--border-color);" placeholder="e.g., 60">
+                            </div>
+                            <div>
+                                <label for="target-gpa" class="block text-sm font-medium mb-1" style="color: var(--text-secondary);">المعدل الهدف</label>
+                                <input type="number" id="target-gpa" step="0.01" min="0" max="100" class="w-full p-2 text-center border rounded-md" style="background-color: var(--bg-secondary); border-color: var(--border-color);" placeholder="e.g., 80">
+                            </div>
+                        </div>
+                         <div id="target-result-section" class="hidden mt-4 text-center p-4 rounded-lg"></div>
+                    </section>
+                    <section class="sticky bottom-0 py-4 -mx-8 px-8 rounded-b-2xl" style="background-color: var(--bg-secondary); border-top: 1px solid var(--border-color);">
                         <div class="flex justify-center items-center gap-8">
                             <button id="calculate-btn" class="bg-amber-600 text-white font-bold py-3 px-10 rounded-lg hover:bg-amber-700 focus:outline-none focus:ring-4 focus:ring-amber-300 transition-transform transform hover:scale-105">احسب المعدل</button>
-                            <div id="results-section" class="hidden result-card bg-gray-900/50 text-center p-3 rounded-2xl border-2 border-gray-700 flex-grow">
+                            <div id="results-section" class="hidden result-card p-3 rounded-2xl border-2 flex-grow" style="background-color: var(--bg-primary); border-color: var(--border-color);">
                                 <div id="results-output" class="hidden">
                                     <div class="flex justify-around items-center">
                                         <div>
-                                            <p class="text-sm text-gray-400">المعدل</p>
-                                            <p id="gpa-result" class="text-3xl font-bold text-amber-400">0.00</p>
+                                            <p class="text-sm" style="color: var(--text-secondary);">المعدل</p>
+                                            <p id="gpa-result" class="text-3xl font-bold text-amber-500">0.00</p>
                                         </div>
                                         <p id="gpa-message" class="text-xl font-semibold"></p>
                                     </div>
                                 </div>
                                 <div id="error-output" class="hidden">
-                                    <p id="error-message" class="text-red-400 font-bold text-lg"></p>
+                                    <p id="error-message" class="text-red-500 font-bold text-lg"></p>
                                 </div>
                             </div>
                         </div>
@@ -181,25 +235,25 @@
         // --- GRADE CALCULATOR LOGIC ---
         const gradeCalculatorHTML = `
             <div id="tab5" class="tab-content">
-                <div class="bg-gray-800 rounded-2xl shadow-lg p-6 md:p-8 max-w-2xl mx-auto">
-                    <h2 class="text-2xl font-bold text-center text-gray-300 mb-6">حاسبة محصلة مادة</h2>
+                <div class="rounded-2xl shadow-lg p-6 md:p-8 max-w-2xl mx-auto" style="background-color: var(--bg-secondary);">
+                    <h2 class="text-2xl font-bold text-center mb-6" style="color: var(--text-primary);">حاسبة محصلة مادة</h2>
                     <div class="space-y-6">
                         <div>
                             <label class="flex items-center justify-center cursor-pointer">
-                                <span class="text-lg font-medium text-gray-300 ms-3">مادة عامة</span>
+                                <span class="text-lg font-medium" style="color: var(--text-secondary);">مادة عامة</span>
                                 <input type="checkbox" id="is-english-checkbox" class="sr-only peer">
                                 <div class="relative w-14 h-8 bg-gray-600 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-1 after:start-[4px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-pink-600 mx-4"></div>
-                                <span class="text-lg font-medium text-gray-300">لغة إنكليزية</span>
+                                <span class="text-lg font-medium" style="color: var(--text-secondary);">لغة إنكليزية</span>
                             </label>
                         </div>
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
                             <div>
-                                <label for="assignment-grade" class="block mb-2 text-sm font-medium text-gray-400">علامة الوظيفة (من 100)</label>
-                                <input type="number" id="assignment-grade" min="0" max="100" class="w-full p-3 text-center border bg-gray-700 border-gray-600 rounded-md focus:ring-pink-500 focus:border-pink-500" placeholder="e.g., 85">
+                                <label for="assignment-grade" class="block mb-2 text-sm font-medium" style="color: var(--text-secondary);">علامة الوظيفة (من 100)</label>
+                                <input type="number" id="assignment-grade" min="0" max="100" class="w-full p-3 text-center border rounded-md focus:ring-pink-500 focus:border-pink-500" style="background-color: var(--bg-tertiary); border-color: var(--border-color);" placeholder="e.g., 85">
                             </div>
                             <div>
-                                <label for="exam-grade" class="block mb-2 text-sm font-medium text-gray-400">علامة الامتحان (من 100)</label>
-                                <input type="number" id="exam-grade" min="0" max="100" class="w-full p-3 text-center border bg-gray-700 border-gray-600 rounded-md focus:ring-pink-500 focus:border-pink-500" placeholder="e.g., 70">
+                                <label for="exam-grade" class="block mb-2 text-sm font-medium" style="color: var(--text-secondary);">علامة الامتحان (من 100)</label>
+                                <input type="number" id="exam-grade" min="0" max="100" class="w-full p-3 text-center border rounded-md focus:ring-pink-500 focus:border-pink-500" style="background-color: var(--bg-tertiary); border-color: var(--border-color);" placeholder="e.g., 70">
                             </div>
                         </div>
                         <div class="text-center">
@@ -234,20 +288,26 @@
             const gpaResultP = gpaTab.querySelector('#gpa-result');
             const gpaMessageP = gpaTab.querySelector('#gpa-message');
             const errorMessageP = gpaTab.querySelector('#error-message');
+            // Target GPA elements
+            const currentGpaInput = gpaTab.querySelector('#current-gpa');
+            const completedCreditsInput = gpaTab.querySelector('#completed-credits');
+            const targetGpaInput = gpaTab.querySelector('#target-gpa');
+            const targetResultSection = gpaTab.querySelector('#target-result-section');
+
 
             const createGpaCard = (course) => {
                 const card = document.createElement('div');
-                card.className = 'gpa-card card bg-gray-800 p-4 rounded-xl border-2 border-gray-700 transition-all duration-300 cursor-pointer';
+                card.className = 'gpa-card card p-4 rounded-xl border-2 transition-all duration-300 cursor-pointer';
                 card.innerHTML = `
                     <div class="flex items-start justify-between">
                         <div class="flex-grow">
-                            <h3 class="font-bold text-lg text-amber-400 mb-1">${course.name}</h3>
-                            <p class="text-gray-400 text-sm">${course.code} (${course.credits} ساعات)</p>
+                            <h3 class="font-bold text-lg text-amber-500 mb-1">${course.name}</h3>
+                            <p class="text-sm" style="color: var(--text-tertiary);">${course.code} (${course.credits} ساعات)</p>
                         </div>
                         <input type="checkbox" data-credits="${course.credits}" class="course-checkbox w-5 h-5 text-amber-600 bg-gray-600 border-gray-500 rounded focus:ring-amber-500 ms-2 mt-1 flex-shrink-0">
                     </div>
                     <div class="mt-3">
-                        <input type="number" min="58" max="100" placeholder="العلامة" class="course-grade w-full p-2 text-center border bg-gray-700 border-gray-600 rounded-md focus:ring-amber-500 focus:border-amber-500 hidden">
+                        <input type="number" min="58" max="100" placeholder="العلامة" class="course-grade w-full p-2 text-center border rounded-md hidden" style="background-color: var(--bg-tertiary); border-color: var(--border-color);">
                     </div>`;
                 
                 const checkbox = card.querySelector('.course-checkbox');
@@ -286,6 +346,7 @@
                 resultsSection.classList.add('hidden');
                 resultsOutputDiv.classList.add('hidden');
                 errorOutputDiv.classList.add('hidden');
+                targetResultSection.classList.add('hidden');
             }
 
             function calculateGPA() {
@@ -310,6 +371,32 @@
                         }
                     }
                 });
+                
+                // --- Target GPA Calculation ---
+                const currentGpa = parseFloat(currentGpaInput.value);
+                const completedCredits = parseInt(completedCreditsInput.value);
+                const targetGpa = parseFloat(targetGpaInput.value);
+
+                if (!isNaN(currentGpa) && !isNaN(completedCredits) && !isNaN(targetGpa) && completedCredits > 0 && totalCredits > 0) {
+                    const requiredTotalPoints = (completedCredits + totalCredits) * targetGpa;
+                    const currentTotalPoints = currentGpa * completedCredits;
+                    const neededPoints = requiredTotalPoints - currentTotalPoints;
+                    const requiredAvg = neededPoints / totalCredits;
+
+                    targetResultSection.classList.remove('hidden');
+                    if (requiredAvg > 100) {
+                        targetResultSection.className = 'mt-4 text-center p-4 rounded-lg bg-red-500/10 text-red-400';
+                        targetResultSection.innerHTML = `للوصول إلى معدل <b>${targetGpa}</b>، تحتاج إلى تحقيق معدل <b>${requiredAvg.toFixed(2)}</b> في المواد المحددة، وهذا غير ممكن.`;
+                    } else if (requiredAvg < 58) {
+                         targetResultSection.className = 'mt-4 text-center p-4 rounded-lg bg-yellow-500/10 text-yellow-400';
+                        targetResultSection.innerHTML = `للوصول إلى معدل <b>${targetGpa}</b>، تحتاج إلى تحقيق معدل <b>${requiredAvg.toFixed(2)}</b> في المواد المحددة، وهذا أقل من درجة النجاح.`;
+                    }
+                    else {
+                        targetResultSection.className = 'mt-4 text-center p-4 rounded-lg bg-green-500/10 text-green-400';
+                        targetResultSection.innerHTML = `للوصول إلى معدل <b>${targetGpa}</b>، تحتاج إلى تحقيق معدل <b>${requiredAvg.toFixed(2)}</b> في المواد المحددة.`;
+                    }
+                }
+
 
                 resultsSection.classList.remove('hidden');
                 if (hasError) { errorOutputDiv.classList.remove('hidden'); resultsOutputDiv.classList.add('hidden'); return; }
@@ -362,7 +449,7 @@
                 const isEnglish = isEnglishCheckbox.checked;
 
                 if (isNaN(assignmentGrade) || isNaN(examGrade) || assignmentGrade < 0 || assignmentGrade > 100 || examGrade < 0 || examGrade > 100) {
-                    resultSection.innerHTML = `<div class="result-card bg-red-900/50 text-center p-6 rounded-2xl border-2 border-red-500/30"><p class="text-red-400 font-bold text-lg">الرجاء إدخال علامات صحيحة بين 0 و 100.</p></div>`;
+                    resultSection.innerHTML = `<div class="result-card p-6 rounded-2xl border-2 bg-red-500/10 border-red-500/30"><p class="text-red-400 font-bold text-lg">الرجاء إدخال علامات صحيحة بين 0 و 100.</p></div>`;
                     resultSection.classList.remove('hidden');
                     return;
                 }
@@ -406,17 +493,17 @@
                 }
 
                 const colorMap = {
-                    red: { bg: 'bg-red-900/50', border: 'border-red-500/30', text: 'text-red-400' },
-                    green: { bg: 'bg-green-900/50', border: 'border-green-500/30', text: 'text-green-400' },
-                    yellow: { bg: 'bg-yellow-900/50', border: 'border-yellow-500/30', text: 'text-yellow-400' },
+                    red: { bg: 'bg-red-500/10', border: 'border-red-500/30', text: 'text-red-400' },
+                    green: { bg: 'bg-green-500/10', border: 'border-green-500/30', text: 'text-green-400' },
+                    yellow: { bg: 'bg-yellow-500/10', border: 'border-yellow-500/30', text: 'text-yellow-400' },
                 };
 
                 resultSection.innerHTML = `
                     <div class="result-card ${colorMap[colorClass].bg} text-center p-6 rounded-2xl border-2 ${colorMap[colorClass].border}">
-                        <p class="text-lg text-gray-300 mb-2">المحصلة النهائية:</p>
+                        <p class="text-lg mb-2" style="color: var(--text-secondary);">المحصلة النهائية:</p>
                         <p class="text-5xl font-bold ${colorMap[colorClass].text} mb-4">${finalGrade}</p>
                         <p class="text-2xl font-semibold ${colorMap[colorClass].text} mb-2">${status}</p>
-                        <p class="text-gray-400">${reason}</p>
+                        <p style="color: var(--text-tertiary);">${reason}</p>
                     </div>`;
                 resultSection.classList.remove('hidden');
             });
@@ -432,7 +519,7 @@
                 faqContent.innerHTML = '';
                 faqData.forEach((faq, index) => {
                     const questionBtn = document.createElement('button');
-                    questionBtn.className = 'faq-question block w-full text-right bg-gray-700 p-3 rounded-lg hover:bg-indigo-500/20';
+                    questionBtn.className = 'faq-question block w-full text-right p-3 rounded-lg';
                     questionBtn.textContent = faq.question;
                     questionBtn.dataset.index = index;
                     faqContent.appendChild(questionBtn);
@@ -443,8 +530,8 @@
                 const faq = faqData[index];
                 faqContent.innerHTML = `
                     <div class="space-y-3">
-                        <p class="font-bold text-indigo-300">${faq.question}</p>
-                        <div class="text-gray-300 leading-relaxed">${faq.answer}</div>
+                        <p class="font-bold text-indigo-400">${faq.question}</p>
+                        <div class="leading-relaxed" style="color: var(--text-secondary);">${faq.answer}</div>
                         <button id="back-to-questions" class="text-sm text-indigo-400 hover:underline mt-4">&larr; العودة للأسئلة</button>
                     </div>
                 `;
@@ -492,12 +579,12 @@
 
             const createCard = (course, colors, tabId) => {
                 const card = document.createElement('div');
-                card.className = `card bg-gray-800 p-6 rounded-xl border border-gray-700 ${colors.card} transition-all duration-300 transform hover:-translate-y-1 cursor-pointer`;
+                card.className = `card p-6 rounded-xl border ${colors.card} transition-all duration-300 transform hover:-translate-y-1 cursor-pointer`;
                 card.innerHTML = `
-                    <div><h3 class="font-bold text-xl ${colors.text} mb-2">${course.name}</h3><p class="text-gray-400 mb-4">${course.code}</p></div>
-                    <div class="mt-auto pt-4 border-t border-gray-700/50 text-sm space-y-2">
-                        <div class="flex items-center gap-2 text-gray-300"><svg class="h-4 w-4 ${colors.icon}" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg><span><b>الساعات:</b> ${course.crd}</span></div>
-                        <div class="flex items-center gap-2 text-gray-300"><svg class="h-4 w-4 ${colors.icon}" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg><span><b>الأسبقيات:</b> ${course.pre}</span></div>
+                    <div><h3 class="font-bold text-xl ${colors.text} mb-2">${course.name}</h3><p class="mb-4" style="color: var(--text-tertiary);">${course.code}</p></div>
+                    <div class="mt-auto pt-4 border-t text-sm space-y-2" style="border-color: var(--border-color);">
+                        <div class="flex items-center gap-2" style="color: var(--text-secondary);"><svg class="h-4 w-4 ${colors.icon}" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg><span><b>الساعات:</b> ${course.crd}</span></div>
+                        <div class="flex items-center gap-2" style="color: var(--text-secondary);"><svg class="h-4 w-4 ${colors.icon}" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg><span><b>الأسبقيات:</b> ${course.pre}</span></div>
                     </div>`;
                 card.addEventListener('click', () => showModal(course, tabId));
                 return card;
@@ -588,6 +675,49 @@
                     activeBtn.style.backgroundColor = colors[tabId];
                 }
             };
+            
+            // --- THEME TOGGLE LOGIC ---
+            const themeToggleBtn = document.getElementById('theme-toggle');
+            const darkIcon = document.getElementById('theme-toggle-dark-icon');
+            const lightIcon = document.getElementById('theme-toggle-light-icon');
+
+            // Check for saved theme in localStorage
+            if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                document.documentElement.classList.add('dark');
+                lightIcon.classList.remove('hidden');
+                darkIcon.classList.add('hidden');
+            } else {
+                document.documentElement.classList.remove('dark');
+                darkIcon.classList.remove('hidden');
+                lightIcon.classList.add('hidden');
+            }
+
+            themeToggleBtn.addEventListener('click', function() {
+                // toggle icons inside button
+                darkIcon.classList.toggle('hidden');
+                lightIcon.classList.toggle('hidden');
+
+                // if set via local storage previously
+                if (localStorage.getItem('color-theme')) {
+                    if (localStorage.getItem('color-theme') === 'light') {
+                        document.documentElement.classList.add('dark');
+                        localStorage.setItem('color-theme', 'dark');
+                    } else {
+                        document.documentElement.classList.remove('dark');
+                        localStorage.setItem('color-theme', 'light');
+                    }
+                // if NOT set via local storage previously
+                } else {
+                    if (document.documentElement.classList.contains('dark')) {
+                        document.documentElement.classList.remove('dark');
+                        localStorage.setItem('color-theme', 'light');
+                    } else {
+                        document.documentElement.classList.add('dark');
+                        localStorage.setItem('color-theme', 'dark');
+                    }
+                }
+            });
+
 
             tabs.forEach(tab => {
                 tab.addEventListener('click', () => switchTab(tab.dataset.tab));
