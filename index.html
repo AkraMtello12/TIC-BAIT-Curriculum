@@ -39,12 +39,12 @@
     <div class="container mx-auto px-4 py-8 md:py-12">
         
         <header class="text-center mb-10">
-            <h1 class="text-4xl md:text-5xl font-bold mb-2 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-teal-400 to-purple-400">المقررات الدراسية</h1>
+            <h1 class="text-4xl md:text-5xl font-bold mb-2 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-teal-400 to-purple-400 pt-2">المقررات الدراسية</h1>
             <p class="text-lg text-gray-400">في المعهد التقاني للحاسوب TIC ومسارات الترقية بعده للـ BAIT</p>
         </header>
 
         <div class="flex flex-col sm:flex-row justify-center items-center gap-2 md:gap-4 mb-8 p-2 bg-gray-800/50 rounded-xl max-w-5xl mx-auto">
-            <button data-tab="tab1" class="tab-btn w-full sm:w-auto flex-1 text-gray-300 font-semibold py-3 px-6 rounded-lg transition-all duration-300 ease-in-out hover:bg-gray-700">المعهد التقاني (TIC)</button>
+            <button data-tab="tab1" class="tab-btn w-full sm:w-auto flex-1 text-gray-300 font-semibold py-3 px-6 rounded-lg transition-all duration-300 ease-in-out hover:bg-gray-700">TIC</button>
             <button data-tab="tab2" class="tab-btn w-full sm:w-auto flex-1 text-gray-300 font-semibold py-3 px-6 rounded-lg transition-all duration-300 ease-in-out hover:bg-gray-700">ترقية (ISDN)</button>
             <button data-tab="tab3" class="tab-btn w-full sm:w-auto flex-1 text-gray-300 font-semibold py-3 px-6 rounded-lg transition-all duration-300 ease-in-out hover:bg-gray-700">ترقية (MIS)</button>
             <button data-tab="tab4" class="tab-btn w-full sm:w-auto flex-1 text-gray-300 font-semibold py-3 px-6 rounded-lg transition-all duration-300 ease-in-out hover:bg-gray-700">حاسبة المعدل</button>
@@ -64,16 +64,21 @@
     
     <!-- Course Details Modal -->
     <div id="course-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-black/70">
-        <div class="modal-content relative bg-gray-800 border border-blue-500/30 rounded-2xl shadow-2xl w-full max-w-lg mx-auto p-6 md:p-8">
-            <button id="modal-close-btn" class="absolute top-4 left-4 text-gray-400 hover:text-white transition-colors">
+        <div class="modal-content relative bg-gray-800 border border-gray-700 rounded-2xl shadow-2xl w-full max-w-lg mx-auto overflow-hidden">
+            <div id="modal-header" class="p-6 bg-gray-900/50">
+                <h3 id="modal-title" class="text-2xl font-bold text-white"></h3>
+                <p id="modal-code" class="text-gray-400"></p>
+            </div>
+            <div class="p-6">
+                <p id="modal-description" class="text-gray-300 leading-relaxed mb-6"></p>
+                <a id="modal-telegram-link" href="#" target="_blank" rel="noopener noreferrer" class="flex items-center justify-center w-full text-center bg-blue-600 text-white font-bold py-3 px-6 rounded-lg hover:bg-blue-700 transition-all duration-300 shadow-lg shadow-blue-500/20">
+                    <svg class="w-5 h-5 me-2" fill="currentColor" viewBox="0 0 24 24"><path d="M9.78 18.65l.28-4.23 7.68-6.92c.34-.31-.07-.46-.52-.19L7.74 13.3 3.64 12c-.88-.25-.89-.86.2-1.3l15.97-6.16c.73-.33 1.43.18 1.15 1.3l-2.72 12.57c-.28 1.13-1.04 1.4-1.74.88L14.25 16l-2.45 2.22c-.28.27-.5.4-.86.4z"/></svg>
+                    <span>الانضمام لمجموعة المادة</span>
+                </a>
+            </div>
+             <button id="modal-close-btn" class="absolute top-4 left-4 text-gray-500 hover:text-white transition-colors bg-gray-800/50 rounded-full p-1">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
             </button>
-            <h3 id="modal-title" class="text-2xl font-bold text-blue-400 mb-2"></h3>
-            <p id="modal-code" class="text-gray-500 mb-4"></p>
-            <p id="modal-description" class="text-gray-300 leading-relaxed mb-6"></p>
-            <a id="modal-telegram-link" href="#" target="_blank" rel="noopener noreferrer" class="inline-block w-full text-center bg-blue-600 text-white font-bold py-3 px-6 rounded-lg hover:bg-blue-700 transition-all duration-300 shadow-lg shadow-blue-500/20">
-                الانضمام لمجموعة المادة
-            </a>
         </div>
     </div>
 
@@ -113,9 +118,9 @@
             tab2: { // ISDN Data
                 semesters: {
                     'الفصل الأول': [ { name: 'أساسيات الإدارة', code: 'BMN101', crd: 4, pre: 'لا يوجد', description: 'يتناول هذا المقرر مفهوم الإدارة وأهميتها، ويستعرض تطورها التاريخي وأهم المدارس الفكرية التي شكلتها. سيتعرف الطالب على الوظائف الإدارية الأساسية كالتخطيط والتنظيم والقيادة، بالإضافة إلى الوظائف الفنية في المنظمة مثل إدارة التسويق والموارد البشرية والمالية.' }, { name: 'مقدمة في الفلسفة', code: 'GHS101', crd: 3, pre: 'لا يوجد', description: 'يستعرض المقرر أهمية الفلسفة وتأثيرها، ويقدم عددًا من الفلسفات التي تطورت عبر التاريخ مثل البوذية والإغريقية. كما يتناول نظرية المعرفة وأدوات البحث العلمي وأفكار فلاسفة بارزين مثل كانت ونيتشه.' }, { name: 'مقدمة في علم الاجتماع', code: 'GHS102', crd: 3, pre: 'لا يوجد', description: 'يتناول المقرر مفاهيم أساسية مثل المنظور الاجتماعي، الثقافة، والبنية الاجتماعية. سيتعرف الطالب على تعريف الجماعات البشرية، مفهوم المجتمع المدني، وأثر مؤسسات كالدين والعائلة على المجتمع.' }, { name: 'أسس المحاسبة', code: 'BAC101', crd: 4, pre: 'لا يوجد', description: 'يهدف هذا المقرر إلى تعريف الطالب بوظيفة النظام المحاسبي في المؤسسة، ويشرح الدورة المحاسبية الكاملة. سيكتسب الطالب مهارة تسجيل العمليات المالية، وإجراء التسويات الجردية، وصولًا إلى إعداد الحسابات الختامية والقوائم المالية.' }, { name: 'الجبر الرياضي', code: 'GMA101', crd: 5, pre: 'لا يوجد', description: 'يغطي المقرر المفاهيم الأساسية في الجبر، حيث يتعرف الطالب على الأعداد الحقيقية والعقدية، والبنى الجبرية. كما يتناول موضوعات كثيرات الحدود، المصفوفات، والفضاءات الشعاعية اللازمة للدراسات التقنية.' }, { name: 'اللغة الإنجليزية مستوى ٤', code: 'ENG4', crd: 3, pre: 'ENG3', description: 'يبني هذا المقرر على المستويات السابقة لتعزيز الطلاقة اللغوية، مع التركيز على المصطلحات التقنية والإدارية المتقدمة. الهدف هو تمكين الطالب من قراءة دراسات الحالة والمقالات المتخصصة، وكتابة أجزاء من التقارير والمشاريع باللغة الإنجليزية.' }, ],
-                    'الفصل الثاني': [ { name: 'إدارة مشاريع تقانة المعلومات', code: 'ISE302', crd: 5, pre: 'لا يوجد', description: 'يتناول المقرر أساسيات إدارة المشاريع التقنية، بدءًا من منهجيات التحليل والتصميم، وصولًا إلى إدارة الموارد البشرية ووضع الميزانيات. سيتعرف الطالب على أدوات إدارة المشاريع وكيفية تحضير دفاتر الشروط والمواصفات الفنية.' }, { name: 'الرياضيات المتقطعة', code: 'GMA204', crd: 5, pre: 'لا يوجد', description: 'يغطي المقرر المفاهيم الرياضية والمنطقية التي يحتاجها المتخصص في علوم الحاسوب. يتناول موضوعات كالاستقراء الرياضي، العبارات المكممة، ومبادئ الأوتومات التي تعتبر أساسية في مجال البرمجة وتحليل الخوارزميات.' }, { name: 'خدمات الشبكات', code: 'INT202', crd: 5, pre: 'لا يوجد', description: 'يركز المقرر على أهم خدمات الإنترنت وبروتوكولاتها، حيث يتعرف الطالب على خدمة الويب (HTTP)، البريد الإلكتروني (SMTP, POP3)، بروتوكول نقل الملفات (FTP)، وخدمة المحادثة (CHAT).' }, { name: 'إدارة قواعد البيانات oracle 2', code: 'IIS406', crd: 6, pre: 'ENG3', description: 'يركز هذا المقرر على المسؤوليات المتقدمة لمدير قاعدة بيانات أوراكل. سيتعلم الطالب إدارة عمليات خزن البيانات المتقدمة، وتطبيق سياسات الأمان المعقدة لضمان حماية وسلامة بيانات المؤسسة.' }, { name: 'منصة لينوكس 2', code: 'IOS305', crd: 5, pre: 'ENG3', description: 'يركز المقرر على المهارات المتقدمة في إدارة أنظمة لينوكس، حيث يهدف إلى إتقان إدارة الخدمات الشبكية، ونظام الملفات، وشبكة النطاقات في بيئة لينوكس.' }, { name: 'منصة ويندوز 2', code: 'IOS304', crd: 5, pre: 'ENG3', description: 'يهدف المقرر إلى إتقان المهارات المتقدمة في إدارة خوادم ويندوز، حيث يركز على إدارة الخدمات، ونطاقات ويندوز، وشبكة النطاقات بشكل احترافي.' }, ],
-                    'الفصل الثالث': [ { name: 'اللغة الإنجليزية مستوى ٥', code: 'ENG5', crd: 3, pre: 'ENG4', description: 'يهدف هذا المقرر إلى الوصول بالطالب إلى مستوى عالٍ من الإتقان، يمكنه من التواصل الاحترافي الكامل في بيئة العمل. يركز على صقل مهارات العرض التقديمي، كتابة التقارير المعقدة، والمشاركة الفعالة في الاجتماعات والمناقشات التقنية باللغة الإنجليزية.' }, { name: 'الاحتمالات والاحصاء', code: 'GMA205', crd: 5, pre: 'لا يوجد', description: 'يقدم المقرر أساسيات علم الإحصاء وتطبيقاته، حيث يتعرف الطالب على مفاهيم الاحتمالات، حساب التشتت، والترابط. سيكتسب مهارات في تحليل المعطيات الاستكشافي، معالجة العينات، والتمييز بين الإحصاء الوصفي والاستقرائي.' }, { name: 'الشبكات اللاسلكية', code: 'INT203', crd: 6, pre: 'لا يوجد', description: 'يتضمن هذا المقرر دراسة طبقة التطبيقات الخاصة بشبكات الاتصالات اللاسلكية. سيتعرف الطالب على التقنيات المستخدمة في هذه الطبقة، بالإضافة إلى التعرف على بعض أنماط الشبكات اللاسلكية الشائعة.' }, { name: 'هندسة البرمجيات', code: 'ISE301', crd: 6, pre: 'لا يوجد', description: 'يتناول المقرر أساسيات ومراحل عملية تطوير البرمجيات، مع التركيز على دورة حياة المنتج البرمجي. سيتعلم الطالب كيفية تحديد المتطلبات، ونمذجة حالات الاستخدام، بالإضافة إلى التعرف على أنواع الاختبارات ومعايير جودة البرمجيات.' }, { name: 'مدخل الى التسويق', code: 'BMN202', crd: 4, pre: 'BMN101', description: 'يغطي المقرر مفهوم التسويق وأهدافه، ويركز على تحليل البيئة التسويقية وسلوك المستهلك. سيتعلم الطالب كيفية تقسيم السوق، واختيار الأسواق المستهدفة، وتحديد عناصر المزيج التسويقي الأربعة: السلعة، السعر، التوزيع، والترويج.' }, { name: 'الخدمات المصرفية', code: 'BFB305', crd: 4, pre: 'لا يوجد', description: 'يقدم المقرر إطارًا عامًا للعمل المصرفي ومختلف الخدمات التي يقدمها. سيتعرف الطالب على أنواع الحسابات، الاعتمادات المستندية، آليات الإقراض والتسليف، وخدمات الاستثمار وتأجير الخزائن الآمنة.' }, ],
-                    'الفصل الرابع': [ { name: 'مبادئ التوجيه', code: 'INT204', crd: 6, pre: 'لا يوجد', description: 'يتناول المقرر موضوع التوجيه في الشبكات الحاسوبية، حيث يركز على فهم خوارزميات التوجيه في شبكات TCP/IP. سيكتسب الطالب خبرة في أهم بروتوكولات التوجيه المستخدمة، بالإضافة إلى التعرف على آليات التوجيه في الشبكات غير التقليدية.' }, { name: 'امن التطبيقات والمعطيات', code: 'IWB404', crd: 6, pre: 'ENG3', description: 'يتناول المقرر أساسيات بناء استراتيجية أمنية متكاملة لنظام المعلومات. سيتعرف الطالب على عمليات الاختراق الكلاسيكية للتطبيقات وأنظمة التشغيل، ونقاط الضعف الشائعة، بالإضافة إلى أساليب الحماية والمكافحة.' }, { name: 'امن الشبكات والبنية التحتية المعلوماتية', code: 'INT305', crd: 5, pre: 'ENG3', description: 'يستعرض المقرر أساليب وطرق حماية الشبكات المعلوماتية، حيث يغطي مبادئ الحماية، خوارزميات التشفير، بروتوكولات الحماية، وأساليب حماية الخدمات والمعلومات من الفيروسات والاختراقات.' }, { name: 'المشروع', code: 'IP1405', crd: 12, pre: 'ISE302', description: 'في هذا المقرر التطبيقي، يقوم الطالب بدمج معظم المعلومات التقنية والإدارية التي اكتسبها لتنفيذ مشروع عملي متكامل. يمر الطالب بجميع مراحل دورة حياة المنتج البرمجي من التحليل والتصميم إلى التنفيذ والاختبار ضمن بيئة عمل حقيقية.' }, ]
+                    'الفصل الثاني': [ { name: 'خدمات الشبكات', code: 'INT202', crd: 5, pre: 'لا يوجد', description: 'يركز المقرر على أهم خدمات الإنترنت وبروتوكولاتها، حيث يتعرف الطالب على خدمة الويب (HTTP)، البريد الإلكتروني (SMTP, POP3)، بروتوكول نقل الملفات (FTP)، وخدمة المحادثة (CHAT).' }, { name: 'منصة لينوكس 2', code: 'IOS305', crd: 5, pre: 'ENG3', description: 'يركز المقرر على المهارات المتقدمة في إدارة أنظمة لينوكس، حيث يهدف إلى إتقان إدارة الخدمات الشبكية، ونظام الملفات، وشبكة النطاقات في بيئة لينوكس.' }, { name: 'الرياضيات المتقطعة', code: 'GMA204', crd: 5, pre: 'لا يوجد', description: 'يغطي المقرر المفاهيم الرياضية والمنطقية التي يحتاجها المتخصص في علوم الحاسوب. يتناول موضوعات كالاستقراء الرياضي، العبارات المكممة، ومبادئ الأوتومات التي تعتبر أساسية في مجال البرمجة وتحليل الخوارزميات.' }, { name: 'مدخل الى التسويق', code: 'BMN202', crd: 4, pre: 'BMN101', description: 'يغطي المقرر مفهوم التسويق وأهدافه، ويركز على تحليل البيئة التسويقية وسلوك المستهلك. سيتعلم الطالب كيفية تقسيم السوق، واختيار الأسواق المستهدفة، وتحديد عناصر المزيج التسويقي الأربعة: السلعة، السعر، التوزيع، والترويج.' }, { name: 'اللغة الإنجليزية مستوى ٥', code: 'ENG5', crd: 3, pre: 'ENG4', description: 'يهدف هذا المقرر إلى الوصول بالطالب إلى مستوى عالٍ من الإتقان، يمكنه من التواصل الاحترافي الكامل في بيئة العمل. يركز على صقل مهارات العرض التقديمي، كتابة التقارير المعقدة، والمشاركة الفعالة في الاجتماعات والمناقشات التقنية باللغة الإنجليزية.' } ],
+                    'الفصل الثالث': [ { name: 'الشبكات اللاسلكية', code: 'INT203', crd: 6, pre: 'لا يوجد', description: 'يتضمن هذا المقرر دراسة طبقة التطبيقات الخاصة بشبكات الاتصالات اللاسلكية. سيتعرف الطالب على التقنيات المستخدمة في هذه الطبقة، بالإضافة إلى التعرف على بعض أنماط الشبكات اللاسلكية الشائعة.' }, { name: 'هندسة البرمجيات', code: 'ISE301', crd: 6, pre: 'لا يوجد', description: 'يتناول المقرر أساسيات ومراحل عملية تطوير البرمجيات، مع التركيز على دورة حياة المنتج البرمجي. سيتعلم الطالب كيفية تحديد المتطلبات، ونمذجة حالات الاستخدام، بالإضافة إلى التعرف على أنواع الاختبارات ومعايير جودة البرمجيات.' }, { name: 'إدارة مشاريع تقانة المعلومات', code: 'ISE302', crd: 5, pre: 'لا يوجد', description: 'يتناول المقرر أساسيات إدارة المشاريع التقنية، بدءًا من منهجيات التحليل والتصميم، وصولًا إلى إدارة الموارد البشرية ووضع الميزانيات. سيتعرف الطالب على أدوات إدارة المشاريع وكيفية تحضير دفاتر الشروط والمواصفات الفنية.' }, { name: 'الخدمات المصرفية', code: 'BFB305', crd: 4, pre: 'لا يوجد', description: 'يقدم المقرر إطارًا عامًا للعمل المصرفي ومختلف الخدمات التي يقدمها. سيتعرف الطالب على أنواع الحسابات، الاعتمادات المستندية، آليات الإقراض والتسليف، وخدمات الاستثمار وتأجير الخزائن الآمنة.' }, { name: 'إدارة قواعد البيانات oracle 2', code: 'IIS406', crd: 6, pre: 'ENG3', description: 'يركز هذا المقرر على المسؤوليات المتقدمة لمدير قاعدة بيانات أوراكل. سيتعلم الطالب إدارة عمليات خزن البيانات المتقدمة، وتطبيق سياسات الأمان المعقدة لضمان حماية وسلامة بيانات المؤسسة.' }, { name: 'الاحتمالات والإحصاء', code: 'GMA205', crd: 5, pre: 'لا يوجد', description: 'يقدم المقرر أساسيات علم الإحصاء وتطبيقاته، حيث يتعرف الطالب على مفاهيم الاحتمالات، حساب التشتت، والترابط. سيكتسب مهارات في تحليل المعطيات الاستكشافي، معالجة العينات، والتمييز بين الإحصاء الوصفي والاستقرائي.' } ],
+                    'الفصل الرابع': [ { name: 'منصة ويندوز 2', code: 'IOS304', crd: 5, pre: 'ENG3', description: 'يهدف المقرر إلى إتقان المهارات المتقدمة في إدارة خوادم ويندوز، حيث يركز على إدارة الخدمات، ونطاقات ويندوز، وشبكة النطاقات بشكل احترافي.' }, { name: 'مبادئ التوجيه', code: 'INT204', crd: 6, pre: 'لا يوجد', description: 'يتناول المقرر موضوع التوجيه في الشبكات الحاسوبية، حيث يركز على فهم خوارزميات التوجيه في شبكات TCP/IP. سيكتسب الطالب خبرة في أهم بروتوكولات التوجيه المستخدمة، بالإضافة إلى التعرف على آليات التوجيه في الشبكات غير التقليدية.' }, { name: 'امن التطبيقات والمعطيات', code: 'IWB404', crd: 6, pre: 'ENG3', description: 'يتناول المقرر أساسيات بناء استراتيجية أمنية متكاملة لنظام المعلومات. سيتعرف الطالب على عمليات الاختراق الكلاسيكية للتطبيقات وأنظمة التشغيل، ونقاط الضعف الشائعة، بالإضافة إلى أساليب الحماية والمكافحة.' }, { name: 'امن الشبكات والبنية التحتية المعلوماتية', code: 'INT305', crd: 5, pre: 'ENG3', description: 'يستعرض المقرر أساليب وطرق حماية الشبكات المعلوماتية، حيث يغطي مبادئ الحماية، خوارزميات التشفير، بروتوكولات الحماية، وأساليب حماية الخدمات والمعلومات من الفيروسات والاختراقات.' }, { name: 'المشروع', code: 'IPI405', crd: 12, pre: 'ISE302', description: 'في هذا المقرر التطبيقي، يقوم الطالب بدمج معظم المعلومات التقنية والإدارية التي اكتسبها لتنفيذ مشروع عملي متكامل. يمر الطالب بجميع مراحل دورة حياة المنتج البرمجي من التحليل والتصميم إلى التنفيذ والاختبار ضمن بيئة عمل حقيقية.' }, ]
                 }, colors: { card: 'hover:border-teal-500', text: 'text-teal-400', icon: 'text-teal-400' }
             },
             tab3: { // MIS Data
@@ -485,7 +490,7 @@
             const modal = document.getElementById('course-modal');
             const modalCloseBtn = document.getElementById('modal-close-btn');
 
-            const createCard = (course, colors) => {
+            const createCard = (course, colors, tabId) => {
                 const card = document.createElement('div');
                 card.className = `card bg-gray-800 p-6 rounded-xl border border-gray-700 ${colors.card} transition-all duration-300 transform hover:-translate-y-1 cursor-pointer`;
                 card.innerHTML = `
@@ -494,17 +499,17 @@
                         <div class="flex items-center gap-2 text-gray-300"><svg class="h-4 w-4 ${colors.icon}" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg><span><b>الساعات:</b> ${course.crd}</span></div>
                         <div class="flex items-center gap-2 text-gray-300"><svg class="h-4 w-4 ${colors.icon}" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg><span><b>الأسبقيات:</b> ${course.pre}</span></div>
                     </div>`;
-                card.addEventListener('click', () => showModal(course));
+                card.addEventListener('click', () => showModal(course, tabId));
                 return card;
             };
             
-            const showModal = (course) => {
+            const showModal = (course, tabId) => {
                 document.getElementById('modal-title').textContent = course.name;
                 document.getElementById('modal-code').textContent = course.code;
                 document.getElementById('modal-description').textContent = course.description;
                 const telegramButton = document.getElementById('modal-telegram-link');
-                if (course.telegramLink && course.telegramLink !== '#') {
-                    telegramButton.style.display = 'block';
+                if (tabId === 'tab1') {
+                    telegramButton.style.display = 'flex';
                     telegramButton.href = course.telegramLink;
                 } else {
                     telegramButton.style.display = 'none';
@@ -529,21 +534,29 @@
             const renderCurriculum = (tabId) => {
                 const data = curriculumData[tabId];
                 if (!data) return '';
-                let contentHtml = `<div id="${tabId}" class="tab-content">`;
+                const container = document.createElement('div');
+                container.id = tabId;
+                container.className = 'tab-content';
+
                 for (const semesterName in data.semesters) {
-                    contentHtml += `<h2 class="semester-title">${semesterName}</h2><div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">`;
-                    const tempDiv = document.createElement('div');
+                    const semesterTitle = document.createElement('h2');
+                    semesterTitle.className = 'semester-title';
+                    semesterTitle.textContent = semesterName;
+                    container.appendChild(semesterTitle);
+
+                    const grid = document.createElement('div');
+                    grid.className = 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6';
+                    
                     data.semesters[semesterName].forEach(course => {
-                        tempDiv.appendChild(createCard(course, data.colors));
+                        grid.appendChild(createCard(course, data.colors, tabId));
                     });
-                     contentHtml += tempDiv.innerHTML;
-                    contentHtml += '</div>';
+                    container.appendChild(grid);
                 }
-                contentHtml += '</div>';
-                return contentHtml;
+                return container;
             };
 
             const switchTab = (tabId) => {
+                mainContent.innerHTML = ''; // Clear main content
                 if (tabId === 'tab4') {
                     mainContent.innerHTML = gpaCalculatorHTML;
                     initializeGpaCalculator();
@@ -554,20 +567,7 @@
                     disclaimer.style.display = 'none';
                 }
                 else {
-                    mainContent.innerHTML = renderCurriculum(tabId);
-                    const cards = mainContent.querySelectorAll('.card');
-                    let courseIndex = 0;
-                    const tabData = curriculumData[tabId];
-                    if (tabData) {
-                        for (const semesterName in tabData.semesters) {
-                            tabData.semesters[semesterName].forEach(course => {
-                                if (cards[courseIndex]) {
-                                    cards[courseIndex].addEventListener('click', () => showModal(course));
-                                }
-                                courseIndex++;
-                            });
-                        }
-                    }
+                    mainContent.appendChild(renderCurriculum(tabId));
                     disclaimer.style.display = 'block';
                 }
                 
