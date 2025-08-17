@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>المقررات الدراسية وحاسبة المعدل - TIC & BAIT</title>
+    <title>TIC Society</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -75,8 +75,8 @@
         </div>
         
         <header class="text-center mb-10">
-            <h1 class="text-4xl md:text-5xl font-bold mb-2 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-teal-400 to-purple-400 pt-2">المقررات الدراسية</h1>
-            <p class="text-lg" style="color: var(--text-secondary);">في المعهد التقاني للحاسوب TIC ومسارات الترقية بعده للـ BAIT</p>
+            <h1 class="text-4xl md:text-5xl font-bold mb-2 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-teal-400 to-purple-400 pt-2">TIC Society</h1>
+            <p class="text-lg" style="color: var(--text-secondary);">المعهد التقاني للحاسوب</p>
         </header>
 
         <div class="flex flex-col sm:flex-row justify-center items-center gap-2 md:gap-4 mb-8 p-2 rounded-xl max-w-5xl mx-auto" style="background-color: rgba(128, 128, 128, 0.1);">
@@ -100,23 +100,33 @@
     
     <!-- Course Details Modal -->
     <div id="course-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-black/70">
-        <div class="modal-content relative rounded-2xl shadow-2xl w-full max-w-lg mx-auto overflow-hidden">
-            <div id="modal-header" class="p-6">
+        <div class="modal-content relative rounded-2xl shadow-2xl w-full max-w-lg mx-auto overflow-hidden text-center">
+            <!-- Close Button -->
+            <button id="modal-close-btn" class="absolute top-4 left-4 text-gray-400 hover:text-white transition-colors rounded-full p-1 focus:outline-none" style="background-color: rgba(255, 255, 255, 0.1);">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+            
+            <!-- Modal Header -->
+            <div class="pt-8 px-6">
                 <h3 id="modal-title" class="text-2xl font-bold"></h3>
-                <p id="modal-code" class="text-gray-400"></p>
+                <p id="modal-code" class="mt-1 text-sm" style="color: var(--text-tertiary);"></p>
             </div>
-            <div class="p-6 pt-0">
-                <p id="modal-description" class="leading-relaxed mb-6" style="color: var(--text-secondary);"></p>
-                <a id="modal-telegram-link" href="#" target="_blank" rel="noopener noreferrer" class="flex items-center justify-center w-full text-center bg-blue-600 text-white font-bold py-3 px-6 rounded-lg hover:bg-blue-700 transition-all duration-300 shadow-lg shadow-blue-500/20">
+            
+            <!-- Modal Body -->
+            <div class="p-6">
+                <p id="modal-description" class="leading-relaxed text-center" style="color: var(--text-secondary);"></p>
+            </div>
+
+            <!-- Modal Footer / Action Button -->
+            <div class="px-6 pb-8">
+                <a id="modal-telegram-link" href="#" target="_blank" rel="noopener noreferrer" class="flex items-center justify-center w-full text-center bg-blue-600 text-white font-bold py-3 px-6 rounded-lg hover:bg-blue-700 transition-all duration-300 shadow-lg shadow-blue-500/30">
                     <svg class="w-5 h-5 me-2" fill="currentColor" viewBox="0 0 24 24"><path d="M9.78 18.65l.28-4.23 7.68-6.92c.34-.31-.07-.46-.52-.19L7.74 13.3 3.64 12c-.88-.25-.89-.86.2-1.3l15.97-6.16c.73-.33 1.43.18 1.15 1.3l-2.72 12.57c-.28 1.13-1.04 1.4-1.74.88L14.25 16l-2.45 2.22c-.28.27-.5.4-.86.4z"/></svg>
                     <span>الانضمام لمجموعة المادة</span>
                 </a>
             </div>
-             <button id="modal-close-btn" class="absolute top-4 left-4 text-gray-500 hover:text-white transition-colors rounded-full p-1" style="background-color: var(--bg-tertiary);">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-            </button>
         </div>
     </div>
+
 
     <!-- FAQ Chatbot -->
     <div class="fixed bottom-5 left-5 z-40">
@@ -540,30 +550,25 @@
             };
             
             const showModal = (course, tabId) => {
-                const modalTitle = document.getElementById('modal-title');
-                const modalHeader = document.getElementById('modal-header');
-                
-                // Reset colors
-                modalTitle.className = "text-2xl font-bold";
-                modalHeader.className = "p-6";
-
-                // Set colors based on tab
-                if(tabId === 'tab1') { modalTitle.classList.add('text-blue-400'); modalHeader.classList.add('bg-blue-900/20'); }
-                else if(tabId === 'tab2') { modalTitle.classList.add('text-teal-400'); modalHeader.classList.add('bg-teal-900/20'); }
-                else if(tabId === 'tab3') { modalTitle.classList.add('text-purple-400'); modalHeader.classList.add('bg-purple-900/20'); }
-
+                document.getElementById('modal-title').textContent = course.name;
                 document.getElementById('modal-code').textContent = course.code;
                 document.getElementById('modal-description').textContent = course.description;
+                
                 const telegramButton = document.getElementById('modal-telegram-link');
-                if (tabId === 'tab1') {
-                    telegramButton.style.display = 'flex';
+                const telegramButtonContainer = telegramButton.parentElement; // Get the container div
+
+                // Show telegram button only for the 'TIC' tab and if a valid link exists
+                if (tabId === 'tab1' && course.telegramLink && course.telegramLink !== '#') {
+                    telegramButtonContainer.style.display = 'block';
                     telegramButton.href = course.telegramLink;
                 } else {
-                    telegramButton.style.display = 'none';
+                    telegramButtonContainer.style.display = 'none';
                 }
+                
                 modal.classList.remove('hidden');
                 modal.classList.add('flex');
             };
+
 
             const hideModal = () => {
                 modal.classList.add('hidden');
