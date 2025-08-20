@@ -84,6 +84,10 @@
         .faq-question:hover { background-color: rgba(79, 70, 229, 0.2); }
 
         /* Homepage Redesign Styles */
+        .hero-section {
+            position: relative;
+            overflow: hidden;
+        }
         .hero-gradient-text {
             background-image: linear-gradient(to right, #3b82f6, #14b8a6, #a855f7);
             -webkit-background-clip: text;
@@ -105,7 +109,7 @@
         .section-title {
             font-size: 2.25rem;
             font-weight: 800;
-            margin-bottom: 2.5rem;
+            margin-bottom: 3.5rem;
             text-align: center;
         }
         .fade-in-section {
@@ -128,6 +132,42 @@
         }
         .dark .social-card:hover {
             box-shadow: 0 10px 15px -3px rgba(0,0,0,0.15), 0 4px 6px -2px rgba(0,0,0,0.1);
+        }
+
+        /* Animated Background */
+        .animated-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+        .animated-bg li {
+            position: absolute;
+            display: block;
+            list-style: none;
+            width: 20px;
+            height: 20px;
+            background: rgba(128, 128, 128, 0.1);
+            animation: animate-bg 25s linear infinite;
+            bottom: -150px;
+        }
+        .animated-bg li:nth-child(1) { left: 25%; width: 80px; height: 80px; animation-delay: 0s; }
+        .animated-bg li:nth-child(2) { left: 10%; width: 20px; height: 20px; animation-delay: 2s; animation-duration: 12s; }
+        .animated-bg li:nth-child(3) { left: 70%; width: 20px; height: 20px; animation-delay: 4s; }
+        .animated-bg li:nth-child(4) { left: 40%; width: 60px; height: 60px; animation-delay: 0s; animation-duration: 18s; }
+        .animated-bg li:nth-child(5) { left: 65%; width: 20px; height: 20px; animation-delay: 0s; }
+        .animated-bg li:nth-child(6) { left: 75%; width: 110px; height: 110px; animation-delay: 3s; }
+        .animated-bg li:nth-child(7) { left: 35%; width: 150px; height: 150px; animation-delay: 7s; }
+        .animated-bg li:nth-child(8) { left: 50%; width: 25px; height: 25px; animation-delay: 15s; animation-duration: 45s; }
+        .animated-bg li:nth-child(9) { left: 20%; width: 15px; height: 15px; animation-delay: 2s; animation-duration: 35s; }
+        .animated-bg li:nth-child(10) { left: 85%; width: 150px; height: 150px; animation-delay: 0s; animation-duration: 11s; }
+        @keyframes animate-bg {
+            0% { transform: translateY(0) rotate(0deg); opacity: 1; border-radius: 0; }
+            100% { transform: translateY(-1000px) rotate(720deg); opacity: 0; border-radius: 50%; }
         }
     </style>
 </head>
@@ -221,19 +261,22 @@
     </footer>
 
     <script>
-        // --- HOME PAGE HTML (ICONS & SECTIONS UPDATED) ---
+        // --- HOME PAGE HTML (TIMELINE REDESIGNED) ---
         const homePageHTML = `
             <div id="tab0" class="tab-content space-y-16 md:space-y-24">
                 <!-- Hero Section -->
-                <section class="text-center pt-8 pb-12">
-                    <h2 class="text-4xl md:text-6xl font-extrabold mb-4 hero-gradient-text" style="line-height: 1.3;">بوابتك نحو التميز الرقمي</h2>
-                    <p class="max-w-3xl mx-auto text-lg md:text-xl mb-8" style="color: var(--text-secondary);">
-                        في TIC Society، نوفر لك كل ما تحتاجه في رحلتك الأكاديمية بمعهد الحاسوب. من الخطط الدراسية إلى الأدوات التفاعلية، نحن هنا لدعمك في كل خطوة.
-                    </p>
-                    <div class="flex justify-center gap-4">
-                        <button onclick="document.querySelector('[data-tab=\\'tab1\\']').click()" class="bg-blue-600 text-white font-bold py-3 px-8 rounded-lg hover:bg-blue-700 transition-transform transform hover:scale-105 shadow-lg shadow-blue-500/30">
-                            اكتشف المواد
-                        </button>
+                <section class="hero-section text-center pt-8 pb-12">
+                    <ul class="animated-bg"><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li></ul>
+                    <div class="relative">
+                        <h2 class="text-4xl md:text-6xl font-extrabold mb-4 hero-gradient-text" style="line-height: 1.3;">بوابتك نحو التميز الرقمي</h2>
+                        <p class="max-w-3xl mx-auto text-lg md:text-xl mb-8" style="color: var(--text-secondary);">
+                            في TIC Society، نوفر لك كل ما تحتاجه في رحلتك الأكاديمية بمعهد الحاسوب. من الخطط الدراسية إلى الأدوات التفاعلية، نحن هنا لدعمك في كل خطوة.
+                        </p>
+                        <div class="flex justify-center gap-4">
+                            <button onclick="document.querySelector('[data-tab=\\'tab1\\']').click()" class="bg-blue-600 text-white font-bold py-3 px-8 rounded-lg hover:bg-blue-700 transition-transform transform hover:scale-105 shadow-lg shadow-blue-500/30">
+                                اكتشف المواد
+                            </button>
+                        </div>
                     </div>
                 </section>
 
@@ -272,6 +315,64 @@
                             </div>
                             <h4 class="text-xl font-bold mb-2">المسارات المستقبلية</h4>
                             <p style="color: var(--text-secondary);">التأهيل لمتابعة التحصيل العلمي أو الانخراط في سوق العمل بكفاءة عالية.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Student Journey Timeline Section -->
+                <section class="fade-in-section">
+                    <h3 class="section-title hero-gradient-text">مسيرة الطالب في المعهد</h3>
+                    <div class="max-w-4xl mx-auto space-y-8">
+                        <!-- Timeline Item 1 -->
+                        <div class="flex gap-6">
+                            <div class="flex flex-col items-center">
+                                <div class="flex-shrink-0 w-12 h-12 rounded-full bg-blue-100 dark:bg-slate-800 flex items-center justify-center border-2 border-blue-200 dark:border-slate-700">
+                                    <svg class="w-6 h-6 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                                </div>
+                                <div class="w-px flex-grow bg-gradient-to-b from-blue-200 to-teal-200 dark:from-slate-700 dark:to-slate-700"></div>
+                            </div>
+                            <div class="pb-8">
+                                <h4 class="font-bold text-xl mb-2">الفصل الأول: التأسيس</h4>
+                                <p style="color: var(--text-secondary);">البداية مع أساسيات البرمجة، مهارات الحاسوب، والتحليل الرياضي. بناء قاعدة قوية للانطلاق.</p>
+                            </div>
+                        </div>
+                        <!-- Timeline Item 2 -->
+                        <div class="flex gap-6">
+                             <div class="flex flex-col items-center">
+                                <div class="flex-shrink-0 w-12 h-12 rounded-full bg-teal-100 dark:bg-slate-800 flex items-center justify-center border-2 border-teal-200 dark:border-slate-700">
+                                    <svg class="w-6 h-6 text-teal-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>
+                                </div>
+                                <div class="w-px flex-grow bg-gradient-to-b from-teal-200 to-purple-200 dark:from-slate-700 dark:to-slate-700"></div>
+                            </div>
+                            <div class="pb-8">
+                                <h4 class="font-bold text-xl mb-2">الفصل الثاني: التعمق</h4>
+                                <p style="color: var(--text-secondary);">التعمق في البرمجة الإجرائية، مقدمة في الشبكات، نظم التشغيل، وتصميم قواعد البيانات.</p>
+                            </div>
+                        </div>
+                        <!-- Timeline Item 3 -->
+                        <div class="flex gap-6">
+                            <div class="flex flex-col items-center">
+                                <div class="flex-shrink-0 w-12 h-12 rounded-full bg-purple-100 dark:bg-slate-800 flex items-center justify-center border-2 border-purple-200 dark:border-slate-700">
+                                    <svg class="w-6 h-6 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+                                </div>
+                                <div class="w-px flex-grow bg-gradient-to-b from-purple-200 to-amber-200 dark:from-slate-700 dark:to-slate-700"></div>
+                            </div>
+                            <div class="pb-8">
+                                <h4 class="font-bold text-xl mb-2">الفصل الثالث: التخصص</h4>
+                                <p style="color: var(--text-secondary);">مرحلة التخصص مع تطوير الويب، البرمجة غرضية التوجه، ونظم التشغيل الشبكية.</p>
+                            </div>
+                        </div>
+                         <!-- Timeline Item 4 -->
+                        <div class="flex gap-6">
+                            <div class="flex flex-col items-center">
+                                <div class="flex-shrink-0 w-12 h-12 rounded-full bg-amber-100 dark:bg-slate-800 flex items-center justify-center border-2 border-amber-200 dark:border-slate-700">
+                                    <svg class="w-6 h-6 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 19a2 2 0 01-2-2V7a2 2 0 012-2h4l2 2h4a2 2 0 012 2v1M5 19h14a2 2 0 002-2v-5a2 2 0 00-2-2H9a2 2 0 00-2 2v5a2 2 0 01-2 2z"></path></svg>
+                                </div>
+                            </div>
+                            <div class="pb-8">
+                                <h4 class="font-bold text-xl mb-2">الفصل الرابع: مشروع التخرج</h4>
+                                <p style="color: var(--text-secondary);">تطبيق كل ما تعلمته في مشروع تخرج متكامل، واكتساب خبرات متقدمة في إدارة المنصات وقواعد البيانات.</p>
+                            </div>
                         </div>
                     </div>
                 </section>
@@ -361,7 +462,7 @@
                 semesters: {
                     'الفصل الأول': [ { name: 'أساسيات الإدارة', code: 'BMN101', crd: 4, pre: 'لا يوجد', description: 'يتناول هذا المقرر مفهوم الإدارة وأهميتها، ويستعرض تطورها التاريخي وأهم المدارس الفكرية التي شكلتها. سيتعرف الطالب على الوظائف الإدارية الأساسية كالتخطيط والتنظيم والقيادة، بالإضافة إلى الوظائف الفنية في المنظمة مثل إدارة التسويق والموارد البشرية والمالية.' }, { name: 'مقدمة في الفلسفة', code: 'GHS101', crd: 3, pre: 'لا يوجد', description: 'يستعرض المقرر أهمية الفلسفة وتأثيرها، ويقدم عددًا من الفلسفات التي تطورت عبر التاريخ مثل البوذية والإغريقية. كما يتناول نظرية المعرفة وأدوات البحث العلمي وأفكار فلاسفة بارزين مثل كانت ونيتشه.' }, { name: 'مقدمة في علم الاجتماع', code: 'GHS102', crd: 3, pre: 'لا يوجد', description: 'يتناول المقرر مفاهيم أساسية مثل المنظور الاجتماعي، الثقافة، والبنية الاجتماعية. سيتعرف الطالب على تعريف الجماعات البشرية، مفهوم المجتمع المدني، وأثر مؤسسات كالدين والعائلة على المجتمع.' }, { name: 'أسس المحاسبة', code: 'BAC101', crd: 4, pre: 'لا يوجد', description: 'يهدف هذا المقرر إلى تعريف الطالب بوظيفة النظام المحاسبي في المؤسسة، ويشرح الدورة المحاسبية الكاملة. سيكتسب الطالب مهارة تسجيل العمليات المالية، وإجراء التسويات الجردية، وصولًا إلى إعداد الحسابات الختامية والقوائم المالية.' }, { name: 'الجبر الرياضي', code: 'GMA101', crd: 5, pre: 'لا يوجد', description: 'يغطي المقرر المفاهيم الأساسية في الجبر، حيث يتعرف الطالب على الأعداد الحقيقية والعقدية، والبنى الجبرية. كما يتناول موضوعات كثيرات الحدود، المصفوفات، والفضاءات الشعاعية اللازمة للدراسات التقنية.' }, { name: 'اللغة الإنجليزية مستوى ٤', code: 'ENG4', crd: 3, pre: 'ENG3', description: 'يبني هذا المقرر على المستويات السابقة لتعزيز الطلاقة اللغوية، مع التركيز على المصطلحات التقنية والإدارية المتقدمة. الهدف هو تمكين الطالب من قراءة دراسات الحالة والمقالات المتخصصة، وكتابة أجزاء من التقارير والمشاريع باللغة الإنجليزية.' }, ],
                     'الفصل الثاني': [ { name: 'خدمات الشبكات', code: 'INT202', crd: 5, pre: 'لا يوجد', description: 'يركز المقرر على أهم خدمات الإنترنت وبروتوكولاتها، حيث يتعرف الطالب على خدمة الويب (HTTP)، البريد الإلكتروني (SMTP, POP3)، بروتوكول نقل الملفات (FTP)، وخدمة المحادثة (CHAT).' }, { name: 'منصة لينوكس 2', code: 'IOS305', crd: 5, pre: 'ENG3', description: 'يركز المقرر على المهارات المتقدمة في إدارة أنظمة لينوكس، حيث يهدف إلى إتقان إدارة الخدمات الشبكية، ونظام الملفات، وشبكة النطاقات في بيئة لينوكس.' }, { name: 'الرياضيات المتقطعة', code: 'GMA204', crd: 5, pre: 'لا يوجد', description: 'يغطي المقرر المفاهيم الرياضية والمنطقية التي يحتاجها المتخصص في علوم الحاسوب. يتناول موضوعات كالاستقراء الرياضي، العبارات المكممة، ومبادئ الأوتومات التي تعتبر أساسية في مجال البرمجة وتحليل الخوارزميات.' }, { name: 'مدخل الى التسويق', code: 'BMN202', crd: 4, pre: 'BMN101', description: 'يغطي المقرر مفهوم التسويق وأهدافه، ويركز على تحليل البيئة التسويقية وسلوك المستهلك. سيتعلم الطالب كيفية تقسيم السوق، واختيار الأسواق المستهدفة، وتحديد عناصر المزيج التسويقي الأربعة: السلعة، السعر، التوزيع، والترويج.' }, { name: 'اللغة الإنجليزية مستوى ٥', code: 'ENG5', crd: 3, pre: 'ENG4', description: 'يهدف هذا المقرر إلى الوصول بالطالب إلى مستوى عالٍ من الإتقان، يمكنه من التواصل الاحترافي الكامل في بيئة العمل. يركز على صقل مهارات العرض التقديمي، كتابة التقارير المعقدة، والمشاركة الفعالة في الاجتماعات والمناقشات التقنية باللغة الإنجليزية.' } ],
-                    'الفصل الثالث': [ { name: 'الشبكات اللاسلكية', code: 'INT203', crd: 6, pre: 'لا يوجد', description: 'يتضمن هذا المقرر دراسة طبقة التطبيقات الخاصة بشبكات الاتصالات اللاسلكية. سيتعرف الطالب على التقنيات المستخدمة في هذه الطبقة، بالإضافة إلى التعرف على بعض أنماط الشبكات اللاسلكية الشائعة.' }, { name: 'هندسة البرمجيات', code: 'ISE301', crd: 6, pre: 'لا يوجد', description: 'يتناول المقرر أساسيات ومراحل عملية تطوير البرمجيات، مع التركيز على دورة حياة المنتج البرمجي. سيتعلم الطالب كيفية تحديد المتطلبات، ونمذجة حالات الاستخدام، بالإضافة إلى التعرف на أنواع الاختبارات ومعايير جودة البرمجيات.' }, { name: 'إدارة مشاريع تقانة المعلومات', code: 'ISE302', crd: 5, pre: 'لا يوجد', description: 'يتناول المقرر أساسيات إدارة المشاريع التقنية، بدءًا من منهجيات التحليل والتصميم، وصولًا إلى إدارة الموارد البشرية ووضع الميزانيات. سيتعرف الطالب على أدوات إدارة المشاريع وكيفية تحضير دفاتر الشروط والمواصفات الفنية.' }, { name: 'الخدمات المصرفية', code: 'BFB305', crd: 4, pre: 'لا يوجد', description: 'يقدم المقرر إطارًا عامًا للعمل المصرفي ومختلف الخدمات التي يقدمها. سيتعرف الطالب على أنواع الحسابات، الاعتمادات المستندية، آليات الإقراض والتسليف، وخدمات الاستثمار وتأجير الخزائن الآمنة.' }, { name: 'إدارة قواعد البيانات oracle 2', code: 'IIS406', crd: 6, pre: 'ENG3', description: 'يركز هذا المقرر على المسؤوليات المتقدمة لمدير قاعدة بيانات أوراكل. سيتعلم الطالب إدارة عمليات خزن البيانات المتقدمة، وتطبيق سياسات الأمان المعقدة لضمان حماية وسلامة بيانات المؤسسة.' }, { name: 'الاحتمالات والإحصاء', code: 'GMA205', crd: 5, pre: 'لا يوجد', description: 'يقدم المقرر أساسيات علم الإحصاء وتطبيقاته، حيث يتعرف الطالب على مفاهيم الاحتمالات، حساب التشتت، والترابط. سيكتسب مهارات في تحليل المعطيات الاستكشافي، معالجة العينات، والتمييز بين الإحصاء الوصفي والاستقرائي.' } ],
+                    'الفصل الثالث': [ { name: 'الشبكات اللاسلكية', code: 'INT203', crd: 6, pre: 'لا يوجد', description: 'يتضمن هذا المقرر دراسة طبقة التطبيقات الخاصة بشبكات الاتصالات اللاسلكية. سيتعرف الطالب على التقنيات المستخدمة في هذه الطبقة، بالإضافة إلى التعرف على بعض أنماط الشبكات اللاسلكية الشائعة.' }, { name: 'هندسة البرمجيات', code: 'ISE301', crd: 6, pre: 'لا يوجد', description: 'يتناول المقرر أساسيات ومراحل عملية تطوير البرمجيات، مع التركيز على دورة حياة المنتج البرمجي. سيتعلم الطالب كيفية تحديد المتطلبات، ونمذجة حالات الاستخدام، بالإضافة إلى التعرف na أنواع الاختبارات ومعايير جودة البرمجيات.' }, { name: 'إدارة مشاريع تقانة المعلومات', code: 'ISE302', crd: 5, pre: 'لا يوجد', description: 'يتناول المقرر أساسيات إدارة المشاريع التقنية، بدءًا من منهجيات التحليل والتصميم، وصولًا إلى إدارة الموارد البشرية ووضع الميزانيات. سيتعرف الطالب على أدوات إدارة المشاريع وكيفية تحضير دفاتر الشروط والمواصفات الفنية.' }, { name: 'الخدمات المصرفية', code: 'BFB305', crd: 4, pre: 'لا يوجد', description: 'يقدم المقرر إطارًا عامًا للعمل المصرفي ومختلف الخدمات التي يقدمها. سيتعرف الطالب على أنواع الحسابات، الاعتمادات المستندية، آليات الإقراض والتسليف، وخدمات الاستثمار وتأجير الخزائن الآمنة.' }, { name: 'إدارة قواعد البيانات oracle 2', code: 'IIS406', crd: 6, pre: 'ENG3', description: 'يركز هذا المقرر على المسؤوليات المتقدمة لمدير قاعدة بيانات أوراكل. سيتعلم الطالب إدارة عمليات خزن البيانات المتقدمة، وتطبيق سياسات الأمان المعقدة لضمان حماية وسلامة بيانات المؤسسة.' }, { name: 'الاحتمالات والإحصاء', code: 'GMA205', crd: 5, pre: 'لا يوجد', description: 'يقدم المقرر أساسيات علم الإحصاء وتطبيقاته، حيث يتعرف الطالب على مفاهيم الاحتمالات، حساب التشتت، والترابط. سيكتسب مهارات في تحليل المعطيات الاستكشافي، معالجة العينات، والتمييز بين الإحصاء الوصفي والاستقرائي.' } ],
                     'الفصل الرابع': [ { name: 'منصة ويندوز 2', code: 'IOS304', crd: 5, pre: 'ENG3', description: 'يهدف المقرر إلى إتقان المهارات المتقدمة في إدارة خوادم ويندوز، حيث يركز على إدارة الخدمات، ونطاقات ويندوز، وشبكة النطاقات بشكل احترافي.' }, { name: 'مبادئ التوجيه', code: 'INT204', crd: 6, pre: 'لا يوجد', description: 'يتناول المقرر موضوع التوجيه في الشبكات الحاسوبية، حيث يركز على فهم خوارزميات التوجيه في شبكات TCP/IP. سيكتسب الطالب خبرة في أهم بروتوكولات التوجيه المستخدمة، بالإضافة إلى التعرف على آليات التوجيه في الشبكات غير التقليدية.' }, { name: 'امن التطبيقات والمعطيات', code: 'IWB404', crd: 6, pre: 'ENG3', description: 'يتناول المقرر أساسيات بناء استراتيجية أمنية متكاملة لنظام المعلومات. سيتعرف الطالب على عمليات الاختراق الكلاسيكية للتطبيقات وأنظمة التشغيل، ونقاط الضعف الشائعة، بالإضافة إلى أساليب الحماية والمكافحة.' }, { name: 'امن الشبكات والبنية التحتية المعلوماتية', code: 'INT305', crd: 5, pre: 'ENG3', description: 'يستعرض المقرر أساليب وطرق حماية الشبكات المعلوماتية، حيث يغطي مبادئ الحماية، خوارزميات التشفير، بروتوكولات الحماية، وأساليب حماية الخدمات والمعلومات من الفيروسات والاختراقات.' }, { name: 'المشروع', code: 'IPI405', crd: 12, pre: 'ISE302', description: 'في هذا المقرر التطبيقي، يقوم الطالب بدمج معظم المعلومات التقنية والإدارية التي اكتسبها لتنفيذ مشروع عملي متكامل. يمر الطالب بجميع مراحل دورة حياة المنتج البرمجي من التحليل والتصميم إلى التنفيذ والاختبار ضمن بيئة عمل حقيقية.' }, ]
                 }, colors: { card: 'hover:border-teal-500', text: 'text-teal-400', icon: 'text-teal-400' }
             },
